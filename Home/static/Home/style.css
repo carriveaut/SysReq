@@ -1,0 +1,13 @@
+.bg-dark {
+    background-color: #000000!important;
+}
+
+.image {
+    text-align: center;
+}
+
+.goldbar {
+    height: 10px;
+    width: 100%;
+    background-color: #C0974E;
+}
