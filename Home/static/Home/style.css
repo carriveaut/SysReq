@@ -7,7 +7,8 @@
 }
 
 .jumbotron{
-    margin: 0px;
+    width: 250px;
+    color: black;
 }
 
 .goldbar {
@@ -16,13 +17,3 @@
     background-color: #C0974E;
 }
 
-.greybar {
-    height: 5px;
-    width: 100%;
-    background-color: #e2e2e2;
-}
-
-.carousel {
-    border-radius: 20px 20px 20px 20px;
-    overflow: hidden;
-}
