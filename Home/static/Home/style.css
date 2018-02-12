@@ -6,7 +6,10 @@
     text-align: center;
 }
 
-.jumbotron{
+.minitron{
+    background-color: #e9ecef;
+    border-radius: 10px;
+    padding: 35px;
     width: 250px!important;
     color: black!important;
 }
