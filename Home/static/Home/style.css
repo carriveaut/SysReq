@@ -7,8 +7,8 @@
 }
 
 .jumbotron{
-    width: 250px;
-    color: black;
+    width: 250px!important;
+    color: black!important;
 }
 
 .goldbar {
