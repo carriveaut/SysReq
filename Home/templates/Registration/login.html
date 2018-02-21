@@ -28,14 +28,42 @@
                     </nav>
                         <div class="tab-content" id="nav-tabContent">
                           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                <form method="post" action="{% url 'login' %}">
-                                    {% csrf_token %}
-                                    {{ form.username }}
-                                    {{ form.password }}
+                              <div id="content-container" class="container p-none">
 
-                                  <input type="submit" style="width: 100%" class="btn btn-default" value="Login">
-                                  <input type="hidden" name="next" value="{{ next }}" />
-                                </form>
+                                    <form id="login-form" method="post"
+                                          action="{% url 'login' %}">
+                                        {% csrf_token %}
+                                        <table class="table">
+                                            <tr>
+                                                <td><div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend1"><span class="oi oi-person"></span></span>
+                                                    <input id="id_username" name="username"
+                                                           type="text" class="form-control" placeholder="Username">
+                                                </div></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
+                                                    <input id="id_password" name="password"
+                                                           type="password" class="form-control" placeholder="Password">
+                                                </div></td>
+                                            </tr>
+                                        </table>
+                                        {% if form.errors %}
+                                            <p class=" label label-danger">
+                                                Your username and password didn't match.
+                                                Please try again.
+                                            </p>
+                                        {% endif %}
+
+                                        <input type="submit" value="Login"
+                                               class="btn btn-default" style="width: 100%" />
+                                        <input type="hidden" name="next" value="{{ next }}" />
+                                        {# Assumes you setup the password_reset view in your URLconf #}
+                                        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                                    </form>
+
                           </div>
                         </div>
                     </div>
@@ -43,8 +71,6 @@
             </div>
 </div>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
 
 {% endblock %}
