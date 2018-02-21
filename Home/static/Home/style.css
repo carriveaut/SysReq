@@ -14,8 +14,11 @@
 
 .minitron{
     background-color: #e9ecef;
-    border-radius: 10px;
-    padding: 35px;
+    border-radius: 7px;
+    padding-right: 35px;
+    padding-left: 35px;
+    padding-top: 70px;
+    padding-bottom: 70px;
     width: 250px!important;
     color: black!important;
 }
