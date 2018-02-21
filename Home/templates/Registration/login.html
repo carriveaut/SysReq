@@ -1,39 +1,105 @@
-{#{% extends "Home/navbar.html" %}#}
-
 {% block content %}
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
+        <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+    </head>
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="logregmodal">
+                    <nav>
+                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Sign In</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Create Account</a>
+                      </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                          {% if form.errors %}
+                          <p>Your username and password didn't match. Please try again.</p>
+                            {% endif %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+                            {% if next %}
+                                {% if user.is_authenticated %}
+                                <p>Your account doesn't have access to this page. To proceed,
+                                please login with an account that has access.</p>
+                                {% else %}
+                                <p>Please login to see this page.</p>
+                                {% endif %}
+                            {% endif %}
+                                <form method="post" action="{% url 'login' %}">
+                                {% csrf_token %}
+                            <div class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="inputGroupPrepend5"><span class="oi oi-person"></span></span>
+                                </div>
+                                  <input type="text" class="form-control" id="validationCustomUsername" placeholder="Username" value="{{ form.username }}" aria-describedby="inputGroupPrepend" required>
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+                                </div>
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text" id="inputGroupPrepend4"><span class="oi oi-key"></span></span>
+                                    </div>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" value="{{ form.password }}" placeholder="Password">
+                                </div>
+                            </div>
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
+                              <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                              </div>
+                              <button type="submit" class="btn btn-default">Login</button>
+                                  <input type="hidden" name="next" value="{{ next }}" />
+                                    {# Assumes you setup the password_reset view in your URLconf #}
+                                    <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                            </form>
 
-<div>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</div>
-<div>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</div>
-
-<div>
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</div>
-</form>
-
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                      </div>
+                      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                       <form>
+                          <div class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="inputGroupPrepend1"><span class="oi oi-person"></span></span>
+                                </div>
+                                <input type="text" class="form-control" id="Username" placeholder="Username" aria-describedby="inputGroupPrepend1" required>
+                                <div class="invalid-feedback">
+                                  Please enter your username.
+                                </div>
+                              </div>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-envelope-closed"></span></span>
+                                    </div>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                    <div class="invalid-feedback">
+                                      Please enter your email.
+                                    </div>
+                              </div>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text" id="inputGroupPrepend3"><span class="oi oi-key"></span></span>
+                                    </div>
+                                    <input type="password" class="form-control" id="Password" placeholder="Password">
+                                    <div class="invalid-feedback">
+                                      Please enter your password.
+                                    </div>
+                              </div>
+                          </div>
+                          <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                            <label class="form-check-label" for="exampleCheck1">I agree to the terms.</label>
+                          </div>
+                          <button type="submit" class="btn btn-default">Create account</button>
+                        </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+ </div>
 
 {% endblock %}

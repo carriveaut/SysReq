@@ -6,6 +6,12 @@
     text-align: center;
 }
 
+.modal {
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0px !important;
+}
+
 .minitron{
     background-color: #e9ecef;
     border-radius: 10px;
@@ -75,3 +81,6 @@
     width: 602px;
 }
 
+.model-content p {
+    vertical-align: middle;
+}
