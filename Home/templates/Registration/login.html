@@ -4,22 +4,22 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
         <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
-
-{#        ADD THESE IN TO GET MY SCRIPT TO WORK   IT ALSO CAUSES THE BACKGROUND TO GO BLACK#}
-{#        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
-{#        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
-{#{% if form.errors %}#}
-{#	<p>Your username and password didn't match. Please try again.</p>#}
-{#{% endif %}#}
-{#{% if next %}#}
-{#    {% if user.is_authenticated %}#}
-{#    <p>Your account doesn't have access to this page. To proceed,#}
-{#    please login with an account that has access.</p>#}
-{#    {% else %}#}
-{#    <p>Please login to see this page.</p>#}
-{#    {% endif %}#}
-{#{% endif %}#}
+
+<!--{% if form.errors %}-->
+	<!--<p>Your username and password didn't match. Please try again.</p>-->
+<!--{% endif %}-->
+<!--{% if next %}-->
+    <!--{% if user.is_authenticated %}-->
+    <!--<p>Your account doesn't have access to this page. To proceed,-->
+    <!--please login with an account that has access.</p>-->
+    <!--{% else %}-->
+    <!--<p>Please login to see this page.</p>-->
+    <!--{% endif %}-->
+<!--{% endif %}-->
+
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -31,28 +31,32 @@
                       </div>
                     </nav>
                         <div class="tab-content" id="nav-tabContent">
-                          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                          <div class="tab-pane show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                               <div id="content-container" class="container p-none">
-
-{#                                  HERE IS WHERE IM TRYING TO GET TEXT TO POP UP#}
-{#                                  <p style="visibility: hidden" id="test">Your username and password didn't match. Please try again.</p>#}
-
-
                                     <form id="login-form" method="post"
                                           action="{% url 'login' %}">
                                         {% csrf_token %}
-                                        <div class="hidden" >
-                                            <p></p>
-                                        </div>
+                                        <div class="blankPlace"></div>
+                                              {% if form.errors %}
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    Your username and password didn't match. Please try again.
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                              {% endif %}
                                         <table class="table">
                                             <tr>
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend1"><span class="oi oi-person"></span></span>
                                                     <input id="id_username" name="username"
                                                            type="text" class="form-control" placeholder="Username">
-                                                </div><div style="display:none"; id="test">
+                                                </div><div style="display:none";>
                                                     Please choose a username.
                                                 </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="blankPlace"></div></td>
                                             </tr>
                                             <tr>
 
@@ -60,15 +64,13 @@
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
                                                     <input id="id_password" name="password"
                                                            type="password" class="form-control" placeholder="Password">
-                                                </div>
+                                                </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="blankPlace"></div></td>
                                             </tr>
                                         </table>
-{#                                        {% if form.errors %}#}
-{#                                            <p class=" label label-danger">#}
-{#                                                Your username and password didn't match.#}
-{#                                                Please try again.#}
-{#                                            </p>#}
-{#                                        {% endif %}#}
+
                                         <input type="submit" value="Login"
                                                class="btn btn-default" style="width: 100%" />
                                         <input type="hidden" name="next" value="{{ next }}" />
@@ -77,20 +79,75 @@
                                     </form>
                               </div>
                           </div>
+                            <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <form id="registration-form">
+                          <div class="form-group">
+                              <table class="table">
+                                            <tr>
+                                                <td><div class="blankPlace"></div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group-prepend">
+                                                      <span class="input-group-text" id="inputGroupPrepend3"><span class="oi oi-person"></span></span>
+                                                      <input type="text" class="form-control" id="Username" placeholder="Username" aria-describedby="inputGroupPrepend1" required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td><div class="blankPlace"></div></td>
+                                            </tr>
+                                            <tr>
+                                                  <td>
+                                                      <div class="input-group-prepend">
+                                                          <span class="input-group-text" id="inputGroupPrepend4"><span class="oi oi-envelope-closed"></span></span>
+                                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                                      </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="blankPlace"></div></td>
+                                            </tr>
+                                              <tr>
+                                                  <td>
+                                                      <div class="input-group-prepend">
+                                                          <span class="input-group-text" id="inputGroupPrepend5"><span class="oi oi-key"></span></span>
+                                                          <input type="password" class="form-control" id="Password" placeholder="Password">
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                        </table>
+                                    </div>
+                          <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">I agree to the terms.</label>
+                          </div>
+                          <button type="submit" class="btn btn-default">Create account</button>
+                        </form>
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
-</div>
-{#    HERE IS MY SCRIPT THAT KEEPS THE MODAL THERE IF YOU HAVE ERRORS#}
-{#{% if form.errors %}#}
-{#<script>#}
-{#$(document).ready(function() {#}
-{##}
-{#    $("#exampleModal").modal("show");#}
-{#    $("#test").hidden.show().id(test);#}
-{#});#}
-{##}
-{#</script>#}
-{#{% endif %}#}
+    </div>
+
+{#   HERE IS MY SCRIPT THAT KEEPS THE MODAL THERE IF YOU HAVE ERRORS   #}
+
+{% if form.errors %}
+<script>
+$(document).ready(function() {
+    $("#exampleModal").modal("show");
+});
+
+document.addEventListener('click', function (e) {
+  if(e.target.className === 'modal'
+      && e.target.className !== 'nav-item nav-link'
+        && e.target.className !== 'nav-item nav-link active'
+        && e.target.className !== 'input'){
+    $(location).attr('href', '/');
+  }
+}, false);
+
+</script>
+{% endif %}
 {% endblock %}

@@ -80,8 +80,24 @@
     margin-bottom: 10px;
 }
 
+.table tr {
+    padding: 25px;
+}
+
 .table td, .table th {
+    padding: 0;
+    vertical-align: top;
     border: 0;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+.input-group-text{
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .modal-content {
@@ -101,10 +117,45 @@
 input#id_email{
     height: 30px;
 }
+
+form#registration-form {
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+form#registration-form button {
+    width: 100%;
+}
+
+form#login-form p {
+    margin-top: 20px;
+}
+
 .input-group p {
-    margin: 0px;
+    margin: 0;
 }
 
 .table {
     margin: auto;
+}
+
+.logregmodal button {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    width: 50px;
+}
+
+.alert-dismissible .close {
+    padding: 0;
+
+}
+
+@media (min-width: 576px){
+.modal-dialog {
+    max-width: 602px;
+    margin: 1.75rem auto;
+}}
+
+.blankPlace {
+    height: 30px;
 }
