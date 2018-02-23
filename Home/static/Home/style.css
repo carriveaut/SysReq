@@ -76,8 +76,12 @@
 }
 
 .input-group {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.table td, .table th {
+    border: 0;
 }
 
 .modal-content {
@@ -86,4 +90,21 @@
 
 .model-content p {
     vertical-align: middle;
+}
+
+.resetDiv {
+    margin: auto;
+    margin-top: 50px;
+    width: 450px;
+}
+
+input#id_email{
+    height: 30px;
+}
+.input-group p {
+    margin: 0px;
+}
+
+.table {
+    margin: auto;
 }
