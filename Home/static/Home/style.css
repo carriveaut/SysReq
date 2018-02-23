@@ -116,6 +116,7 @@
 
 input#id_email{
     height: 30px;
+    width: 340px;
 }
 
 form#registration-form {
@@ -158,4 +159,10 @@ form#login-form p {
 
 .blankPlace {
     height: 30px;
+}
+
+.centerMe {
+    padding-top: 20px;
+    width: 60%;
+    margin: auto;
 }
