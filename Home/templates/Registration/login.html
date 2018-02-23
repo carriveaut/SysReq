@@ -4,18 +4,22 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
         <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+
+{#        ADD THESE IN TO GET MY SCRIPT TO WORK   IT ALSO CAUSES THE BACKGROUND TO GO BLACK#}
+{#        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+{#        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
     </head>
-{% if form.errors %}
-	<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+{#{% if form.errors %}#}
+{#	<p>Your username and password didn't match. Please try again.</p>#}
+{#{% endif %}#}
+{#{% if next %}#}
+{#    {% if user.is_authenticated %}#}
+{#    <p>Your account doesn't have access to this page. To proceed,#}
+{#    please login with an account that has access.</p>#}
+{#    {% else %}#}
+{#    <p>Please login to see this page.</p>#}
+{#    {% endif %}#}
+{#{% endif %}#}
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -30,15 +34,24 @@
                           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                               <div id="content-container" class="container p-none">
 
+{#                                  HERE IS WHERE IM TRYING TO GET TEXT TO POP UP#}
+{#                                  <p style="visibility: hidden" id="test">Your username and password didn't match. Please try again.</p>#}
+
+
                                     <form id="login-form" method="post"
                                           action="{% url 'login' %}">
                                         {% csrf_token %}
+                                        <div class="hidden" >
+                                            <p></p>
+                                        </div>
                                         <table class="table">
                                             <tr>
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend1"><span class="oi oi-person"></span></span>
                                                     <input id="id_username" name="username"
                                                            type="text" class="form-control" placeholder="Username">
+                                                </div><div style="display:none"; id="test">
+                                                    Please choose a username.
                                                 </div></td>
                                             </tr>
                                             <tr>
@@ -47,30 +60,37 @@
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
                                                     <input id="id_password" name="password"
                                                            type="password" class="form-control" placeholder="Password">
-                                                </div></td>
+                                                </div>
                                             </tr>
                                         </table>
-                                        {% if form.errors %}
-                                            <p class=" label label-danger">
-                                                Your username and password didn't match.
-                                                Please try again.
-                                            </p>
-                                        {% endif %}
-
+{#                                        {% if form.errors %}#}
+{#                                            <p class=" label label-danger">#}
+{#                                                Your username and password didn't match.#}
+{#                                                Please try again.#}
+{#                                            </p>#}
+{#                                        {% endif %}#}
                                         <input type="submit" value="Login"
                                                class="btn btn-default" style="width: 100%" />
                                         <input type="hidden" name="next" value="{{ next }}" />
                                         {# Assumes you setup the password_reset view in your URLconf #}
                                         <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
                                     </form>
-
+                              </div>
                           </div>
                         </div>
                     </div>
                 </div>
             </div>
 </div>
-
-
-
+{#    HERE IS MY SCRIPT THAT KEEPS THE MODAL THERE IF YOU HAVE ERRORS#}
+{#{% if form.errors %}#}
+{#<script>#}
+{#$(document).ready(function() {#}
+{##}
+{#    $("#exampleModal").modal("show");#}
+{#    $("#test").hidden.show().id(test);#}
+{#});#}
+{##}
+{#</script>#}
+{#{% endif %}#}
 {% endblock %}
