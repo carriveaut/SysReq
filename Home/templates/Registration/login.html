@@ -80,51 +80,61 @@
                               </div>
                           </div>
                             <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <form id="registration-form">
-                          <div class="form-group">
-                              <table class="table">
+{#                                <h2>Sign up</h2>#}
+                                <form id="signup-form" method="post"
+                                          action="{% url 'signup' %}">
+                                        {% csrf_token %}
+                                        <div class="blankPlace"></div>
+{#                                              {% if form.errors %}#}
+{#                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">#}
+{#                                                    Your username and password didn't match. Please try again.#}
+{#                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+{#                                                    <span aria-hidden="true">&times;</span>#}
+{#                                                  </button>#}
+{#                                                </div>#}
+{#                                              {% endif %}#}
+                                        <table class="table">
+                                            <tr>
+                                                <td><div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend1"><span class="oi oi-person"></span></span>
+                                                    <input id="id_username" name="username"
+                                                           type="text" class="form-control" placeholder="Username">
+                                                </div><div style="display:none";>
+                                                    Please choose a username.
+                                                </div></td>
+                                            </tr>
                                             <tr>
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    <div class="input-group-prepend">
-                                                      <span class="input-group-text" id="inputGroupPrepend3"><span class="oi oi-person"></span></span>
-                                                      <input type="text" class="form-control" id="Username" placeholder="Username" aria-describedby="inputGroupPrepend1" required>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                             <tr>
-                                                <td><div class="blankPlace"></div></td>
-                                            </tr>
-                                            <tr>
-                                                  <td>
-                                                      <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="inputGroupPrepend4"><span class="oi oi-envelope-closed"></span></span>
-                                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                                                      </div>
-                                                </td>
+
+                                                <td><div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
+                                                    <input id="id_password" name="password1"
+                                                           type="password" class="form-control" placeholder="Password">
+                                                </div></td>
                                             </tr>
                                             <tr>
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
-                                              <tr>
-                                                  <td>
-                                                      <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="inputGroupPrepend5"><span class="oi oi-key"></span></span>
-                                                          <input type="password" class="form-control" id="Password" placeholder="Password">
-                                                      </div>
-                                                  </td>
-                                              </tr>
+                                            <tr>
+
+                                                <td><div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
+                                                    <input id="id_password" name="password2"
+                                                           type="password" class="form-control" placeholder="Confirm Password">
+                                                </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="blankPlace"></div></td>
+                                            </tr>
                                         </table>
-                                    </div>
-                          <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">I agree to the terms.</label>
-                          </div>
-                          <button type="submit" class="btn btn-default">Create account</button>
-                        </form>
-                        </div>
+
+                                        <input type="submit" value="Submit"
+                                               class="btn btn-default" style="width: 100%" />
+                                        <input type="hidden" name="next" value="{{ next }}" />
+                                    </form>
+                            </div>
                         </div>
                     </div>
                 </div>
