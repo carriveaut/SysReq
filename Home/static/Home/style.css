@@ -119,6 +119,11 @@ input#id_email{
     width: 340px;
 }
 
+table#signup-form {
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
 form#registration-form {
     padding-left: 45px;
     padding-right: 45px;

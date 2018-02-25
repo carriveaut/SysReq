@@ -15,15 +15,19 @@ from django.http import HttpResponse
 
 
 def register(request):
+    noGood = "False"
     if request.method == 'POST':
         f = CustomUserCreationForm(request.POST)
         if f.is_valid():
             f.save()
             # messages.success(request, 'Account created successfully')
             return render(request, 'Home/index.html')
+        else:
+            noGood = "True"
+            messages.error(request, "Error")
     else:
         f = CustomUserCreationForm()
-    return render(request, 'registration/signup.html', {'form': f})
+    return render(request, 'registration/signup.html', {'form': f, 'badData': noGood})
 
 
 def index(request):

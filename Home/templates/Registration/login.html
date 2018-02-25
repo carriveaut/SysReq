@@ -71,7 +71,7 @@
                                             </tr>
                                         </table>
 
-                                        <input type="submit" value="Login"
+                                        <input id="loginSub" type="submit" value="Login"
                                                class="btn btn-default" style="width: 100%" />
                                         <input type="hidden" name="next" value="{{ next }}" />
                                         {# Assumes you setup the password_reset view in your URLconf #}
@@ -80,18 +80,26 @@
                               </div>
                           </div>
                             <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-{#                                <h2>Sign up</h2>#}
                                 <form id="signup-form" method="post"
                                           action="{% url 'signup' %}">
                                         {% csrf_token %}
                                         <div class="blankPlace"></div>
-                                              {% if messages %}
-                                                <ul>
-                                                {% for message in messages %}
-                                                <li>{{ message }}</li>
-                                                {% endfor %}
-                                                </ul>
-                                        {% endif %}
+                                              {% if form.errors %}
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                        {% for errors in form.errors %}
+                                                            {% if errors == 'username'%}
+                                                                User name is already taken.<br/>
+                                                            {% elif errors == 'password2' %}
+                                                                Passwords do not match.<br/>
+                                                            {% elif errors == 'email' %}
+                                                                Please use a valid email.
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                              {% endif %}
                                         <table class="table">
                                             <tr>
                                                 <td><div class="input-group-prepend">
@@ -139,8 +147,8 @@
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
                                         </table>
-
-                                        <input type="submit" value="Submit"
+                                        <input name="hi" id="hi" type="hidden" value="here"/>
+                                        <input id="signupSub" type="submit" value="Submit"
                                                class="btn btn-default" style="width: 100%" />
                                         <input type="hidden" name="next" value="{{ next }}" />
                                     </form>
@@ -156,8 +164,20 @@
 {% if form.errors %}
 <script>
 $(document).ready(function() {
+    var a = "{{ badData }}";
     $("#exampleModal").modal("show");
+
+    if(a === "True")
+    {
+        $("#nav-profile-tab").tab('show');
+    }
+    else
+    {
+        $("#nav-home-tab").tab('show');
+    }
+
 });
+
 
 document.addEventListener('click', function (e) {
   if(e.target.className === 'modal'
@@ -167,7 +187,12 @@ document.addEventListener('click', function (e) {
     $(location).attr('href', '/');
   }
 }, false);
+</script>
 
+<script>
+    $('.nav-tabs a').click(function(){
+    $(this).tab('show');
+})
 </script>
 {% endif %}
 {% endblock %}
