@@ -23,7 +23,6 @@ def register(request):
             return render(request, 'Home/index.html')
     else:
         f = CustomUserCreationForm()
-
     return render(request, 'registration/signup.html', {'form': f})
 
 
@@ -33,3 +32,4 @@ def index(request):
 
 def modal(request):
     return render(request, 'registration/login.html')
+

@@ -3,8 +3,10 @@
 {% block content %}
 <p>Logged out!</p>
 
-<!--<a href="{% url 'login'%}">Click here to login again.</a>-->
-<script>
-    window.location.replace('index');
-</script>
+{#<a href="{% url 'index'%}">Click here to go to the home page.</a>#}
+
 {% endblock %}
+
+<script>
+    setTimeout("location.href = '/';",1);
+</script>
