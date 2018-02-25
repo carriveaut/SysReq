@@ -85,14 +85,13 @@
                                           action="{% url 'signup' %}">
                                         {% csrf_token %}
                                         <div class="blankPlace"></div>
-{#                                              {% if form.errors %}#}
-{#                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">#}
-{#                                                    Your username and password didn't match. Please try again.#}
-{#                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
-{#                                                    <span aria-hidden="true">&times;</span>#}
-{#                                                  </button>#}
-{#                                                </div>#}
-{#                                              {% endif %}#}
+                                              {% if messages %}
+                                                <ul>
+                                                {% for message in messages %}
+                                                <li>{{ message }}</li>
+                                                {% endfor %}
+                                                </ul>
+                                        {% endif %}
                                         <table class="table">
                                             <tr>
                                                 <td><div class="input-group-prepend">
@@ -101,6 +100,17 @@
                                                            type="text" class="form-control" placeholder="Username">
                                                 </div><div style="display:none";>
                                                     Please choose a username.
+                                                </div></td>
+                                            </tr>
+                                            <tr>
+                                                <td><div class="blankPlace"></div></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td><div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
+                                                    <input id="id_password" name="email"
+                                                           type="text" class="form-control" placeholder="Email">
                                                 </div></td>
                                             </tr>
                                             <tr>

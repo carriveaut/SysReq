@@ -4,6 +4,14 @@
 {#<h2>Sign up</h2>#}
 <form method="post">
   {% csrf_token %}
+{#    {% if form.errors %}#}
+{#        <div class="alert alert-danger alert-dismissible fade show" role="alert">#}
+{#        Please try again.#}
+{#        <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+{#            <span aria-hidden="true">&times;</span>#}
+{#        </button>#}
+{#        </div>#}
+{#    {% endif %}#}
   {{ form.as_p }}
   <button type="submit">Sign up</button>
 </form>
