@@ -21,11 +21,10 @@ def register(request):
             f.save()
             # messages.success(request, 'Account created successfully')
             return render(request, 'Home/index.html')
-    #
-    # else:
-    #     f = CustomUserCreationForm()
-    #
-    # return render(request, 'registration/signup.html', {'form': f})
+    else:
+        f = CustomUserCreationForm()
+
+    return render(request, 'registration/signup.html', {'form': f})
 
 
 def index(request):
