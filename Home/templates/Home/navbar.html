@@ -40,8 +40,11 @@
               <a class="nav-link active" > | </a>
           </li>
       <li class="nav-item">
-         <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Login</a>
-         <!--<a class="nav-link" href="accounts/login" >Login</a>-->
+          {% if user.is_authenticated %}
+          <a class="nav-link" href="logout" >{{ request.user.username }}</a>
+          {% else %}
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Login</a>
+          {% endif %}
       </li>
       </ul>
   </div>
