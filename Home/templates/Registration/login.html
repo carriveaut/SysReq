@@ -37,7 +37,6 @@
                                           action="{% url 'login' %}">
                                         {% csrf_token %}
                                         <div class="blankPlace"></div>
-                                        {% if badData == "False" %}
                                               {% if form.errors %}
                                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                                     Your username and password didn't match. Please try again.
@@ -46,7 +45,6 @@
                                                   </button>
                                                 </div>
                                               {% endif %}
-                                        {% endif %}
                                         <table class="table">
                                             <tr>
                                                 <td><div class="input-group-prepend">
