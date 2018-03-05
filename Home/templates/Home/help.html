@@ -1,11 +1,5 @@
-<head>
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
-    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
-</head>
-{% include 'Home/navbar.html' %}
+{% extends 'Home/base.html' %}
 
-<!--ADD ANY NEW HTML INBETWEEN HERE!-->
-
-{% include 'registration/login.html' %}
+{% block content %}
+    <h1>Add Content Here</h1>
+{% endblock %}

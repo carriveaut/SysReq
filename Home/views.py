@@ -34,8 +34,16 @@ def index(request):
     return render(request, 'Home/index.html')
 
 
-def modal(request):
-    return render(request, 'registration/login.html')
+def helps(request):
+    return render(request, 'Home/help.html')
+
+
+def happeningsoon(request):
+    return render(request, 'Home/happeningsoon.html')
+
+
+def deals(request):
+    return render(request, 'Home/deals.html')
 
 
 def account(request):
