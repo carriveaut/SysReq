@@ -171,7 +171,6 @@
 $(document).ready(function() {
     var a = "{{ badData }}";
     $("#exampleModal").modal("show");
-
     if(a === "True")
     {
         $("#nav-profile-tab").tab('show');
@@ -180,10 +179,7 @@ $(document).ready(function() {
     {
         $("#nav-home-tab").tab('show');
     }
-
 });
-
-
 document.addEventListener('click', function (e) {
   if(e.target.className === 'modal'
       && e.target.className !== 'nav-item nav-link'
