@@ -37,3 +37,7 @@ def index(request):
 def modal(request):
     return render(request, 'registration/login.html')
 
+
+def account(request):
+    return render(request, 'Home/account.html')
+

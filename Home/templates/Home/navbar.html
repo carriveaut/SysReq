@@ -31,21 +31,25 @@
         <a class="nav-link" href="#">Help</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
-    </form>
       <ul class="navbar-nav">
-          <li class="nav-item">
-              <a class="nav-link active" > | </a>
-          </li>
-      <li class="nav-item">
           {% if user.is_authenticated %}
-          <a class="nav-link" href="logout" >{{ request.user.username }}</a>
-          {% else %}
-          <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Login</a>
-          {% endif %}
+      <li class="nav-item">
+          <a class="nav-link active" href="#" >{{ request.user.username }}</a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'Home:account' %}">Account</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="logout" >Logout</a>
+      </li>
+          {% else %}
+      <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Login</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">Register</a>
+      </li>
+          {% endif %}
       </ul>
   </div>
 </nav>
