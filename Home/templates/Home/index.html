@@ -20,7 +20,7 @@
                               <div class="minitron">
                                 <h5>Sign Up Today</h5>
                                 <p>Create an account with us and save 10% off of your first ticket purchase!</p>
-                                      <button type="button" class="btn btn-secondary">Sign Up</button>
+                                      <button type="button" id="signup" name="signup" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
                               </div>
                               {% endif %}
                           </div>
@@ -33,7 +33,7 @@
                               <div class="minitron">
                                 <h5>Sign Up Today</h5>
                                 <p>Create an account with us and save 10% off of your first ticket purchase!</p>
-                                      <button type="button" class="btn btn-secondary">Sign Up</button>
+                                      <button type="button" id="signup2" name="signup" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
                               </div>
                               {% endif %}
                           </div>
@@ -46,7 +46,7 @@
                               <div class="minitron">
                                 <h5>Sign Up Today</h5>
                                 <p>Create an account with us and save 10% off of your first ticket purchase!</p>
-                                      <button type="button" class="btn btn-secondary">Sign Up</button>
+                                      <button type="button" id="signup3" name="signup" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
                               </div>
                               {% endif %}
                           </div>
@@ -59,7 +59,7 @@
                               <div class="minitron">
                                 <h5>Sign Up Today</h5>
                                 <p>Create an account with us and save 10% off of your first ticket purchase!</p>
-                                      <button type="button" class="btn btn-secondary">Sign Up</button>
+                                      <button type="button" id="signup4" name="signup" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
                               </div>
                               {% endif %}
                           </div>
@@ -93,7 +93,29 @@
 
     </body>
 
-    <footer>
+    <script>
+        $('#signup').click(function () {
+           if (this.id === 'signup') {
+              $("#nav-profile-tab").tab('show');
+           }
+        });
 
-    </footer>
+        $('#signup2').click(function () {
+           if (this.id === 'signup') {
+              $("#nav-profile-tab").tab('show');
+           }
+        });
+
+        $('#signup3').click(function () {
+           if (this.id === 'signup') {
+              $("#nav-profile-tab").tab('show');
+           }
+        });
+
+        $('#signup4').click(function () {
+           if (this.id === 'signup') {
+              $("#nav-profile-tab").tab('show');
+           }
+        });
+    </script>
 </html>
