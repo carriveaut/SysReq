@@ -84,24 +84,14 @@
                                           action="{% url 'signup' %}">
                                         {% csrf_token %}
                                         <div class="blankPlace"></div>
-                                            {% if badData == "True" %}
                                               {% if form.errors %}
-                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                        {% for errors in form.errors %}
-                                                            {% if errors == 'username'%}
-                                                                User name is already taken.<br/>
-                                                            {% elif errors == 'password2' %}
-                                                                Passwords do not match.<br/>
-                                                            {% elif errors == 'email' %}
-                                                                Please use a valid email.
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                                  </button>
+                                                <div class="alert alert-danger fade show" role="alert">
+                                                    {% if form.email.errors %} {{ form.email.errors }} {% endif %}
+                                                    {% if form.username.errors %} {{ form.username.errors }} {% endif %}
+                                                    {% if form.password.errors %} {{ form.password.errors }} {% endif %}
+                                                    {% if form.password2.errors %} {{ form.password2.errors }} {% endif %}
                                                 </div>
                                               {% endif %}
-                                            {% endif %}
                                         <table class="table">
                                             <tr>
                                                 <td><div class="input-group-prepend">
@@ -116,7 +106,6 @@
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
                                             <tr>
-
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-envelope-closed"></span></span>
                                                     <input id="id_password" name="email"
@@ -127,7 +116,6 @@
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
                                             <tr>
-
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
                                                     <input id="id_password" name="password1"
@@ -141,7 +129,7 @@
 
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
-                                                    <input id="id_password" name="password2"
+                                                    <input id="id_password2" name="password2"
                                                            type="password" class="form-control" placeholder="Confirm Password">
                                                 </div></td>
                                             </tr>
