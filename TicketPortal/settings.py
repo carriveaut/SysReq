@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Home.apps.HomeConfig',
     'Tickets.apps.TicketsConfig',
-    'ShoppingCart.apps.ShoppingcartConfig',
+    'ShoppingCart.apps.ShoppingCartConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

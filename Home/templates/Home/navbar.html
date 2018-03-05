@@ -34,14 +34,16 @@
       <ul class="navbar-nav">
           {% if user.is_authenticated %}
       <li class="nav-item">
-          <a class="nav-link active" href="#" >{{ request.user.username }}</a>
+          <a class="nav-link" href="{% url 'ShoppingCart:shoppingcart' %}"><span class="oi oi-cart"></span> 0 </a>
       </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'Home:account' %}">Account</a>
-      </li>
-      
-      <li class="nav-item">
-          <a class="nav-link" href="logout" >Logout</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdow2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="oi oi-person"> </span> {{ request.user.username }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'Home:account' %}">Account</a>
+          <a class="dropdown-item" href="logout" >Logout</a>
+        </div>
       </li>
           {% else %}
       <li class="nav-item">
