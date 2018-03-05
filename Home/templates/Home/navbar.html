@@ -42,7 +42,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'Home:account' %}">Account</a>
-          <a class="dropdown-item" href="logout" >Logout</a>
+          <a class="dropdown-item" href="{% url 'logout' %}" >Logout</a>
         </div>
       </li>
           {% else %}
