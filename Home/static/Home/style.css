@@ -1,3 +1,44 @@
+.alert.alert-danger.alert-dismissible.fade.show {
+    font-size: 14px;
+}
+ul.messages {
+    list-style-type: none;
+    -webkit-padding-start: 0px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    font-size: 14px;
+}
+
+ul.errorlist {
+    list-style-type: none;
+    -webkit-padding-start: 0px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    font-size: 14px;
+}
+
+form#changepass{
+    padding-top: 50px;
+    width: 400px;
+    margin: auto;
+}
+
+input#id_old_password.form-control{
+    width: 400px;
+    border-radius: 5px;
+}
+
+input#id_new_password1.form-control{
+    width: 400px;
+    border-radius: 5px;
+}
+
+input#id_new_password2.form-control{
+    width: 400px;
+    border-radius: 5px;
+}
+
+
 .bg-dark {
     background-color: #000000!important;
 }

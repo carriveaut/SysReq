@@ -40,9 +40,6 @@
                                               {% if form.errors %}
                                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                                     Your username and password didn't match. Please try again.
-                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                  </button>
                                                 </div>
                                               {% endif %}
                                         <table class="table">
@@ -82,17 +79,20 @@
                             <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                 <form id="signup-form" method="post"
                                           action="{% url 'signup' %}">
+
                                         {% csrf_token %}
                                         <div class="blankPlace"></div>
-                                              {% if form.errors %}
-                                                <div class="alert alert-danger fade show" role="alert">
-                                                    {% if form.email.errors %} {{ form.email.errors }} {% endif %}
-                                                    {% if form.username.errors %} {{ form.username.errors }} {% endif %}
-                                                    {% if form.password.errors %} {{ form.password.errors }} {% endif %}
-                                                    {% if form.password2.errors %} {{ form.password2.errors }} {% endif %}
-                                                </div>
-                                              {% endif %}
+
                                         <table class="table">
+                                            <tr>
+                                               <td>
+                                                   {% if form.username.errors %}
+                                                        <div class="alert alert-danger fade show" role="alert">
+                                                            {{ form.username.errors }}
+                                                        </div>
+                                                   {% endif %}
+                                               </td>
+                                           </tr>
                                             <tr>
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend1"><span class="oi oi-person"></span></span>
@@ -105,6 +105,15 @@
                                             <tr>
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
+                                               <tr>
+                                               <td>
+                                                   {% if form.email.errors %}
+                                                        <div class="alert alert-danger fade show" role="alert">
+                                                            {{ form.email.errors }}
+                                                        </div>
+                                                   {% endif %}
+                                               </td>
+                                           </tr>
                                             <tr>
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-envelope-closed"></span></span>
@@ -116,6 +125,15 @@
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
                                             <tr>
+                                               <td>
+                                                   {% if form.password.errors %}
+                                                        <div class="alert alert-danger fade show" role="alert">
+                                                            {{ form.password.errors }}
+                                                        </div>
+                                                   {% endif %}
+                                               </td>
+                                           </tr>
+                                            <tr>
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
                                                     <input id="id_password" name="password1"
@@ -126,7 +144,15 @@
                                                 <td><div class="blankPlace"></div></td>
                                             </tr>
                                             <tr>
-
+                                               <td>
+                                                   {% if form.password2.errors %}
+                                                        <div class="alert alert-danger fade show" role="alert">
+                                                            {{ form.password2.errors }}
+                                                        </div>
+                                                   {% endif %}
+                                               </td>
+                                           </tr>
+                                            <tr>
                                                 <td><div class="input-group-prepend">
                                                     <span class="input-group-text" id="inputGroupPrepend2"><span class="oi oi-key"></span></span>
                                                     <input id="id_password2" name="password2"

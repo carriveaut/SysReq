@@ -1,17 +1,24 @@
-from django.shortcuts import render
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.urls import reverse_lazy
-from django.views import generic
 from .forms import CustomUserCreationForm
-from django.http import HttpResponse
-
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
 
 # class SignUpView(generic.CreateView):
 #     form_class = UserCreationForm
 #     success_url = reverse_lazy('index')
 #     template_name = 'Registration/signup.html'
+success = False
+badData = "False"
+
+
+def set_success(suc):
+    global success
+    success = suc
+
+
+def get_success():
+    return success
 
 
 def register(request):
@@ -20,14 +27,36 @@ def register(request):
         f = CustomUserCreationForm(request.POST)
         if f.is_valid():
             f.save()
-            # messages.success(request, 'Account created successfully')
-            return render(request, 'Home/index.html')
+            set_success(True)
+            success = get_success()
+            print(success)
+            return render(request, 'Home/index.html', {'success': success})
         else:
             noGood = "True"
             messages.error(request, "Error")
+            set_success(False)
+            success = get_success()
+            print(success)
     else:
         f = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': f, 'badData': noGood})
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('Home:account')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'Home/account.html', {
+        'form': form,
+    })
 
 
 def index(request):
@@ -45,7 +74,4 @@ def happeningsoon(request):
 def deals(request):
     return render(request, 'Home/deals.html')
 
-
-def account(request):
-    return render(request, 'Home/account.html')
 

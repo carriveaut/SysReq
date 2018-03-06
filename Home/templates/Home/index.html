@@ -9,6 +9,16 @@
     <body>
         {% include 'Home/navbar.html' %}
         <!--<div class="jumbotron">-->
+        {% if success %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <ul class="messages">
+                    <li class="messages">Account created successfully. Please <a href="#" id="success_alert" name="success_alert" data-toggle="modal" data-target="#exampleModal"> sign in.</a>
+                    <button type="button" style="padding-top:8px;" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button></li>
+                </ul>
+            </div>
+        {% endif %}
             <div class="container">
                 <div id="carouselControls" class="carousel slide" data-ride="carousel">
                   <div class="carousel-inner">
@@ -76,6 +86,7 @@
                 </div>
             <!--</div>-->
                 <div class="container">
+
                     <h1>Welcome to Ticket Portal</h1>
                     <h5>What makes us stand out from the competitors?</h5>
                     <p>Being that we sell sports tickets, you've got to believe that we take our competition
@@ -86,10 +97,13 @@
                     insane 25% you get charged at Ticket Master.</p>
                 </div>
         </div>
+
         {% include 'registration/login.html' %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 
     </body>
 
@@ -117,5 +131,15 @@
               $("#nav-profile-tab").tab('show');
            }
         });
+
+        $('#success_alert').click(function () {
+           if (this.id === 'success_alert') {
+              $(".alert").alert('close');
+              $("#nav-home-tab").tab('show');
+           }
+        });
+
     </script>
+
+
 </html>
