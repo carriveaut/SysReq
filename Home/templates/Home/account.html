@@ -1,5 +1,50 @@
 {% extends 'Home/base.html' %}
 
 {% block content %}
-    <h1>Add Content Here</h1>
+<div class="container">
+
+<form method="post" id="changepass">
+  {% csrf_token %}
+    <h5>Change Password</h5>
+            {% if messages.success %}
+        <div class="alert alert-success fade show" role="alert">
+            <ul class="messages">
+                <li {% if messages.success %} class="{{ messages.success }}"{% endif %}>{{ messages.success }}</li>
+            </ul>
+        </div>
+         {% endif %}
+   <table>
+       <tr>
+           <td>
+               {% if form.old_password.errors %}
+                    <div class="alert alert-danger fade show" role="alert">
+                        {{ form.old_password.errors }}
+                    </div>
+               {% endif %}
+           </td>
+       </tr>
+       <tr>
+            <td><div class="form-group"><input type="password" name="old_password" autofocus="" class="form-control" required="" id="id_old_password" placeholder="Old Password"></div></td>
+       </tr>
+       <tr>
+           <td>
+                {% if form.new_password2.errors %}
+                    <div class="alert alert-danger fade show" role="alert">
+                        {{ form.new_password2.errors }}
+                    </div>
+                {% endif %}
+           </td>
+       </tr>
+       <tr>
+           <td><div class="form-group"><input type="password" name="new_password1" required="" class="form-control" id="id_new_password1" placeholder="New Password"></div></td>
+       </tr>
+       <tr>
+           <td><div class="form-group"><input type="password" name="new_password2" required="" class="form-control" id="id_new_password2" placeholder="Confirm New Password"></div></td>
+       </tr>
+       <tr>
+          <td><button class="btn btn-secondary" type="submit">Save changes</button></td>
+       </tr>
+   </table>
+</form>
+</div>
 {% endblock %}
