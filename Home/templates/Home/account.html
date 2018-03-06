@@ -1,50 +1,76 @@
-{% extends 'Home/base.html' %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'Home/account.css' %}" rel="stylesheet">
+</head>
+<body>
+{% include 'Home/navbar.html'%}
 
-{% block content %}
-<div class="container">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<form method="post" id="changepass">
-  {% csrf_token %}
-    <h5>Change Password</h5>
-            {% if messages.success %}
-        <div class="alert alert-success fade show" role="alert">
-            <ul class="messages">
-                <li {% if messages.success %} class="{{ messages.success }}"{% endif %}>{{ messages.success }}</li>
-            </ul>
-        </div>
-         {% endif %}
-   <table>
-       <tr>
-           <td>
-               {% if form.old_password.errors %}
-                    <div class="alert alert-danger fade show" role="alert">
-                        {{ form.old_password.errors }}
-                    </div>
-               {% endif %}
-           </td>
-       </tr>
-       <tr>
-            <td><div class="form-group"><input type="password" name="old_password" autofocus="" class="form-control" required="" id="id_old_password" placeholder="Old Password"></div></td>
-       </tr>
-       <tr>
-           <td>
-                {% if form.new_password2.errors %}
-                    <div class="alert alert-danger fade show" role="alert">
-                        {{ form.new_password2.errors }}
-                    </div>
-                {% endif %}
-           </td>
-       </tr>
-       <tr>
-           <td><div class="form-group"><input type="password" name="new_password1" required="" class="form-control" id="id_new_password1" placeholder="New Password"></div></td>
-       </tr>
-       <tr>
-           <td><div class="form-group"><input type="password" name="new_password2" required="" class="form-control" id="id_new_password2" placeholder="Confirm New Password"></div></td>
-       </tr>
-       <tr>
-          <td><button class="btn btn-secondary" type="submit">Save changes</button></td>
-       </tr>
-   </table>
-</form>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Account</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Change Password</a>
+    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Transactions History</a>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <form method="post" id="changepass">
+          {% csrf_token %}
+            <h5>Change Password</h5>
+                    {% if messages.success %}
+                <div class="alert alert-success fade show" role="alert">
+                    <ul class="messages">
+                        <li {% if messages.success %} class="{{ messages.success }}"{% endif %}>{{ messages.success }}</li>
+                    </ul>
+                </div>
+                 {% endif %}
+           <table>
+               <tr>
+                   <td>
+                       {% if form.old_password.errors %}
+                            <div class="alert alert-danger fade show" role="alert">
+                                {{ form.old_password.errors }}
+                            </div>
+                       {% endif %}
+                   </td>
+               </tr>
+               <tr>
+                    <td><div class="form-group"><input type="password" name="old_password" autofocus="" class="form-control" required="" id="id_old_password" placeholder="Old Password"></div></td>
+               </tr>
+               <tr>
+                   <td>
+                        {% if form.new_password2.errors %}
+                            <div class="alert alert-danger fade show" role="alert">
+                                {{ form.new_password2.errors }}
+                            </div>
+                        {% endif %}
+                   </td>
+               </tr>
+               <tr>
+                   <td><div class="form-group"><input type="password" name="new_password1" required="" class="form-control" id="id_new_password1" placeholder="New Password"></div></td>
+               </tr>
+               <tr>
+                   <td><div class="form-group"><input type="password" name="new_password2" required="" class="form-control" id="id_new_password2" placeholder="Confirm New Password"></div></td>
+               </tr>
+               <tr>
+                  <td><button class="btn btn-secondary" type="submit">Save changes</button></td>
+               </tr>
+           </table>
+        </form>
+  </div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 </div>
-{% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+
