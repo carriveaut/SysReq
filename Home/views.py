@@ -1,7 +1,7 @@
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 
 # class SignUpView(generic.CreateView):
@@ -49,9 +49,15 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('Home:account')
+            set_success(True)
+            success = get_success()
+            print(success)
+            return render(request, 'Home/account.html', {'success': success})
         else:
             messages.error(request, 'Please correct the error below.')
+            set_success(False)
+            success = get_success()
+            print(success)
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'Home/account.html', {

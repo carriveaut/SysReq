@@ -182,6 +182,7 @@
 
 {% if form.errors %}
 <script>
+
 $(document).ready(function() {
     var a = "{{ badData }}";
     $("#exampleModal").modal("show");
@@ -194,16 +195,19 @@ $(document).ready(function() {
         $("#nav-home-tab").tab('show');
     }
 });
-document.addEventListener('click', function (e) {
-  if(e.target.className === 'modal'
-      && e.target.className !== 'nav-item nav-link'
-        && e.target.className !== 'nav-item nav-link active'
-        && e.target.className !== 'input'){
-    $(location).attr('href', '/');
-  }
-}, false);
+$('body').click(function() {
+    if(this !== 'body') {
+
+    }else {
+        $(location).attr('href', '/');
+    }
+});
+// document.addEventListener('click', function (e) {
+//   if(e.target.className === 'modal'){
+//   } else {
+//       $(location).attr('href', '/');
+//   }
+// }, false);
 </script>
-
-
 {% endif %}
 {% endblock %}
