@@ -1,3 +1,7 @@
+body {
+    padding-top: 75px;
+}
+
 .alert.alert-danger.alert-dismissible{
     font-size: 14px;
 }
@@ -69,6 +73,7 @@ input#id_new_password2.form-control{
     height: 10px;
     width: 100%;
     background-color: #C0974E;
+    position: fixed;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link{
