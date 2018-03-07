@@ -11,11 +11,11 @@ add_ticket = '''<button class="btn btn-secondary">Add to Cart</button>'''
 
 
 class TicketTable(tables.Table):
-    date = tables.TemplateColumn(ticket_date, orderable=False)
+    date = tables.TemplateColumn(ticket_date, verbose_name=" ", orderable=False)
     event = tables.Column(" ", orderable=False)
     location = tables.Column(" ", orderable=False)
     time = tables.Column(" ", orderable=False)
-    add = tables.TemplateColumn(add_ticket, orderable=False)
+    add = tables.TemplateColumn(add_ticket, verbose_name=" ", orderable=False)
 
     class Meta:
         attrs = {'class': 'ticket'}
