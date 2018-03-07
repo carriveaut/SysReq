@@ -19,3 +19,7 @@ def concerts(request):
 
 def arttheater(request):
     return render(request, 'Tickets/arttheater.html')
+
+
+def view_ticket(request):
+    return render(request, 'Tickets/viewticket.html')

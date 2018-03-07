@@ -7,7 +7,7 @@ ticket_date = ''' <div class="dateSquare">
                     <h3>2018</h3>
                   </div> '''
 
-add_ticket = '''<button class="btn btn-secondary">Add to Cart</button>'''
+add_ticket = '''<button class="btn btn-secondary" id="{{ record.id }}">View Ticket</button>'''
 
 
 class TicketTable(tables.Table):
