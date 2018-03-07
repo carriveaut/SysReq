@@ -1,12 +1,14 @@
+from django.contrib.auth.models import Group
 from django.db import models
-from Tickets import models
+#from Tickets import models
 
 # Create your models here.
+#from Tickets.models import Ticket
+
+
 class Cart(models.Model):
-    ticketID = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    qty = models.BigIntegerField
-    price = models.FloatField
-    name = models.CharField(max_length=50)
-    date = models.DateTimeField
-    desc = models.CharField(max_length=250)
-    img = models.ImageField
+    ticketID = models.ForeignKey('Tickets.Ticket', on_delete=models.CASCADE)
+    id = models.ForeignKey(Group)
+    cartQty = models.BigIntegerField
+    cartPrice = models.FloatField
+    cartDate = models.DateTimeField
