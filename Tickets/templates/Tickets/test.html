@@ -1,0 +1,11 @@
+{% extends 'Home/base.html' %}
+
+{% block content %}
+    <h1>Add Content Here</h1>
+    {% for n in name %}
+        <p>Concert is <strong>{{ n }}</strong></p>
+    {% endfor %}
+{#    {% for v in venue %}#}
+{#        <p>At Venue: <strong>{{ v }}</strong></p>#}
+{#    {% endfor %}#}
+{% endblock %}
