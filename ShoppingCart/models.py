@@ -8,7 +8,7 @@ from django.db import models
 
 class Cart(models.Model):
     ticketID = models.ForeignKey('Tickets.Ticket', on_delete=models.CASCADE)
-    id = models.ForeignKey(Group)
+    # id = models.ForeignKey(Group)
     cartQty = models.BigIntegerField
     cartPrice = models.FloatField
     cartDate = models.DateTimeField

@@ -5,6 +5,7 @@ import requests
 import ticketpy
 import json
 
+
 def sports(request):
     data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
             {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
