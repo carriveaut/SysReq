@@ -242,3 +242,42 @@ tr.odd{
     font-weight: bold;
     color: white;
 }
+
+td.date {
+    width:100px;
+}
+
+td.add{
+    width:100px;
+}
+
+.event_img{
+    width: 400px;
+    height: 400px;
+    background-color: gainsboro;
+    display: block;
+    float: left;
+}
+
+h5{
+    text-align: center;
+    margin-top: 180px;
+}
+
+input.form-control.text-center {
+    width: 100px;
+}
+
+.event_info {
+    display: inline-block;
+    float: left;
+    margin: 5px;
+}
+
+.event_add {
+
+    margin-top: 350px;
+    display: inline-block;
+    float: right;
+}
+

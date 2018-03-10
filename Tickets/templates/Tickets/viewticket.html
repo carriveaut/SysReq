@@ -1,0 +1,30 @@
+{% extends 'Home/base.html' %}
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
+    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+</head>
+
+
+{% block content %}
+<div class="container">
+
+    <h3 id="event_name">[Event Name]</h3>
+    <hr/>
+    <div class="event_img">
+        <h5>[IMG HERE]</h5>
+    </div>
+    <div class="event_info">
+        <p>Location: </p>
+        <p>Time: </p>
+        <p>Price: </p>
+        <p>About Event: </p>
+    </div>
+    <table class="event_add">
+        <tr>
+            <td>Quantity:</td><td><input type="number" class="form-control text-center" value="1"> </td><td><button class="btn btn-secondary">Add to Cart</button></td>
+        </tr>
+</table>
+     </div>
+{% endblock %}
