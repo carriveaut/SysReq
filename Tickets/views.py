@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django_tables2 import tables
 from .tables import TicketTable
+from Tickets.models import Ticket
 import requests
 import ticketpy
 import json
@@ -38,9 +39,19 @@ def test(request):
     vID = ''
     venueName = []
     var3 = []
+    # tick = Ticket()
     for page in pages:
         for event in page:
             concert.append(event.name)
+            # tick = Ticket()
+            # name = event.name
+            # tick.event = name
+            # tick.venues = 'Test Venue'
+            # tick.start_Date = '2018-01-01'
+            # tick.price_Range = 30-50
+            # tick.status = 'onsale'
+            # tick.classification = 'Test Classification'
+            # tick.save()
             # vID = event.id
             # pages2 = tm_client.venues.find(
             #     id=vID
