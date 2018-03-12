@@ -11,20 +11,18 @@ from .models import Ticket
 
 
 def sports(request):
-    # data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
-    #         {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
-    #         {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
+    data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
+            {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
+            {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
 
-    concertlist = []
-    tickets = Ticket.objects.filter(classification="Sports")
-    for ticket in tickets:
-        concertlist.append(ticket)
+    # concertlist = []
+    # tickets = Ticket.objects.filter(classification="Sports")
+    # for ticket in tickets:
+    #     concertlist.append(ticket)
 
-    table = TicketTable(concertlist)
+    table = TicketTable(data)
 
     return render(request, 'Tickets/sports.html', {'table': table})
-
-    # return render(request, 'Tickets/sports.html', {'table': table})
 
 
 def concerts(request):
