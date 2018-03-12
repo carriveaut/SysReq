@@ -9,13 +9,20 @@ import json
 from .models import Ticket
 
 def sports(request):
-    data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
-            {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
-            {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
+    # data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
+    #         {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
+    #         {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
 
-    table = TicketTable(data)
+    concertlist = []
+    tickets = Ticket.objects.filter(classification="Sports")
+    for ticket in tickets:
+        concertlist.append(ticket)
+
+    table = TicketTable(concertlist)
 
     return render(request, 'Tickets/sports.html', {'table': table})
+
+    # return render(request, 'Tickets/sports.html', {'table': table})
 
 
 def concerts(request):
@@ -34,8 +41,8 @@ def test(request):
     for ticket in tickets:
         concertlist.append(ticket)
 
-    # uncomment the following to add all sporting events for the year
-
+    # # uncomment the following to add all sporting events for the year
+    #
     # tm_client = ticketpy.ApiClient('3dRZUZyfxeZ1U6EP8BajzFCol7ZAtSFb')
     #
     # pages = tm_client.events.find(
@@ -44,7 +51,7 @@ def test(request):
     #     start_date_time='2018-01-01T20:00:00Z',
     #     end_date_time='2019-01-01T20:00:00Z'
     # )
-    #
+
     # concertlist = []
     #
     # for page in pages:
@@ -52,23 +59,23 @@ def test(request):
     #         ticket = Ticket()
     #         # print(event)
     #         # print(event.__dict__.keys())
-    #         print("Name: ", event.name)
+    #         # print("Name: ", event.name)
     #         ticket.event = event.name
     #
-    #         print("Venues: ", event.venues[0])
+    #         # print("Venues: ", event.venues[0])
     #         ticket.venues = event.venues[0]
     #
-    #         print("Date: ", event.local_start_date)
+    #         # print("Date: ", event.local_start_date)
     #         ticket.start_Date = event.local_start_date
     #
-    #         print("Status: ", event.status)
+    #         # print("Status: ", event.status)
     #         ticket.status = event.status
     #
-    #         print("Classification: ", event.classifications[0].segment)
+    #         # print("Classification: ", event.classifications[0].segment)
     #         ticket.classification = event.classifications[0].segment
     #
     #         if not event.price_ranges:
-    #             print("Event has no price range")
+    #             # print("Event has no price range")
     #             ticket.price_Range = "No Price Range"
     #
     #         else:
