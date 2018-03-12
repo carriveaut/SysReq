@@ -13,14 +13,16 @@
 
 <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Account</a>
-    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Change Password</a>
-    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Transactions History</a>
+    <a class="nav-item nav-link active" id="nav-account-tab" data-toggle="tab" href="#nav-account" role="tab" aria-controls="nav-account" aria-selected="true">Account</a>
+    <a class="nav-item nav-link" id="nav-chngpass-tab" data-toggle="tab" href="#nav-chngpass" role="tab" aria-controls="nav-chngpass" aria-selected="false">Change Password</a>
+    <a class="nav-item nav-link" id="nav-transhistory-tab" data-toggle="tab" href="#nav-transhistory" role="tab" aria-controls="nav-transhistory" aria-selected="false">Transactions History</a>
   </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
-  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+  <div class="tab-pane fade show active" id="nav-account" role="tabpanel" aria-labelledby="nav-account-tab">
+      <p>Eventually I will offer more things for the user to do with their account.</p>
+  </div>
+  <div class="tab-pane fade" id="nav-chngpass" role="tabpanel" aria-labelledby="nav-chngpass-tab">
       <form method="post" id="changepass">
           {% csrf_token %}
             <h5>Change Password</h5>
@@ -65,7 +67,9 @@
            </table>
         </form>
   </div>
-  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+  <div class="tab-pane fade" id="nav-transhistory" role="tabpanel" aria-labelledby="nav-transhistory-tab">
+      <p>Eventually I will show past purchases made by the user.</p>
+  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -75,7 +79,7 @@
 {% if form.errors %}
 <script>
 $(document).ready(function() {
-    $("#nav-profile-tab").tab('show');
+    $("#nav-chngpass-tab").tab('show');
 });
 </script>
 {% endif %}
@@ -83,7 +87,7 @@ $(document).ready(function() {
 {% if success %}
 <script>
 $(document).ready(function() {
-    $("#nav-profile-tab").tab('show');
+    $("#nav-chngpass-tab").tab('show');
 });
 </script>
 {% endif %}
