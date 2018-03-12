@@ -9,9 +9,9 @@ import json
 from .models import Ticket
 
 def sports(request):
-    data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
-            {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
-            {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
+    data = [{'event': 'MN Wild', 'location': 'Xcel Energy Center', 'time': '7:30 PM'},
+            {'event': 'NCHC College Hockey Frozen', 'location': 'Xcel Energy Center', 'time': '4:00 PM'},
+            {'event': 'U of M Baseball', 'location': 'U. S. Bank Stadium', 'time': '6:30 PM'}]
 
     table = TicketTable(data)
 
@@ -19,11 +19,27 @@ def sports(request):
 
 
 def concerts(request):
-    return render(request, 'Tickets/concerts.html')
+    data = [{'event': 'Sum41', 'location': 'Varsity Theater', 'time': '8:00 PM'},
+            {'event': 'Jake Owen', 'location': 'Treasure Island Resort & Casino', 'time': '8:00 PM'},
+            {'event': 'P!NK: Beautiful Trauma World Tour', 'location': 'Xcel Energy Center', 'time': '7:30 PM'}]
+
+    table = TicketTable(data)
+
+    return render(request, 'Tickets/concerts.html', {'table': table})
 
 
 def arttheater(request):
-    return render(request, 'Tickets/arttheater.html')
+    data = [{'event': 'Minnesota\'s Ballet\'s Swan Lake', 'location': 'Orpheum Theatre', 'time': '7:00 PM'},
+            {'event': 'The Illusionists - Live From Broadway (Touring)', 'location': 'Orpheum Theatre', 'time': '8:00 PM'},
+            {'event': 'Puddles Pity Party', 'location': 'Pantages Theatre', 'time': '7:30 PM'}]
+
+    table = TicketTable(data)
+
+    return render(request, 'Tickets/arttheater.html', {'table': table})
+
+
+def view_ticket(request):
+    return render(request, 'Tickets/viewticket.html')
 
 
 def test(request):

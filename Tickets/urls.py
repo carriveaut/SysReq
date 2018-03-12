@@ -8,7 +8,7 @@ urlpatterns = [
     path('concerts/', views.concerts, name='concerts'),
     path('arttheater/', views.arttheater, name='arttheater'),
     path('test/', views.test, name='test'),
-    # path('view-ticket/', views.view_ticket, name='viewticket'),
+    path('view-ticket/', views.view_ticket, name='viewticket'),
     # path('signup/', views.SignUpView.as_view(), name='signup')
     # path('', auth_views.login, {'template_name': 'registration/login.html'}, name='login')
 ]

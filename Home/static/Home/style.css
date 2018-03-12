@@ -259,7 +259,7 @@ td.add{
     float: left;
 }
 
-h5{
+h5#imgh5{
     text-align: center;
     margin-top: 180px;
 }
