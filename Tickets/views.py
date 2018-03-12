@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django_tables2 import tables
 from .tables import TicketTable
+import datetime
 from Tickets.models import Ticket
 import requests
 import ticketpy
@@ -46,21 +47,21 @@ def test(request):
     # code for querying db
     # currently filters by sports
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Sports")
+    tickets = Ticket.objects.filter(classification="Art")
     for ticket in tickets:
         concertlist.append(ticket)
 
     # uncomment the following to add all sporting events for the year
 
-    # tm_client = ticketpy.ApiClient('3dRZUZyfxeZ1U6EP8BajzFCol7ZAtSFb')
-    #
-    # pages = tm_client.events.find(
-    #     classification_name='Sports',
-    #     state_code='MN',
-    #     start_date_time='2018-01-01T20:00:00Z',
-    #     end_date_time='2019-01-01T20:00:00Z'
-    # )
-    #
+    tm_client = ticketpy.ApiClient('3dRZUZyfxeZ1U6EP8BajzFCol7ZAtSFb')
+
+    pages = tm_client.events.find(
+        classification_name='Art',
+        state_code='MN',
+        start_date_time='2018-01-01T20:00:00Z',
+        end_date_time='2019-01-01T20:00:00Z'
+    )
+
     # concertlist = []
     #
     # for page in pages:
@@ -76,6 +77,11 @@ def test(request):
     #
     #         print("Date: ", event.local_start_date)
     #         ticket.start_Date = event.local_start_date
+    #
+    #         print("Time: ", event.local_start_time)
+    #         # if event.local_start_time is None:
+    #         #     ticket.start_Time = ('16')
+    #         ticket.start_Time = event.local_start_time
     #
     #         print("Status: ", event.status)
     #         ticket.status = event.status

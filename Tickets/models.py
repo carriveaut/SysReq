@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 
@@ -6,9 +7,9 @@ from django.db import models
 class Ticket(models.Model):
     event = models.CharField(max_length=100)
     venues = models.CharField(max_length=100)
-    start_Date = models.DateField
-    start_Time = models.TimeField
-    price_Range = models.ValueRange
+    start_Date = models.DateField(default=datetime.date.today)
+    start_Time = models.TimeField(default=datetime.time(16, 00), null=True)
+    # price_Range = models.ValueRange
     status = models.CharField(max_length=25)
     classification = models.CharField(max_length=100)
     # ticketID = models.AutoField(primary_key=True)
