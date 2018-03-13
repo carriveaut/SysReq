@@ -11,36 +11,46 @@ from .models import Ticket
 
 
 def sports(request):
-    data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
-            {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
-            {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
+    # data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
+    #         {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
+    #         {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
 
-    # concertlist = []
-    # tickets = Ticket.objects.filter(classification="Sports")
-    # for ticket in tickets:
-    #     concertlist.append(ticket)
+    concertlist = []
+    tickets = Ticket.objects.filter(classification="Sports")
+    for ticket in tickets:
+        concertlist.append(ticket)
 
-    table = TicketTable(data)
+    table = TicketTable(concertlist)
 
     return render(request, 'Tickets/sports.html', {'table': table})
 
 
 def concerts(request):
-    data = [{'event': 'Sum41', 'location': 'Varsity Theater', 'time': '8:00 PM'},
-            {'event': 'Jake Owen', 'location': 'Treasure Island Resort & Casino', 'time': '8:00 PM'},
-            {'event': 'P!NK: Beautiful Trauma World Tour', 'location': 'Xcel Energy Center', 'time': '7:30 PM'}]
+    # data = [{'event': 'Sum41', 'location': 'Varsity Theater', 'time': '8:00 PM'},
+    #         {'event': 'Jake Owen', 'location': 'Treasure Island Resort & Casino', 'time': '8:00 PM'},
+    #         {'event': 'P!NK: Beautiful Trauma World Tour', 'location': 'Xcel Energy Center', 'time': '7:30 PM'}]
 
-    table = TicketTable(data)
+    concertlist = []
+    tickets = Ticket.objects.filter(classification="Music")
+    for ticket in tickets:
+        concertlist.append(ticket)
+
+    table = TicketTable(concertlist)
 
     return render(request, 'Tickets/concerts.html', {'table': table})
 
 
 def arttheater(request):
-    data = [{'event': 'Minnesota\'s Ballet\'s Swan Lake', 'location': 'Orpheum Theatre', 'time': '7:00 PM'},
-            {'event': 'The Illusionists - Live From Broadway (Touring)', 'location': 'Orpheum Theatre', 'time': '8:00 PM'},
-            {'event': 'Puddles Pity Party', 'location': 'Pantages Theatre', 'time': '7:30 PM'}]
+    # data = [{'event': 'Minnesota\'s Ballet\'s Swan Lake', 'location': 'Orpheum Theatre', 'time': '7:00 PM'},
+    #         {'event': 'The Illusionists - Live From Broadway (Touring)', 'location': 'Orpheum Theatre', 'time': '8:00 PM'},
+    #         {'event': 'Puddles Pity Party', 'location': 'Pantages Theatre', 'time': '7:30 PM'}]
 
-    table = TicketTable(data)
+    concertlist = []
+    tickets = Ticket.objects.filter(classification="Arts & Theatre")
+    for ticket in tickets:
+        concertlist.append(ticket)
+        print(ticket)
+    table = TicketTable(concertlist)
 
     return render(request, 'Tickets/arttheater.html', {'table': table})
 
