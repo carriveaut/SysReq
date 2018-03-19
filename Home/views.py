@@ -29,14 +29,14 @@ def register(request):
             f.save()
             set_success(True)
             success = get_success()
-            print(success)
+            #print(success)
             return render(request, 'Home/index.html', {'success': success})
         else:
             noGood = "True"
             messages.error(request, "Error")
             set_success(False)
             success = get_success()
-            print(success)
+            #print(success)
     else:
         f = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': f, 'badData': noGood})
@@ -51,13 +51,13 @@ def change_password(request):
             messages.success(request, 'Your password was successfully updated!')
             set_success(True)
             success = get_success()
-            print(success)
+            #print(success)
             return render(request, 'Home/account.html', {'success': success})
         else:
             messages.error(request, 'Please correct the error below.')
             set_success(False)
             success = get_success()
-            print(success)
+            #print(success)
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'Home/account.html', {
