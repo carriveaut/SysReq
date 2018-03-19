@@ -43,7 +43,7 @@ class TicketTable(tables.Table):
     classification = tables.Column(visible=False)
     start_Date = tables.Column(visible=False)
     status = tables.Column(visible=False)
-    event = tables.Column(" ", attrs={'td': {'width': '30%'}}, orderable=False)
+    event = tables.Column(" ", attrs={'td': {'width': '35%'}}, orderable=False)
     venue_Name = tables.Column(" ", orderable=False)
     venue_Info = tables.Column(visible=False)
     start_Time = tables.Column(" ", orderable=False)
