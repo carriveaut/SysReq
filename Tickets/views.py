@@ -16,7 +16,7 @@ def sports(request):
     #         {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
 
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Sports")
+    tickets = Ticket.objects.filter(classification="Sports", start_Date__gte=datetime.date.today())
     for ticket in tickets:
         concertlist.append(ticket)
 
@@ -31,11 +31,11 @@ def concerts(request):
     #         {'event': 'P!NK: Beautiful Trauma World Tour', 'location': 'Xcel Energy Center', 'time': '7:30 PM'}]
 
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Music")
+    tickets = Ticket.objects.filter(classification="Music", start_Date__gte=datetime.date.today())
     for ticket in tickets:
         concertlist.append(ticket)
 
-    table = TicketTable(concertlist)
+    table = TicketTable(concertlist, order_by="start_Date")
 
     return render(request, 'Tickets/concerts.html', {'table': table})
 
@@ -46,11 +46,11 @@ def arttheater(request):
     #         {'event': 'Puddles Pity Party', 'location': 'Pantages Theatre', 'time': '7:30 PM'}]
 
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Arts & Theatre")
+    tickets = Ticket.objects.filter(classification="Arts & Theatre", start_Date__gte=datetime.date.today())
     for ticket in tickets:
         concertlist.append(ticket)
         print(ticket)
-    table = TicketTable(concertlist)
+    table = TicketTable(concertlist, order_by="start_Date")
 
     return render(request, 'Tickets/arttheater.html', {'table': table})
 
