@@ -255,13 +255,20 @@ td.add{
     width: 400px;
     height: 400px;
     background-color: gainsboro;
-    display: block;
     float: left;
+    text-align: center;
 }
 
-h5#imgh5{
-    text-align: center;
-    margin-top: 180px;
+.event_img img{
+    display: inline-block;
+    vertical-align: middle;
+    width: 300px;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }
 
 input.form-control.text-center {
@@ -275,9 +282,11 @@ input.form-control.text-center {
 }
 
 .event_add {
-
-    margin-top: 350px;
+    margin-top: 120px;
     display: inline-block;
     float: right;
 }
 
+#view_ticket_cont{
+    width: 70%;
+}

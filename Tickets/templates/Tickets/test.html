@@ -1,10 +1,10 @@
 {% extends 'Home/base.html' %}
 
 {% block content %}
-    <h1>Add Content Here</h1>
-    <p>
-
-    </p>
+    <h1>Importing tickets...</h1>
+        {% for s in name %}
+            <img src="{{ s.image_Url }}" alt="img">
+         {% endfor %}
 {#    {% for v in venue %}#}
 {#        <p>At Venue: <strong>{{ v }}</strong></p>#}
 {#    {% endfor %}#}

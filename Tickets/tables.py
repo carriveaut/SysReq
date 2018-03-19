@@ -32,8 +32,8 @@ ticket_date = ''' <div class="dateSquare">
                     <h3>{{ record.start_Date.year }}</h3>
                   </div> '''
 
-add_ticket = '''<a href="{% url 'Tickets:viewticket' %}" role="button" 
-                class="btn btn-secondary" id="{{ record.id }}" >View Ticket</a>'''
+add_ticket = '''<input class="myHidden" id="ticketID" name="ticketID" type="hidden" value="{{ record.id }}"/>
+                <a href="{{ record.id }}" role="button" class="btn btn-secondary myButton" id="btn_ticket" name="btn_ticket">View Ticket</a>'''
 
 
 class TicketTable(tables.Table):
@@ -43,11 +43,15 @@ class TicketTable(tables.Table):
     classification = tables.Column(visible=False)
     start_Date = tables.Column(visible=False)
     status = tables.Column(visible=False)
-    event = tables.Column(" ", attrs={"td": {"width": "200px;"}}, orderable=False)
-    venues = tables.Column(" ", attrs={"td": {"style": "text-align:center;"}}, orderable=False)
+    event = tables.Column(" ", attrs={'td': {'width': '30%'}}, orderable=False)
+    venue_Name = tables.Column(" ", orderable=False)
+    venue_Info = tables.Column(visible=False)
     start_Time = tables.Column(" ", orderable=False)
+    qty = tables.Column(visible=False)
+    image_Url = tables.Column(visible=False)
+    price = tables.Column(visible=False)
 
     class Meta:
         model = Ticket
-        sequence = ('date', 'event', 'venues', 'start_Time', 'add')
+        sequence = ('date', 'event', 'venue_Name', 'start_Time', 'add')
         attrs = {'class': 'ticket'}

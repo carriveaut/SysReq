@@ -8,18 +8,20 @@
 
 
 {% block content %}
-<div class="container">
+<div class="container" id="view_ticket_cont">
 
-    <h3 id="event_name">[Event Name]</h3>
+    <h3 id="event_name">{{ selected.event }}</h3>
     <hr/>
-    <div class="event_img">
-        <h5 id="imgh5">[IMG HERE]</h5>
+    <div class="event_img" id="event_img">
+        <span class="helper"></span>
+        <img src="{{ selected.image_Url }}" alt="img">
     </div>
     <div class="event_info">
-        <p>Location: </p>
-        <p>Time: </p>
-        <p>Price: </p>
-        <p>About Event: </p>
+        <p><b>Location:</b> {{ selected.venue_Info }} </p>
+        <p><b>Date:</b> {{ selected.start_Date }}</p>
+        <p><b>Time:</b> {{ selected.start_Time }}</p>
+        <p><b>Price:</b>  {{ selected.price }} </p>
+        <p><b>About Event: </b></p>
     </div>
     <table class="event_add">
         <tr>

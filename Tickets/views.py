@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django_tables2 import tables
 from .tables import TicketTable
 import datetime
+import cgi
 from Tickets.models import Ticket
 import requests
 import ticketpy
 import json
+from django.contrib import admin
 
 from .models import Ticket
 
@@ -55,68 +57,101 @@ def arttheater(request):
     return render(request, 'Tickets/arttheater.html', {'table': table})
 
 
-def view_ticket(request):
-    return render(request, 'Tickets/viewticket.html')
+def view_sport_ticket(request, ticket_id):
+    tickets = Ticket.objects.filter(id=ticket_id)
+    selected = object
+    for ticket in tickets:
+        selected = ticket
+    return render(request, 'Tickets/viewticket.html', {'selected': selected})
+
+
+def view_art_ticket(request, ticket_id):
+    tickets = Ticket.objects.filter(id=ticket_id)
+    selected = object
+    for ticket in tickets:
+        selected = ticket
+    return render(request, 'Tickets/viewticket.html', {'selected': selected})
+
+
+def view_concert_ticket(request, ticket_id):
+    tickets = Ticket.objects.filter(id=ticket_id)
+    selected = object
+    for ticket in tickets:
+        selected = ticket
+    return render(request, 'Tickets/viewticket.html', {'selected': selected})
 
 
 def test(request):
     # code for querying db
     # currently filters by sports
-    concertlist = []
-    tickets = Ticket.objects.filter(classification="Art")
-    for ticket in tickets:
-        concertlist.append(ticket)
+    # concertlist = []
+    # tickets = Ticket.objects.filter(classification="Art")
+    # for ticket in tickets:
+    #     concertlist.append(ticket)
 
     # uncomment the following to add all sporting events for the year
 
-    # tm_client = ticketpy.ApiClient('3dRZUZyfxeZ1U6EP8BajzFCol7ZAtSFb')
-    #
-    # pages = tm_client.events.find(
-    #     classification_name='Sports',
-    #     state_code='MN',
-    #     start_date_time='2018-01-01T20:00:00Z',
-    #     end_date_time='2019-01-01T20:00:00Z'
-    # )
-    #
-    # concertlist = []
-    #
-    # for page in pages:
-    #     for event in page:
-    #         ticket = Ticket()
-    #         # print(event)
-    #         # print(event.__dict__.keys())
-    #         print("Name: ", event.name)
-    #         ticket.event = event.name
-    #
-    #         print("Venues: ", event.venues[0])
-    #         ticket.venues = event.venues[0]
-    #
-    #         print("Date: ", event.local_start_date)
-    #         ticket.start_Date = event.local_start_date
-    #
-    #         print("Time: ", event.local_start_time)
-    #         # if event.local_start_time is None:
-    #         #     ticket.start_Time = ('16')
-    #         ticket.start_Time = event.local_start_time
-    #
-    #         print("Status: ", event.status)
-    #         ticket.status = event.status
-    #
-    #         print("Classification: ", event.classifications[0].segment)
-    #         ticket.classification = event.classifications[0].segment
-    #
-    #         if not event.price_ranges:
-    #             print("Event has no price range")
-    #             ticket.price_Range = "No Price Range"
-    #
-    #         else:
-    #             print("Min Price: ", event.price_ranges[0].get('min'))
-    #             print("Max Price: ", event.price_ranges[0].get('max'))
-    #             price_range = str(event.price_ranges[0].get('min')) + "-" + str(event.price_ranges[0].get('max'))
-    #             ticket.price_Range = price_range
-    #         print("")
-    #         ticket.save()
-    #         concertlist.append(ticket)
+    tm_client = ticketpy.ApiClient('3dRZUZyfxeZ1U6EP8BajzFCol7ZAtSFb')
 
-    return render(request, 'Tickets/test.html', {'name': concertlist})
+    pages = tm_client.events.find(
+        classification_name='Music',
+        state_code='MN',
+        start_date_time='2018-01-01T20:00:00Z',
+        end_date_time='2019-01-01T20:00:00Z'
+    )
+
+    concertlist = []
+    imageList = []
+
+    for page in pages:
+        for event in page:
+            ticket = Ticket()
+            print(event)
+            print(event.__dict__.keys())
+            print("Name: ", event.name)
+            ticket.event = event.name
+
+            for v in event.venues:
+                ticket.venue_Name = v.name
+                if v.images is not None:
+                    for h in v.images:
+                        # print(h)
+                        if h['ratio'] == '16_9':
+                            # imageList.append(h['url'])
+                            ticket.image_Url = h['url']
+
+                # ticket.venue_Name = v.name
+
+            print("Venue More: ", event.venues[0])
+            ticket.venue_Info = event.venues[0]
+
+            print("Date: ", event.local_start_date)
+            ticket.start_Date = event.local_start_date
+
+            print("Time: ", event.local_start_time)
+            # if event.local_start_time is None:
+            #     ticket.start_Time = ('16')
+            ticket.start_Time = event.local_start_time
+
+            print("Status: ", event.status)
+            ticket.status = event.status
+
+            print("Classification: ", event.classifications[0].segment)
+            ticket.classification = event.classifications[0].segment
+
+            if not event.price_ranges:
+                print("Event has no price range")
+                # ticket.price = 99.99
+
+            else:
+                print("Min Price: ", event.price_ranges[0].get('min'))
+                ticket.price = event.price_ranges[0].get('min')
+                # print("Max Price: ", event.price_ranges[0].get('max'))
+                # price_range = str(event.price_ranges[0].get('min')) + "-" + str(event.price_ranges[0].get('max'))
+                # ticket.price_Range = price_range
+            print("")
+            ticket.save()
+            concertlist.append(ticket)
+    print(imageList)
+    return render(request, 'Tickets/test.html', {'name': imageList})
     # return render(request, 'Tickets/test.html', {'name': concert}, {'venue': venueName})
