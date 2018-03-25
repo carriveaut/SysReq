@@ -66,6 +66,12 @@ def change_password(request):
 
 
 def index(request):
+    # test = ['hey','sup']
+    # request.session['theCart']
+    # if request.session['theCart'] is not None:
+    #     r = request.session['theCart']
+    # else:
+    #     r = "SUP"
     return render(request, 'Home/index.html')
 
 

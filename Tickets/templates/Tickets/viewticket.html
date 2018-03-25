@@ -25,7 +25,11 @@
     </div>
     <table class="event_add">
         <tr>
-            <td>Quantity:</td><td><input type="number" class="form-control text-center" value="1"> </td><td><button class="btn btn-secondary">Add to Cart</button></td>
+{#           <td>Quantity:</td><td><input type="number" class="form-control text-center" value="1"> </td><td><button class="btn btn-secondary" onclick="cart();">Add to Cart</button></td>#}
+{#            {% load django_tables2 %}#}
+{#            {% render_table table %}#}
+{#            <input class="myHidden" id="ticketID" name="ticketID" type="hidden" value="{{ record.id }}"/>#}
+            <a href="{% url 'ShoppingCart:shoppingcart' selected.id %}" role="button" class="btn btn-secondary myButton" id="btn_ticket" name="btn_ticket">Add to Cart</a>
         </tr>
 </table>
      </div>
