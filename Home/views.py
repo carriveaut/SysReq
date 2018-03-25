@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
+from Tickets.views import count_items
 
 # class SignUpView(generic.CreateView):
 #     form_class = UserCreationForm
@@ -43,6 +44,7 @@ def register(request):
 
 
 def change_password(request):
+    total = count_items(request)
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -62,28 +64,27 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'Home/account.html', {
         'form': form,
+        'count': total
     })
 
 
 def index(request):
-    # test = ['hey','sup']
-    # request.session['theCart']
-    # if request.session['theCart'] is not None:
-    #     r = request.session['theCart']
-    # else:
-    #     r = "SUP"
-    return render(request, 'Home/index.html')
+    total = count_items(request)
+    return render(request, 'Home/index.html', {'count': total})
 
 
 def helps(request):
-    return render(request, 'Home/help.html')
+    total = count_items(request)
+    return render(request, 'Home/help.html', {'count': total})
 
 
 def happeningsoon(request):
-    return render(request, 'Home/happeningsoon.html')
+    total = count_items(request)
+    return render(request, 'Home/happeningsoon.html', {'count': total})
 
 
 def deals(request):
-    return render(request, 'Home/deals.html')
+    total = count_items(request)
+    return render(request, 'Home/deals.html', {'count': total})
 
 

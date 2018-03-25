@@ -23,14 +23,25 @@
         <p><b>Price:</b>  {{ selected.price }} </p>
         <p><b>About Event: </b></p>
     </div>
-    <table class="event_add">
-        <tr>
-{#           <td>Quantity:</td><td><input type="number" class="form-control text-center" value="1"> </td><td><button class="btn btn-secondary" onclick="cart();">Add to Cart</button></td>#}
-{#            {% load django_tables2 %}#}
-{#            {% render_table table %}#}
-{#            <input class="myHidden" id="ticketID" name="ticketID" type="hidden" value="{{ record.id }}"/>#}
-            <a href="{% url 'ShoppingCart:shoppingcart' selected.id %}" role="button" class="btn btn-secondary myButton" id="btn_ticket" name="btn_ticket">Add to Cart</a>
-        </tr>
+<table class="event_add">
+    <tr>
+       <td>Quantity:</td><td><input type="number" name="qty" id="qty" class="form-control text-center" value="0"></td>
+
+       <td><button id="add_cart" name="add_cart" class="btn btn-secondary">Add to Cart</button></td>
+    </tr>
 </table>
-     </div>
+</div>
+
+<script>
+var qty = 0
+
+$(document).on('input', '#qty', function(){
+    qty = $("#qty").val();
+});
+
+$( "#add_cart" ).click(function() {
+  $(location).attr('href', qty);
+});
+
+</script>
 {% endblock %}

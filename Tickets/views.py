@@ -1,21 +1,13 @@
-from django.shortcuts import render, HttpResponse
-from django_tables2 import tables
+from django.shortcuts import render, HttpResponseRedirect,  render_to_response
 from .tables import TicketTable
 import datetime
-import cgi
 from Tickets.models import Ticket
-import requests
 import ticketpy
-import json
-from django.contrib import admin
-
-from .models import Ticket
+from cart.cart import Cart
 
 
 def sports(request):
-    # data = [{'event': 'Wild', 'location': 'Saint Cloud State', 'time': '8:00'},
-    #         {'event': 'Vikings', 'location': 'Target Field', 'time': '12:00'},
-    #         {'event': 'Twins', 'location': 'Target Field', 'time': '1:30'}]
+    total = count_items(request)
 
     concertlist = []
     tickets = Ticket.objects.filter(classification="Sports", start_Date__gte=datetime.date.today())
@@ -24,13 +16,11 @@ def sports(request):
 
     table = TicketTable(concertlist)
 
-    return render(request, 'Tickets/sports.html', {'table': table})
+    return render(request, 'Tickets/sports.html', {'table': table, 'count': total})
 
 
 def concerts(request):
-    # data = [{'event': 'Sum41', 'location': 'Varsity Theater', 'time': '8:00 PM'},
-    #         {'event': 'Jake Owen', 'location': 'Treasure Island Resort & Casino', 'time': '8:00 PM'},
-    #         {'event': 'P!NK: Beautiful Trauma World Tour', 'location': 'Xcel Energy Center', 'time': '7:30 PM'}]
+    total = count_items(request)
 
     concertlist = []
     tickets = Ticket.objects.filter(classification="Music", start_Date__gte=datetime.date.today())
@@ -39,48 +29,83 @@ def concerts(request):
 
     table = TicketTable(concertlist, order_by="start_Date")
 
-    return render(request, 'Tickets/concerts.html', {'table': table})
+    return render(request, 'Tickets/concerts.html', {'table': table, 'count': total})
 
 
 def arttheater(request):
-    # data = [{'event': 'Minnesota\'s Ballet\'s Swan Lake', 'location': 'Orpheum Theatre', 'time': '7:00 PM'},
-    #         {'event': 'The Illusionists - Live From Broadway (Touring)', 'location': 'Orpheum Theatre', 'time': '8:00 PM'},
-    #         {'event': 'Puddles Pity Party', 'location': 'Pantages Theatre', 'time': '7:30 PM'}]
-
+    total = count_items(request)
     concertlist = []
     tickets = Ticket.objects.filter(classification="Arts & Theatre", start_Date__gte=datetime.date.today())
     for ticket in tickets:
         concertlist.append(ticket)
-        print(ticket)
+
     table = TicketTable(concertlist, order_by="start_Date")
 
-    return render(request, 'Tickets/arttheater.html', {'table': table})
+    return render(request, 'Tickets/arttheater.html', {'table': table, 'count': total})
 
 
 def view_sport_ticket(request, ticket_id):
+    total = count_items(request)
     tickets = Ticket.objects.filter(id=ticket_id)
     selected = object
     for ticket in tickets:
         selected = ticket
-    return render(request, 'Tickets/viewticket.html', {'selected': selected})
+    return render(request, 'Tickets/viewticket.html', {'selected': selected, 'count': total})
 
 
 def view_art_ticket(request, ticket_id):
+    total = count_items(request)
     tickets = Ticket.objects.filter(id=ticket_id)
     selected = object
     for ticket in tickets:
         selected = ticket
-    return render(request, 'Tickets/viewticket.html', {'selected': selected})
+    return render(request, 'Tickets/viewticket.html', {'selected': selected, 'count': total})
 
 
 def view_concert_ticket(request, ticket_id):
+    total = count_items(request)
     tickets = Ticket.objects.filter(id=ticket_id)
     selected = object
     for ticket in tickets:
         selected = ticket
-    return render(request, 'Tickets/viewticket.html', {'selected': selected})
+    return render(request, 'Tickets/viewticket.html', {'selected': selected, 'count': total})
 
 
+# CART
+def count_items(request):
+    cart = Cart(request)
+    cart.count()
+    return cart.count()
+
+
+def total_cart(request):
+    cart = Cart(request)
+    return cart.summary()
+
+
+def add_to_cart(request, ticket_id, quantity):
+    ticket = Ticket.objects.get(id=ticket_id)
+    cart = Cart(request)
+    cart.add(ticket, ticket.price, quantity)
+    return get_cart(request)
+
+
+def remove_from_cart(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    cart = Cart(request)
+    cart.remove(ticket)
+    return get_cart(request)
+
+
+def get_cart(request):
+    total = total_cart(request)
+    count = count_items(request)
+    return render(request, 'Tickets/cart.html', {'total': total,
+                                                 'cart': Cart(request),
+                                                 'count': count})
+
+
+# AREA FOR CODE TESTS #
 def test(request):
     # code for querying db
     # currently filters by sports

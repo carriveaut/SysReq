@@ -1,0 +1,60 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'ShoppingCart/style.css' %}"/>
+    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+</head>
+{% include 'Home/navbar.html' %}
+
+<div class="container">
+<h1>Shopping Cart</h1>
+<table id="cart" class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th style="width:50%">Product</th>
+            <th style="width:10%">Price</th>
+            <th style="width:8%">Quantity</th>
+            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in cart %}
+        <tr>
+            <td data-th="Product">
+                <div class="row">
+                    <div class="col-sm-2 hidden-xs"><img src="{{ item.product.image_Url }}" alt="..." class="img-responsive" width="100px" height="100px"/></div>
+                    <div class="col-sm-10">
+                        <h4>{{ item.product.event }}</h4>
+                    </div>
+                </div>
+            </td>
+            <td data-th="Price">{{ item.product.price }}</td>
+            <td data-th="Quantity">
+                <input type="number" class="form-control text-center" value="{{ item.quantity }}">
+            </td>
+            <td data-th="Subtotal" class="text-center">{{ item.total_price }}</td>
+            <td class="actions" data-th="">
+                <button class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>
+                <a href="{% url 'Tickets:remove' item.product.id %}" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><button class="btn btn-outline-secondary" onclick="goBack()"><i class="fa fa-angle-left"></i> Continue Shopping</button></td>
+            <td colspan="2" class="hidden-xs"></td>
+            <td class="hidden-xs text-center"><strong>Total: ${{ total }}</strong></td>
+            <td><a href="#" class="btn btn-outline-primary">Checkout</a></td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>

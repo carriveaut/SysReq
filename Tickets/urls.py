@@ -13,7 +13,12 @@ urlpatterns = [
     path('sports/<int:ticket_id>/', views.view_sport_ticket, name='viewsportticket'),
     path('arttheater/<int:ticket_id>/', views.view_art_ticket, name='viewartticket'),
     path('concerts/<int:ticket_id>/', views.view_concert_ticket, name='viewconcertticket'),
-    # path('shoppingcart/', include('ShoppingCart.urls'), name='shoppingcart'),
+    path('sports/<int:ticket_id>/<int:quantity>', views.add_to_cart, name='add_ticket'),
+    path('arttheater/<int:ticket_id>/<int:quantity>', views.add_to_cart, name='add_ticket'),
+    path('concerts/<int:ticket_id>/<int:quantity>', views.add_to_cart, name='add_ticket'),
+    path('cart/', views.get_cart, name='cart'),
+    path('<int:ticket_id>', views.remove_from_cart, name='remove'),
+    path('', views.total_cart, name="total")
     # path('signup/', views.SignUpView.as_view(), name='signup')
     # path('', auth_views.login, {'template_name': 'registration/login.html'}, name='login')
 ]
