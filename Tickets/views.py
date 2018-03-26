@@ -97,6 +97,13 @@ def remove_from_cart(request, ticket_id):
     return get_cart(request)
 
 
+def update_item(request, ticket_id, quantity, price):
+    ticket = Ticket.objects.get(id=ticket_id)
+    cart = Cart(request)
+    cart.update(ticket, quantity, price)
+    return get_cart(request)
+
+
 def get_cart(request):
     total = total_cart(request)
     count = count_items(request)

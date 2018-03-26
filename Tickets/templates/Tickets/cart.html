@@ -30,13 +30,17 @@
                     </div>
                 </div>
             </td>
-            <td data-th="Price">{{ item.product.price }}</td>
-            <td data-th="Quantity">
-                <input type="number" class="form-control text-center" value="{{ item.quantity }}">
+            <td data-th="Price">
+                <!--<input hidden="hidden" type="text" value="{{ item.product.price }}" id="price" name="price"/>-->
+                {{ item.product.price }}</td>
+            <td data-th="Quantity" class="text-center">
+                {{ item.quantity }}
+                <!--<input name="qty" id="qty" type="number" class="form-control text-center" value="{{ item.quantity }}">-->
             </td>
             <td data-th="Subtotal" class="text-center">{{ item.total_price }}</td>
-            <td class="actions" data-th="">
-                <button class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>
+            <td class="actions text-center" data-th="">
+                <!--<button name="update" id="update" class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>-->
+                <input hidden="hidden" type="text" value="{{ item.product.id }}" id="tick_id" name="tick_id"/>
                 <a href="{% url 'Tickets:remove' item.product.id %}" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
             </td>
         </tr>
@@ -57,4 +61,27 @@
 function goBack() {
     window.history.back();
 }
+
+// $("tbody > tr").each(function() {
+//         var qty = $(this).find("input#qty").val(),
+//             tick_id = $(this).find("input#tick_id").val(),
+//             price = $(this).find("input#price").val();
+//
+//       alert(tick_id + qty + price);
+// });
+
+// $('#cart > tbody  > tr').each(function() {
+//     var price = document.getElementById("price").innerText;
+//     var id = $('input#tick_id').val();
+//     var qty = 0;
+//     alert(id);
+//     $(document).on('input', '#qty', function(){
+//         qty = $("#qty").val();
+//     });
+//
+//     $( '#update' ).click(function() {
+//       $(location).attr('href', id + '/' + qty + '/' + price);
+//     });
+// });
+
 </script>

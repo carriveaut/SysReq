@@ -3,7 +3,6 @@ from django.conf.urls import include, url
 
 from . import views
 app_name = 'Tickets'
-app_name2 = 'ShoppingCart'
 
 urlpatterns = [
     path('sports/', views.sports, name='sports'),
@@ -18,7 +17,8 @@ urlpatterns = [
     path('concerts/<int:ticket_id>/<int:quantity>', views.add_to_cart, name='add_ticket'),
     path('cart/', views.get_cart, name='cart'),
     path('<int:ticket_id>', views.remove_from_cart, name='remove'),
-    path('', views.total_cart, name="total")
+    path('', views.total_cart, name='total'),
+    path('cart/<int:ticket_id>/<int:quantity>/<str:price>', views.update_item, name='update')
     # path('signup/', views.SignUpView.as_view(), name='signup')
     # path('', auth_views.login, {'template_name': 'registration/login.html'}, name='login')
 ]
