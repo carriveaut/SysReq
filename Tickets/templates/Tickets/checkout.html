@@ -11,8 +11,9 @@
 <div class="container">
     <h3>Your Information:</h3>
     <form method="post" action="">
+        {% csrf_token %}
         {{ form.as_p }}
-        <input input="submit" class="btn btn-primary" value="Pay me mothaa Fucker" />
+        <input type="submit" class="btn btn-primary" value="Pay me mothaa Fucker" />
     </form>
 </div>
 {% endblock %}

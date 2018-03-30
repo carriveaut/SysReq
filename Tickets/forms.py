@@ -15,3 +15,4 @@ class CheckoutForm(forms.Form):
     ShipCity = forms.CharField(label='Shipping City', max_length=25)
     ShipState = forms.CharField(label='Shipping State', max_length=2)
     ShipZip = forms.CharField(label='Shipping Zip', max_length=5)
+

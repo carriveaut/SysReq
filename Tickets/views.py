@@ -115,13 +115,15 @@ def get_cart(request):
 
 def checkout(request):
     # if this is a POST request we need to process the form data
+    c = Checkout()
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = CheckoutForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
+            c.save()
             # process the data in form.cleaned_data as required
-            # ...
+            #
             # redirect to a new URL:
             return HttpResponseRedirect('/thanks/')
 
