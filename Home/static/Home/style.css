@@ -290,3 +290,22 @@ input.form-control.text-center {
 #view_ticket_cont{
     width: 70%;
 }
+
+td.expiration {
+    width: 150px;
+}
+
+select#id_expiration_0{
+    border: 1px solid #ced4da!important;
+    height: 32px;
+}
+
+select#id_expiration_1{
+    border: 1px solid #ced4da!important;
+    height: 32px;
+}
+
+select {
+    color: #495057;
+    font-size: .875rem;
+}

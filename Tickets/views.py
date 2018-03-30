@@ -120,15 +120,43 @@ def checkout(request):
         pay = PaymentForm(request.POST)
         if f.is_valid():
             f.save()
+        else:
+            print(f.errors)
 
         if pay.is_valid():
             print("Here!")
+        else:
+            print(pay.errors)
 
     else:
         f = CheckoutForm()
         pay = PaymentForm()
     return render(request, 'Tickets/checkout.html', {'cart': Cart(request),
-                                                     'form': f,
+                                                     'f': f,
+                                                     'pay': pay,
+                                                     'total': total})
+
+
+def test_this(request):
+    total = total_cart(request)
+    if request.method == 'POST':
+        f = CheckoutForm(request.POST)
+        pay = PaymentForm(request.POST)
+        if f.is_valid():
+            f.save()
+        else:
+            print(f.errors)
+
+        if pay.is_valid():
+            print("Here!")
+        else:
+            print(pay.errors)
+
+    else:
+        f = CheckoutForm()
+        pay = PaymentForm()
+    return render(request, 'Tickets/success_summary.html', {'cart': Cart(request),
+                                                     'f': f,
                                                      'pay': pay,
                                                      'total': total})
 

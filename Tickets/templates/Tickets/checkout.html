@@ -1,5 +1,5 @@
 {% extends 'Home/base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="container">
     <h3>Purchase Summary</h3>
@@ -44,24 +44,34 @@
     <form method="post" action="">
         {% csrf_token %}
         {# {{ form.as_p }} #}
-        <table class="table">
+        <table>
             <tbody>
-                <tr><td>{{ pay.number }}</td></tr>
-                <tr><td>{{ pay.holder }}</td></tr>
-                <tr><td>{{ pay.expiration }}</td></tr>
-                <tr><td>{{ pay.ccv_number }}</td></tr>
+                <tr><td colspan="2"><img src="{% static 'Home/images/creditcards.png' %}"></td></tr>
+                <tr><td colspan="2">{{ pay.number }}</td></tr>
+                <tr><td colspan="2">{{ pay.holder }}</td></tr>
+                <tr><td class="expiration"> Exp: {{ pay.expiration }}</td><td>{{ pay.ccv_number }}</td></tr>
             </tbody>
         </table>
        <h5>Shipping Information:</h5>
         <table>
             <tbody>
-                <tr><td>{{ form.ShipName }}</td></tr>
-                <tr><td>{{ form.ShipAddress }}</td></tr>
-                <tr><td>{{ form.ShipCity }}</td></tr>
-                <tr><td>{{ form.ShipState }}</td></tr>
-                <tr><td>{{ form.ShipZip }}</td></tr>
+                <tr><td>{{ f.ShipName }}</td></tr>
+                <tr><td>{{ f.ShipAddress }}</td></tr>
+                <tr><td>{{ f.ShipCity }}</td></tr>
+                <tr><td>{{ f.ShipState }}</td></tr>
+                <tr><td>{{ f.ShipZip }}</td></tr>
             </tbody>
         </table>
+        <!--<h5>Billing Information:</h5>-->
+        <!--<table>-->
+            <!--<tbody>-->
+                <!--<tr><td>{{ f.BName }}</td></tr>-->
+                <!--<tr><td>{{ f.BAddress }}</td></tr>-->
+                <!--<tr><td>{{ f.BCity }}</td></tr>-->
+                <!--<tr><td>{{ f.BState }}</td></tr>-->
+                <!--<tr><td>{{ f.BZip }}</td></tr>-->
+            <!--</tbody>-->
+        <!--</table>-->
         <input type="submit" class="btn btn-secondary" value="Complete Order" />
     </form>
 </div>

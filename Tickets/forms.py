@@ -4,27 +4,35 @@ from calendar import monthrange
 
 
 class CheckoutForm(forms.Form):
-    BName = forms.CharField(label='Name to Ship too', max_length=50,
-                            widget=forms.TextInput(attrs={'placeholder': 'Billing Name',
-                                                          'class': 'form-control form-control-sm'}))
-    BAddress = forms.CharField(label='Billing Address', max_length=250)
-    BCity = forms.CharField(label='Billing City', max_length=25)
-    BState = forms.CharField(label='Billing State', max_length=2)
-    BZip = forms.CharField(label='Billing Zip', max_length=5)
+    # BName = forms.CharField(label='Name to Ship too', max_length=50,
+    #                         widget=forms.TextInput(attrs={'placeholder': 'Full Name',
+    #                                                       'class': 'form-control form-control-sm'}))
+    # BAddress = forms.CharField(label='Billing Address', max_length=250,
+    #                            widget=forms.TextInput(attrs={'placeholder': 'Billing Address',
+    #                                                          'class': 'form-control form-control-sm'}))
+    # BCity = forms.CharField(label='Billing City', max_length=25,
+    #                         widget=forms.TextInput(attrs={'placeholder': 'Billing City',
+    #                                                       'class': 'form-control form-control-sm'}))
+    # BState = forms.CharField(label='Billing State', max_length=2,
+    #                          widget=forms.TextInput(attrs={'placeholder': 'Billing State (XX)',
+    #                                                        'class': 'form-control form-control-sm'}))
+    # BZip = forms.CharField(label='Billing Zip', max_length=5,
+    #                        widget=forms.TextInput(attrs={'placeholder': 'Billing Zip Code',
+    #                                                      'class': 'form-control form-control-sm'}))
     ShipName = forms.CharField(label='Name to Ship too', max_length=50,
                                widget=forms.TextInput(attrs={'placeholder': 'Full Name',
                                                              'class': 'form-control form-control-sm'}))
     ShipAddress = forms.CharField(label='Shipping Address', max_length=250,
-                                  widget=forms.TextInput(attrs={'placeholder': 'Address',
+                                  widget=forms.TextInput(attrs={'placeholder': 'Shipping Address',
                                                                 'class': 'form-control form-control-sm'}))
     ShipCity = forms.CharField(label='Shipping City', max_length=25,
-                               widget=forms.TextInput(attrs={'placeholder': 'City',
+                               widget=forms.TextInput(attrs={'placeholder': 'Shipping City',
                                                              'class': 'form-control form-control-sm'}))
     ShipState = forms.CharField(label='Shipping State', max_length=2,
-                                widget=forms.TextInput(attrs={'placeholder': 'State (XX)',
+                                widget=forms.TextInput(attrs={'placeholder': 'Shipping State (XX)',
                                                               'class': 'form-control form-control-sm'}))
     ShipZip = forms.CharField(label='Shipping Zip', max_length=5,
-                              widget=forms.TextInput(attrs={'placeholder': 'Zip',
+                              widget=forms.TextInput(attrs={'placeholder': 'Shipping Zip Code',
                                                             'class': 'form-control form-control-sm'}))
 
 
@@ -37,7 +45,7 @@ class CreditCardField(forms.IntegerField):
         http://en.wikipedia.org/w/index.php?title=Credit_card_number
         """
         number = str(number)
-        #group checking by ascending length of number
+        # group checking by ascending length of number
         if len(number) == 13:
             if number[0] == "4":
                 return "Visa"
@@ -60,12 +68,9 @@ class CreditCardField(forms.IntegerField):
         """Check if given CC number is valid and one of the
            card types we accept"""
         if value and (len(value) < 13 or len(value) > 16):
-            raise forms.ValidationError("Please enter in a valid "+\
-                "credit card number.")
-        elif self.get_cc_type(value) not in ("Visa", "MasterCard",
-                                             "American Express"):
-            raise forms.ValidationError("Please enter in a Visa, "+\
-                "Master Card, or American Express credit card number.")
+            raise forms.ValidationError("Please enter in a valid credit card number.")
+        elif self.get_cc_type(value) not in ("Visa", "MasterCard", "American Express"):
+            raise forms.ValidationError("Please enter in a Visa, Master Card, or American Express credit card number.")
         return super(CreditCardField, self).clean(value)
 
 
@@ -93,10 +98,8 @@ class CCExpField(forms.MultiValueField):
             errors.update(kwargs['error_messages'])
         fields = (
             forms.ChoiceField(choices=self.EXP_MONTH,
-                              widget=forms.Select(attrs={'class': 'form-control form-control-sm'}),
                               error_messages={'invalid': errors['invalid_month']}),
             forms.ChoiceField(choices=self.EXP_YEAR,
-                              widget=forms.Select(attrs={'class': 'form-control form-control-sm'}),
                               error_messages={'invalid': errors['invalid_year']}),
         )
         super(CCExpField, self).__init__(fields, *args, **kwargs)
@@ -126,16 +129,16 @@ class CCExpField(forms.MultiValueField):
 
 class PaymentForm(forms.Form):
     number = CreditCardField(required=True,
-                             widget=forms.TextInput(attrs={'placeholder': 'Credit Card Number',
-                                                           'class': 'form-control form-control-sm'}))
+                             widget=forms.TextInput(attrs={'placeholder': '1234 5678 9101 1112',
+                                                           'id': 'card-number'}))
     holder = forms.CharField(required=True, max_length=60,
-                             widget=forms.TextInput(attrs={'placeholder': 'Card Holder Name',
-                                                           'class': 'form-control form-control-sm'}))
+                             widget=forms.TextInput(attrs={'placeholder': 'e g. John Doe'}))
     expiration = CCExpField(required=True, label="Expiration",)
     ccv_number = forms.IntegerField(required=True, label="CCV Number",
-                                    max_value=9999, widget=forms.TextInput(attrs={'size': '4',
-                                                                                  'class': 'form-control form-control-sm',
-                                                                                  'placeholder': 'CVV'}))
+                                    max_value=9999,
+                                    widget=forms.TextInput(attrs={'size': '4',
+                                                                  'placeholder': 'XXX-X',
+                                                                  'id': 'card-cvc'}))
 
     def __init__(self, *args, **kwargs):
         self.payment_data = kwargs.pop('payment_data', None)

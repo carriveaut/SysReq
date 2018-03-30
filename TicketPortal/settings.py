@@ -41,14 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_tables2',
     'cart',
-    'payments',
 ]
 
-PAYMENT_HOST = 'localhost:8000'
-PAYMENT_USES_SSL = False
-PAYMENT_MODEL = 'Tickets.Payment'
-PAYMENT_VARIANTS = {
-    'default': ('payments.dummy.DummyProvider', {})}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
