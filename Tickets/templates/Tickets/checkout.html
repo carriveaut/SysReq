@@ -1,15 +1,8 @@
-<head xmlns="http://www.w3.org/1999/html">
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
-    <link rel="stylesheet" href="{% static 'ShoppingCart/style.css' %}"/>
-    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
-</head>
-{% include 'Home/navbar.html' %}
+{% extends 'Home/base.html' %}
 
 {% block content %}
 <div class="container">
-    <h3>Cart Preview</h3>
+    <h3>Purchase Summary</h3>
 <table id="preview_cart" class="table table-condensed">
     <thead>
         <tr>
@@ -46,18 +39,30 @@
         {% endfor %}
     </tbody>
 </table>
-    <h3>Your Information:</h3>
+    <br/>
+    <h5>Credit Card:</h5>
     <form method="post" action="">
         {% csrf_token %}
         {# {{ form.as_p }} #}
-        {{ pay.as_p }}
-
-        <table>
+        <table class="table">
             <tbody>
-                <tr>{{ form.BName }}</tr>
+                <tr><td>{{ pay.number }}</td></tr>
+                <tr><td>{{ pay.holder }}</td></tr>
+                <tr><td>{{ pay.expiration }}</td></tr>
+                <tr><td>{{ pay.ccv_number }}</td></tr>
             </tbody>
         </table>
-        <input type="submit" class="btn btn-primary" value="Pay me mothaa Fucker" />
+       <h5>Shipping Information:</h5>
+        <table>
+            <tbody>
+                <tr><td>{{ form.ShipName }}</td></tr>
+                <tr><td>{{ form.ShipAddress }}</td></tr>
+                <tr><td>{{ form.ShipCity }}</td></tr>
+                <tr><td>{{ form.ShipState }}</td></tr>
+                <tr><td>{{ form.ShipZip }}</td></tr>
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-secondary" value="Complete Order" />
     </form>
 </div>
 {% endblock %}

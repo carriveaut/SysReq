@@ -1,23 +1,5 @@
 from django.db import models
 import datetime
-from decimal import Decimal
-
-from payments import PurchasedItem
-from payments.models import BasePayment
-
-
-class Payment(BasePayment):
-
-    def get_failure_url(self):
-        return 'http://example.com/failure/'
-
-    def get_success_url(self):
-        return 'http://example.com/success/'
-
-    def get_purchased_items(self):
-        # you'll probably want to retrieve these from an associated order
-        yield PurchasedItem(name='The Hound of the Baskervilles', sku='BSKV',
-                            quantity=9, price=Decimal(10), currency='USD')
 
 
 class Ticket(models.Model):
@@ -36,7 +18,7 @@ class Ticket(models.Model):
 class Checkout(models.Model):
     NameOnCard = models.CharField(max_length=50)
     CCN = models.CharField(max_length=16)
-    CCED = models.DateField
+    CCED = models.DateField(default=datetime.date.today)
     CCCVV = models.CharField(max_length=16)
     BAddress = models.CharField(max_length=250)
     BCity = models.CharField(max_length=25)
