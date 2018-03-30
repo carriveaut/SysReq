@@ -97,10 +97,8 @@ class CCExpField(forms.MultiValueField):
         if 'error_messages' in kwargs:
             errors.update(kwargs['error_messages'])
         fields = (
-            forms.ChoiceField(choices=self.EXP_MONTH,
-                              error_messages={'invalid': errors['invalid_month']}),
-            forms.ChoiceField(choices=self.EXP_YEAR,
-                              error_messages={'invalid': errors['invalid_year']}),
+            forms.CharField(error_messages={'invalid': errors['invalid_month']}),
+            forms.CharField(error_messages={'invalid': errors['invalid_year']}),
         )
         super(CCExpField, self).__init__(fields, *args, **kwargs)
         self.widget = CCExpWidget(widgets=[fields[0].widget, fields[1].widget])
@@ -132,7 +130,8 @@ class PaymentForm(forms.Form):
                              widget=forms.TextInput(attrs={'placeholder': '1234 5678 9101 1112',
                                                            'id': 'card-number'}))
     holder = forms.CharField(required=True, max_length=60,
-                             widget=forms.TextInput(attrs={'placeholder': 'e g. John Doe'}))
+                             widget=forms.TextInput(attrs={'placeholder': 'e g. John Doe',
+                                                           'id': 'card-holder'}))
     expiration = CCExpField(required=True, label="Expiration",)
     ccv_number = forms.IntegerField(required=True, label="CCV Number",
                                     max_value=9999,

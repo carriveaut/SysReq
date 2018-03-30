@@ -1,15 +1,20 @@
 {% extends 'Home/base.html' %}
 {% load static %}
 {% block content %}
-<div class="container">
-    <h3>Purchase Summary</h3>
-<table id="preview_cart" class="table table-condensed">
+
+
+<div id="keeping_together">
+<div id="cart-summary">
+    <div id="cart-sum-holder">
+        <h3>Cart Summary</h3>
+        <br/>
+        <table id="preview_cart" class="table table-condensed">
     <thead>
         <tr>
-            <th style="width:50%">Product</th>
+            <th style="width:50%"></th>
             <th style="width:10%">Price</th>
             <th style="width:8%">Quantity</th>
-            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:22%" class="text-right">Subtotal</th>
             <th style="width:10%"></th>
         </tr>
     </thead>
@@ -18,7 +23,7 @@
         <tr>
             <td data-th="Product">
                 <div class="row">
-                    <div class="col-sm-2 hidden-xs"><img src="{{ item.product.image_Url }}" alt="..." class="img-responsive" width="100px" height="100px"/></div>
+                    <div class="col-sm-2 hidden-xs"><img src="{{ item.product.image_Url }}" alt="..." class="img-responsive" width="50px" height="50px"/></div>
                     <div class="col-sm-10">
                         <h4>{{ item.product.event }}</h4>
                     </div>
@@ -29,79 +34,104 @@
             <td data-th="Quantity" class="text-center">
                 {{ item.quantity }}
             </td>
-            <td data-th="Subtotal" class="text-center">{{ item.total_price }}</td>
+            <td data-th="Subtotal" class="text-right">{{ item.total_price }}</td>
         </tr>
-        <tr>
-            <td colspan="4">
-                <strong>Total: ${{ total }}</strong>
-            </td>
-        </tr>
+
         {% endfor %}
     </tbody>
-</table>
-    <br/>
-    <h5>Credit Card:</h5>
-    <form method="post" action="">
-        {% csrf_token %}
-        {# {{ form.as_p }} #}
-        <table>
-            <tbody>
-                <tr><td colspan="2"><img src="{% static 'Home/images/creditcards.png' %}"></td></tr>
-                <tr><td colspan="2">{{ pay.number }}</td></tr>
-                <tr><td colspan="2">{{ pay.holder }}</td></tr>
-                <tr><td class="expiration"> Exp: {{ pay.expiration }}</td><td>{{ pay.ccv_number }}</td></tr>
-            </tbody>
-        </table>
-       <h5>Shipping Information:</h5>
-        <table>
-            <tbody>
-                <tr><td>{{ f.ShipName }}</td></tr>
-                <tr><td>{{ f.ShipAddress }}</td></tr>
-                <tr><td>{{ f.ShipCity }}</td></tr>
-                <tr><td>{{ f.ShipState }}</td></tr>
-                <tr><td>{{ f.ShipZip }}</td></tr>
-            </tbody>
-        </table>
-        <!--<h5>Billing Information:</h5>-->
-        <!--<table>-->
-            <!--<tbody>-->
-                <!--<tr><td>{{ f.BName }}</td></tr>-->
-                <!--<tr><td>{{ f.BAddress }}</td></tr>-->
-                <!--<tr><td>{{ f.BCity }}</td></tr>-->
-                <!--<tr><td>{{ f.BState }}</td></tr>-->
-                <!--<tr><td>{{ f.BZip }}</td></tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-        <input type="submit" class="btn btn-secondary" value="Complete Order" />
-    </form>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="hidden-xs text-right"><strong>Shipping: ${{ shipping }}</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4" class="hidden-xs text-right"><strong>Tax: {{ tax }}</strong></td>
+        </tr>
+        <tr>
+            <td colspan="4" class="hidden-xs text-right"><strong>Total: ${{ total }}</strong></td>
+        </tr>
+    </tfoot>
+    </table>
+    </div>
 </div>
-{% endblock %}
+<div id="form-holder">
+    <div id="card-success" class="hidden">
+      <i class="fa fa-check"></i>
+      <p>Payment Successful!</p>
+    </div>
+    <div id="form-errors" class="hidden">
+      <i class="fa fa-exclamation-triangle"></i>
+      <p id="card-error">Card error</p>
+    </div>
+    <div id="ship-form">
+        <h3>Shipping Information:</h3>
+    <table class="table changeMe">
+        <tbody>
+            <tr><td>{{ f.ShipName }}</td></tr>
+            <tr><td>{{ f.ShipAddress }}</td></tr>
+            <tr><td>{{ f.ShipCity }}</td></tr>
+            <tr><td>{{ f.ShipState }}</td></tr>
+            <tr><td>{{ f.ShipZip }}</td></tr>
+        </tbody>
+    </table>
+    </div>
+    <hr/>
+<div id="form-container">
+  <div id="card-front">
+    <div id="shadow"></div>
+    <div id="image-container">
+      <span id="amount">paying: <strong>${{ total }}</strong></span>
+      <span id="card-image">
+
+        </span>
+    </div>
+    <!--- end card image container --->
+
+    <label for="card-number">
+        Card Number
+      </label>
+    {{ pay.number }}
+    <div id="cardholder-container">
+      <label for="card-holder">Card Holder
+      </label>
+      {{ pay.holder }}
+    </div>
+    <!--- end card holder container --->
+    <div id="exp-container">
+      <label for="card-exp">
+          Expiration
+        </label>
+      {{ pay.expiration }}
+    </div>
+        <div id="cvc-container">
+      <label for="card-cvc"> CVC/CVV</label>
+      {{ pay.ccv_number }}
+      <p>Last 3 or 4 digits</p>
+    </div>
+    <!--- end CVC container --->
+    <!--- end exp container --->
+  </div>
+  <!--- end card front --->
+  <div id="card-back">
+    <div id="card-stripe">
+    </div>
+
+  </div>
+  <!--- end card back --->
+  <input type="text" id="card-token" />
+  <button type="button" id="card-btn">Submit</button>
+
+</div>
+</div>
+</div>
+<!--- end form container --->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script src="https://use.fontawesome.com/f1e0bf0cbc.js"></script>
+<script src="{% static 'Home/creditcard.js' %}"></script>
 
 <script>
-function goBack() {
-    window.history.back();
-}
-
-// $("tbody > tr").each(function() {
-//         var qty = $(this).find("input#qty").val(),
-//             tick_id = $(this).find("input#tick_id").val(),
-//             price = $(this).find("input#price").val();
-//
-//       alert(tick_id + qty + price);
-// });
-
-// $('#cart > tbody  > tr').each(function() {
-//     var price = document.getElementById("price").innerText;
-//     var id = $('input#tick_id').val();
-//     var qty = 0;
-//     alert(id);
-//     $(document).on('input', '#qty', function(){
-//         qty = $("#qty").val();
-//     });
-//
-//     $( '#update' ).click(function() {
-//       $(location).attr('href', id + '/' + qty + '/' + price);
-//     });
-// });
-
+    $('#id_expiration_0').attr('placeholder', 'MM');
+    $('#id_expiration_1').attr('placeholder', 'YY');
 </script>
+{% endblock %}

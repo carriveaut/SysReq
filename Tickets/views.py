@@ -114,7 +114,12 @@ def get_cart(request):
 
 
 def checkout(request):
-    total = total_cart(request)
+    count = count_items(request)
+    sub_total = float(total_cart(request))
+    shipping = float(16.99)
+    tax = float(.065)
+
+    total = (sub_total*tax) + sub_total + shipping
     if request.method == 'POST':
         f = CheckoutForm(request.POST)
         pay = PaymentForm(request.POST)
@@ -134,7 +139,10 @@ def checkout(request):
     return render(request, 'Tickets/checkout.html', {'cart': Cart(request),
                                                      'f': f,
                                                      'pay': pay,
-                                                     'total': total})
+                                                     'total': total,
+                                                     'count': count,
+                                                     'tax': tax,
+                                                     'shipping': shipping})
 
 
 def test_this(request):
