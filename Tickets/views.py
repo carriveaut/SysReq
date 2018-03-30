@@ -1,9 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect,  render_to_response
 from .tables import TicketTable
 import datetime
-from Tickets.models import Ticket
+from Tickets.models import Ticket, Checkout
 import ticketpy
 from cart.cart import Cart
+from .forms import CheckoutForm
 
 
 def sports(request):
@@ -112,78 +113,96 @@ def get_cart(request):
                                                  'count': count})
 
 
-# AREA FOR CODE TESTS #
-def test(request):
-    # code for querying db
-    # currently filters by sports
-    # concertlist = []
-    # tickets = Ticket.objects.filter(classification="Art")
-    # for ticket in tickets:
-    #     concertlist.append(ticket)
+def checkout(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = CheckoutForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
 
-    # uncomment the following to add all sporting events for the year
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = CheckoutForm()
 
-    tm_client = ticketpy.ApiClient('3dRZUZyfxeZ1U6EP8BajzFCol7ZAtSFb')
+    return render(request, 'Tickets/checkout.html', {'form': form})
 
-    pages = tm_client.events.find(
-        classification_name='Music',
-        state_code='MN',
-        start_date_time='2018-01-01T20:00:00Z',
-        end_date_time='2019-01-01T20:00:00Z'
-    )
-
-    concertlist = []
-    imageList = []
-
-    for page in pages:
-        for event in page:
-            ticket = Ticket()
-            print(event)
-            print(event.__dict__.keys())
-            print("Name: ", event.name)
-            ticket.event = event.name
-
-            for v in event.venues:
-                ticket.venue_Name = v.name
-                if v.images is not None:
-                    for h in v.images:
-                        # print(h)
-                        if h['ratio'] == '16_9':
-                            # imageList.append(h['url'])
-                            ticket.image_Url = h['url']
-
-                # ticket.venue_Name = v.name
-
-            print("Venue More: ", event.venues[0])
-            ticket.venue_Info = event.venues[0]
-
-            print("Date: ", event.local_start_date)
-            ticket.start_Date = event.local_start_date
-
-            print("Time: ", event.local_start_time)
-            # if event.local_start_time is None:
-            #     ticket.start_Time = ('16')
-            ticket.start_Time = event.local_start_time
-
-            print("Status: ", event.status)
-            ticket.status = event.status
-
-            print("Classification: ", event.classifications[0].segment)
-            ticket.classification = event.classifications[0].segment
-
-            if not event.price_ranges:
-                print("Event has no price range")
-                # ticket.price = 99.99
-
-            else:
-                print("Min Price: ", event.price_ranges[0].get('min'))
-                ticket.price = event.price_ranges[0].get('min')
-                # print("Max Price: ", event.price_ranges[0].get('max'))
-                # price_range = str(event.price_ranges[0].get('min')) + "-" + str(event.price_ranges[0].get('max'))
-                # ticket.price_Range = price_range
-            print("")
-            ticket.save()
-            concertlist.append(ticket)
-    print(imageList)
-    return render(request, 'Tickets/test.html', {'name': imageList})
-    # return render(request, 'Tickets/test.html', {'name': concert}, {'venue': venueName})
+# # AREA FOR CODE TESTS #
+# def test(request):
+#     # code for querying db
+#     # currently filters by sports
+#     # concertlist = []
+#     # tickets = Ticket.objects.filter(classification="Art")
+#     # for ticket in tickets:
+#     #     concertlist.append(ticket)
+#
+#     # uncomment the following to add all sporting events for the year
+#
+#     tm_client = ticketpy.ApiClient('3dRZUZyfxeZ1U6EP8BajzFCol7ZAtSFb')
+#
+#     pages = tm_client.events.find(
+#         classification_name='Music',
+#         state_code='MN',
+#         start_date_time='2018-01-01T20:00:00Z',
+#         end_date_time='2019-01-01T20:00:00Z'
+#     )
+#
+#     concertlist = []
+#     imageList = []
+#
+#     for page in pages:
+#         for event in page:
+#             ticket = Ticket()
+#             print(event)
+#             print(event.__dict__.keys())
+#             print("Name: ", event.name)
+#             ticket.event = event.name
+#
+#             for v in event.venues:
+#                 ticket.venue_Name = v.name
+#                 if v.images is not None:
+#                     for h in v.images:
+#                         # print(h)
+#                         if h['ratio'] == '16_9':
+#                             # imageList.append(h['url'])
+#                             ticket.image_Url = h['url']
+#
+#                 # ticket.venue_Name = v.name
+#
+#             print("Venue More: ", event.venues[0])
+#             ticket.venue_Info = event.venues[0]
+#
+#             print("Date: ", event.local_start_date)
+#             ticket.start_Date = event.local_start_date
+#
+#             print("Time: ", event.local_start_time)
+#             # if event.local_start_time is None:
+#             #     ticket.start_Time = ('16')
+#             ticket.start_Time = event.local_start_time
+#
+#             print("Status: ", event.status)
+#             ticket.status = event.status
+#
+#             print("Classification: ", event.classifications[0].segment)
+#             ticket.classification = event.classifications[0].segment
+#
+#             if not event.price_ranges:
+#                 print("Event has no price range")
+#                 # ticket.price = 99.99
+#
+#             else:
+#                 print("Min Price: ", event.price_ranges[0].get('min'))
+#                 ticket.price = event.price_ranges[0].get('min')
+#                 # print("Max Price: ", event.price_ranges[0].get('max'))
+#                 # price_range = str(event.price_ranges[0].get('min')) + "-" + str(event.price_ranges[0].get('max'))
+#                 # ticket.price_Range = price_range
+#             print("")
+#             ticket.save()
+#             concertlist.append(ticket)
+#     print(imageList)
+#     return render(request, 'Tickets/test.html', {'name': imageList})
+#     # return render(request, 'Tickets/test.html', {'name': concert}, {'venue': venueName})

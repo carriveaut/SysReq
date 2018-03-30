@@ -15,3 +15,19 @@ class Ticket(models.Model):
     qty = models.IntegerField(default=50)
     classification = models.CharField(max_length=100)
     image_Url = models.CharField(default="/static/Home/images/no-image.jpg", max_length=250)
+
+
+class Checkout(models.Model):
+    NameOnCard = models.CharField(max_length=50)
+    CCN = models.CharField(max_length=16)
+    CCED = models.DateField
+    CCCVV = models.CharField(max_length=16)
+    BAddress = models.CharField(max_length=250)
+    BCity = models.CharField(max_length=25)
+    BState = models.CharField(max_length=2)
+    BZip = models.CharField(max_length=5)
+    ShipName = models.CharField(max_length=50)
+    ShipAddress = models.CharField(max_length=250)
+    ShipCity = models.CharField(max_length=25)
+    ShipState = models.CharField(max_length=2)
+    ShipZip = models.CharField(max_length=5)

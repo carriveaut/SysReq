@@ -55,3 +55,19 @@ class TicketTable(tables.Table):
         model = Ticket
         sequence = ('date', 'event', 'venue_Name', 'start_Time', 'add')
         attrs = {'class': 'ticket'}
+
+
+class CheckoutTable(tables.Table):
+    NameOnCard = tables.Column
+    CCV = tables.Column
+    CCED = tables.Column
+    CCCVV = tables.Column
+    BAddress = tables.Column
+    BCity = tables.Column
+    BState = tables.Column
+    BZip = tables.Column
+    ShipName = tables.Column
+    ShipAddress = tables.Column
+    ShipCity = tables.Column
+    ShipState = tables.Column
+    ShipZip = tables.Column

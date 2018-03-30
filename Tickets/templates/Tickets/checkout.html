@@ -1,0 +1,47 @@
+<head xmlns="http://www.w3.org/1999/html">
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'ShoppingCart/style.css' %}"/>
+    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+</head>
+{% include 'Home/navbar.html' %}
+
+{% block content %}
+<div class="container">
+    <h3>Your Information:</h3>
+    <form method="post" action="">
+        {{ form.as_p }}
+        <input input="submit" class="btn btn-primary" value="Pay me mothaa Fucker" />
+    </form>
+</div>
+{% endblock %}
+
+<script>
+function goBack() {
+    window.history.back();
+}
+
+// $("tbody > tr").each(function() {
+//         var qty = $(this).find("input#qty").val(),
+//             tick_id = $(this).find("input#tick_id").val(),
+//             price = $(this).find("input#price").val();
+//
+//       alert(tick_id + qty + price);
+// });
+
+// $('#cart > tbody  > tr').each(function() {
+//     var price = document.getElementById("price").innerText;
+//     var id = $('input#tick_id').val();
+//     var qty = 0;
+//     alert(id);
+//     $(document).on('input', '#qty', function(){
+//         qty = $("#qty").val();
+//     });
+//
+//     $( '#update' ).click(function() {
+//       $(location).attr('href', id + '/' + qty + '/' + price);
+//     });
+// });
+
+</script>
