@@ -1,10 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect,  render_to_response
 from .tables import TicketTable
 import datetime
-from Tickets.models import Ticket, Checkout
+from Tickets.models import Ticket
 import ticketpy
 from cart.cart import Cart
-from .forms import CheckoutForm
+from .forms import CheckoutForm, PaymentForm
 
 
 def sports(request):
@@ -114,24 +114,24 @@ def get_cart(request):
 
 
 def checkout(request):
-    # if this is a POST request we need to process the form data
-    c = Checkout()
+    total = total_cart(request)
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = CheckoutForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            c.save()
-            # process the data in form.cleaned_data as required
-            #
-            # redirect to a new URL:
-            return HttpResponseRedirect('/thanks/')
+        f = CheckoutForm(request.POST)
+        pay = PaymentForm(request.POST)
+        if f.is_valid():
+            f.save()
 
-    # if a GET (or any other method) we'll create a blank form
+        if pay.is_valid():
+            print("Here!")
+
     else:
-        form = CheckoutForm()
+        f = CheckoutForm()
+        pay = PaymentForm()
+    return render(request, 'Tickets/checkout.html', {'cart': Cart(request),
+                                                     'form': f,
+                                                     'pay': pay,
+                                                     'total': total})
 
-    return render(request, 'Tickets/checkout.html', {'form': form})
 
 # # AREA FOR CODE TESTS #
 # def test(request):
