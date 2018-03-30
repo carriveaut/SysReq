@@ -136,7 +136,8 @@ class PaymentForm(forms.Form):
     expiration = CCExpField(required=True, label="Expiration",)
     ccv_number = forms.IntegerField(required=True, label="CCV Number",
                                     max_value=9999,
-                                    widget=forms.TextInput(attrs={'size': '4',
+                                    widget=forms.TextInput(attrs={'min-length': '3',
+                                                                  'max-length': '4',
                                                                   'placeholder': 'XXX-X',
                                                                   'id': 'card-cvc'}))
 
