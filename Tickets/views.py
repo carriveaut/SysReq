@@ -1,10 +1,12 @@
 from django.shortcuts import render, HttpResponseRedirect,  render_to_response
 from .tables import TicketTable
 import datetime
-from Tickets.models import Ticket
+from .models import Ticket, Checkout, Order, OrderDetail
 import ticketpy
 from cart.cart import Cart
+from cart.models import Item
 from .forms import CheckoutForm, PaymentForm
+from django.contrib.auth.models import User
 
 
 def sports(request):
@@ -88,7 +90,7 @@ def add_to_cart(request, ticket_id, quantity):
     ticket = Ticket.objects.get(id=ticket_id)
     cart = Cart(request)
     cart.add(ticket, ticket.price, quantity)
-    return get_cart(request)
+    return HttpResponseRedirect('/Tickets/cart/')
 
 
 def remove_from_cart(request, ticket_id):
@@ -114,30 +116,25 @@ def get_cart(request):
 
 
 def checkout(request):
+    c = Checkout()
     count = count_items(request)
     sub_total = float(total_cart(request))
     shipping = float(16.99)
     tax = float(.065)
 
-    total = (sub_total*tax) + sub_total + shipping
+    initial = (sub_total*tax) + sub_total + shipping
+    total = ('%.2f' % initial).rstrip('0').rstrip('.')
     if request.method == 'POST':
-        f = CheckoutForm(request.POST)
         pay = PaymentForm(request.POST)
-        if f.is_valid():
-            f.save()
-        else:
-            print(f.errors)
-
         if pay.is_valid():
             print("Here!")
+            pay.save()
         else:
             print(pay.errors)
-
     else:
-        f = CheckoutForm()
         pay = PaymentForm()
+
     return render(request, 'Tickets/checkout.html', {'cart': Cart(request),
-                                                     'f': f,
                                                      'pay': pay,
                                                      'total': total,
                                                      'count': count,
@@ -145,28 +142,45 @@ def checkout(request):
                                                      'shipping': shipping})
 
 
-def test_this(request):
-    total = total_cart(request)
-    if request.method == 'POST':
-        f = CheckoutForm(request.POST)
-        pay = PaymentForm(request.POST)
-        if f.is_valid():
-            f.save()
-        else:
-            print(f.errors)
+def add_to_table(request):
+    count = count_items(request)
+    cart = Cart(request)
+    add_to_order(request)
+    cart.clear()
+    c = Checkout()
+    c.holder = request.POST.get("holder", "")
+    c.number = request.POST.get("number", "")
+    c.ccv_number = request.POST.get("ccv_number", "")
+    month = request.POST.get("expiration_0", "")
+    year = request.POST.get("expiration_1", "")
+    expiration = month + '/' + year
+    c.expiration = expiration
+    c.ShipName = request.POST.get("ShipName", "")
+    c.ShipAddress = request.POST.get("ShipAddress", "")
+    c.ShipCity = request.POST.get("ShipCity", "")
+    c.ShipState = request.POST.get("ShipState", "")
+    c.ShipZip = request.POST.get("ShipZip", "")
+    c.save()
+    return render(request, 'Tickets/success_summary.html', {'count': count})
 
-        if pay.is_valid():
-            print("Here!")
-        else:
-            print(pay.errors)
 
-    else:
-        f = CheckoutForm()
-        pay = PaymentForm()
-    return render(request, 'Tickets/success_summary.html', {'cart': Cart(request),
-                                                     'f': f,
-                                                     'pay': pay,
-                                                     'total': total})
+def add_to_order(request):
+    cart = Cart(request)
+    user = request.user
+    order = Order(user=user)
+    order.save()
+
+    item = Item.objects.filter(cart_id=cart.cart.pk)
+
+    for i in item:
+        detail = OrderDetail(order=order, ticket=Ticket(i.object_id), quantity=i.quantity, price=i.unit_price)
+        detail.save()
+
+
+def myformat(x):
+    return ('%.2f' % x).rstrip('0').rstrip('.')
+
+
 
 
 # # AREA FOR CODE TESTS #

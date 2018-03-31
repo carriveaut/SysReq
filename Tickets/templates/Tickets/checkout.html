@@ -1,7 +1,9 @@
 {% extends 'Home/base.html' %}
 {% load static %}
 {% block content %}
-
+<head>
+    <link href="{% static 'Home/paystyle.css' %}" rel="stylesheet"/>
+</head>
 
 <div id="keeping_together">
 <div id="cart-summary">
@@ -53,6 +55,7 @@
     </table>
     </div>
 </div>
+
 <div id="form-holder">
     <div id="card-success" class="hidden">
       <i class="fa fa-check"></i>
@@ -62,15 +65,17 @@
       <i class="fa fa-exclamation-triangle"></i>
       <p id="card-error">Card error</p>
     </div>
+    <form method="post" id="check_out" action="{% url 'Tickets:success' %}">
+    {% csrf_token %}
     <div id="ship-form">
         <h3>Shipping Information:</h3>
     <table class="table changeMe">
         <tbody>
-            <tr><td>{{ f.ShipName }}</td></tr>
-            <tr><td>{{ f.ShipAddress }}</td></tr>
-            <tr><td>{{ f.ShipCity }}</td></tr>
-            <tr><td>{{ f.ShipState }}</td></tr>
-            <tr><td>{{ f.ShipZip }}</td></tr>
+            <tr><td>{{ pay.ShipName }}</td></tr>
+            <tr><td>{{ pay.ShipAddress }}</td></tr>
+            <tr><td>{{ pay.ShipCity }}</td></tr>
+            <tr><td>{{ pay.ShipState }}</td></tr>
+            <tr><td>{{ pay.ShipZip }}</td></tr>
         </tbody>
     </table>
     </div>
@@ -117,12 +122,14 @@
 
   </div>
   <!--- end card back --->
-  <input type="text" id="card-token" />
-  <button type="button" id="card-btn">Submit</button>
+  <input id="card-btn" type="submit" value="Complete Order" class="btn btn-default"/>
 
 </div>
+</form>
 </div>
+
 </div>
+
 <!--- end form container --->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>

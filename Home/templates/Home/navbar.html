@@ -45,9 +45,6 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'Home:account' %}">Account</a>
-            {% if request.user.is_staff %}
-                <a class="dropdown-item" href="{% url 'Tickets:test' %}">Import Tickets</a>
-            {% endif %}
           <a class="dropdown-item" href="{% url 'logout' %}" >Logout</a>
         </div>
       </li>

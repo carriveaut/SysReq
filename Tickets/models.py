@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.contrib.auth.models import User
 
 
 class Ticket(models.Model):
@@ -16,10 +17,10 @@ class Ticket(models.Model):
 
 
 class Checkout(models.Model):
-    NameOnCard = models.CharField(max_length=50)
-    CCN = models.CharField(max_length=16)
-    CCED = models.DateField(default=datetime.date.today)
-    CCCVV = models.CharField(max_length=16)
+    holder = models.CharField(max_length=50)
+    number = models.CharField(max_length=16)
+    expiration = models.CharField(max_length=4, default=datetime.date.today)
+    ccv_number = models.CharField(max_length=5)
     # BAddress = models.CharField(max_length=250)
     # BCity = models.CharField(max_length=25)
     # BState = models.CharField(max_length=2)
@@ -29,3 +30,18 @@ class Checkout(models.Model):
     ShipCity = models.CharField(max_length=25)
     ShipState = models.CharField(max_length=2)
     ShipZip = models.CharField(max_length=5)
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    complete_date = models.DateTimeField(default=datetime.date.today)
+
+
+class OrderDetail(models.Model):
+    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+    price = models.DecimalField(default=1.99, max_digits=9, decimal_places=2)
+
+
+

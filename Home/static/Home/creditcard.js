@@ -51,13 +51,13 @@ $(document).ready(function () {
         // get each input value and use Stripe to determine whether they are valid
         var cardNumber = $('#card-number').val();
         var isValidNo = Stripe.card.validateCardNumber(cardNumber);
-        var expMonth = $('#card-month').val();
-        var expYear = $('#card-year').val();
+        var expMonth = $('#id_expiration_0').val();
+        var expYear = $('#id_expiration_1').val();
         var isValidExpiry = Stripe.card.validateExpiry(expMonth, expYear);
         var cardCVC = $('#card-cvc').val();
         var isValidCVC = Stripe.card.validateCVC(cardCVC);
         var cardHolder = $('#card-holder').val();
-        event.preventDefault();
+        //event.preventDefault();
 
         // alert the user if any fields are missing
         if (!cardNumber || !cardCVC || !cardHolder || !expMonth || !expYear) {
@@ -82,6 +82,8 @@ $(document).ready(function () {
 
             } else {
                 $('#card-success').removeClass('hidden');
+                $('#form-errors').addClass('hidden');
+                $('#car-error').addClass('hidden')
             }
         }
     })

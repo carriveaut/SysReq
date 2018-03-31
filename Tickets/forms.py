@@ -1,6 +1,8 @@
 from django import forms
 from datetime import date, datetime
 from calendar import monthrange
+from django.forms import ModelForm
+from .models import Checkout
 
 
 class CheckoutForm(forms.Form):
@@ -139,6 +141,21 @@ class PaymentForm(forms.Form):
                                                                   'max-length': '4',
                                                                   'placeholder': 'XXX-X',
                                                                   'id': 'card-cvc'}))
+    ShipName = forms.CharField(label='Name to Ship too', max_length=50,
+                               widget=forms.TextInput(attrs={'placeholder': 'Full Name',
+                                                             'class': 'form-control form-control-sm'}))
+    ShipAddress = forms.CharField(label='Shipping Address', max_length=250,
+                                  widget=forms.TextInput(attrs={'placeholder': 'Shipping Address',
+                                                                'class': 'form-control form-control-sm'}))
+    ShipCity = forms.CharField(label='Shipping City', max_length=25,
+                               widget=forms.TextInput(attrs={'placeholder': 'Shipping City',
+                                                             'class': 'form-control form-control-sm'}))
+    ShipState = forms.CharField(label='Shipping State', max_length=2,
+                                widget=forms.TextInput(attrs={'placeholder': 'Shipping State (XX)',
+                                                              'class': 'form-control form-control-sm'}))
+    ShipZip = forms.CharField(label='Shipping Zip', max_length=5,
+                              widget=forms.TextInput(attrs={'placeholder': 'Shipping Zip Code',
+                                                            'class': 'form-control form-control-sm'}))
 
     def __init__(self, *args, **kwargs):
         self.payment_data = kwargs.pop('payment_data', None)

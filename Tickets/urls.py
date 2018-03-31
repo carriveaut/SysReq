@@ -20,6 +20,6 @@ urlpatterns = [
     path('', views.total_cart, name='total'),
     path('cart/<int:ticket_id>/<int:quantity>/<str:price>', views.update_item, name='update'),
     path('cart/checkout/', views.checkout, name='checkout'),
-    path('testthis/', views.test_this, name='test-this')
+    path('success/', views.add_to_table, name='success')
     # path('', auth_views.login, {'template_name': 'registration/login.html'}, name='login')
 ]
