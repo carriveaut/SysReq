@@ -4,6 +4,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from Tickets.views import count_items
+from django.contrib.auth.models import User
 
 # class SignUpView(generic.CreateView):
 #     form_class = UserCreationForm

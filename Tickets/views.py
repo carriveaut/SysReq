@@ -116,24 +116,21 @@ def get_cart(request):
 
 
 def checkout(request):
-    c = Checkout()
     count = count_items(request)
     sub_total = float(total_cart(request))
     shipping = float(16.99)
-    tax = float(.065)
+    set_tax = float(.065)
+    tax = "{0:.1f}%".format(set_tax * 100)
 
-    initial = (sub_total*tax) + sub_total + shipping
+    initial = (sub_total*set_tax) + sub_total + shipping
     total = ('%.2f' % initial).rstrip('0').rstrip('.')
     if request.method == 'POST':
         pay = PaymentForm(request.POST)
         if pay.is_valid():
-            print("Here!")
+            # print("Here!")
             pay.save()
-        else:
-            print(pay.errors)
     else:
         pay = PaymentForm()
-
     return render(request, 'Tickets/checkout.html', {'cart': Cart(request),
                                                      'pay': pay,
                                                      'total': total,
@@ -175,13 +172,6 @@ def add_to_order(request):
     for i in item:
         detail = OrderDetail(order=order, ticket=Ticket(i.object_id), quantity=i.quantity, price=i.unit_price)
         detail.save()
-
-
-def myformat(x):
-    return ('%.2f' % x).rstrip('0').rstrip('.')
-
-
-
 
 # # AREA FOR CODE TESTS #
 # def test(request):
@@ -258,3 +248,5 @@ def myformat(x):
 #     print(imageList)
 #     return render(request, 'Tickets/test.html', {'name': imageList})
 #     # return render(request, 'Tickets/test.html', {'name': concert}, {'venue': venueName})
+
+

@@ -41,7 +41,7 @@
             <td class="actions text-center" data-th="">
                 <!--<button name="update" id="update" class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>-->
                 <input hidden="hidden" type="text" value="{{ item.product.id }}" id="tick_id" name="tick_id"/>
-                <a href="{% url 'Tickets:remove' item.product.id %}" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
+                <a href="{% url 'Tickets:remove' item.product.id %}" id="remove_item" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
             </td>
         </tr>
         {% endfor %}
@@ -51,7 +51,7 @@
             <td><button class="btn btn-outline-secondary" onclick="goBack()"><i class="fa fa-angle-left"></i> Continue Shopping</button></td>
             <td colspan="2" class="hidden-xs"></td>
             <td class="hidden-xs text-center"><strong>Total: ${{ total }}</strong></td>
-            <td><a href="checkout" class="btn btn-outline-primary">Checkout</a></td>
+            <td><a href="/Tickets/checkout/" class="btn btn-outline-primary">Checkout</a></td>
         </tr>
     </tfoot>
 </table>
@@ -61,6 +61,29 @@
 function goBack() {
     window.history.back();
 }
+
+// $(document).ready(function(){
+//         $(function(){
+//         $('#delete_item').click(function(e){
+//                 e.preventDefault();
+//                 var form = $(this);
+//                 var post_url = form.attr('action');
+//                 var post_data = form.serialize();
+//                 $('#loader3', form).html('<img src="../../images/ajax-loader.gif" />       Please wait...');
+//                 $.ajax({
+//                     type: 'POST',
+//                     url: post_url,
+//                     data: post_data,
+//                     success: function(msg) {
+//                         $(form).fadeOut(800, function(){
+//                             form.html(msg).fadeIn().delay(2000);
+//
+//                         });
+//                     }
+//                 });
+//             });
+//         });
+//          });
 
 // $("tbody > tr").each(function() {
 //         var qty = $(this).find("input#qty").val(),

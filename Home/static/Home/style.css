@@ -309,3 +309,32 @@ select {
     color: #495057;
     font-size: .875rem;
 }
+
+.table-container {
+    width: 75%;
+    margin: auto;
+}
+
+div#list_ticket{
+    width: 75%;
+}
+
+h3#list_ticket_h3{
+    margin: auto;
+    width: 75%;
+}
+
+td.event {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+td.start_Time {
+    width: 13%;
+    text-align: right;
+    padding: 10px;
+}
+
+td.venue_Name {
+    text-align: center;
+}
