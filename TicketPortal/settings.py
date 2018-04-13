@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+
+
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,6 +30,25 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#for gamil or google apps
+#DEFAULT_FROM_EMAIL = 'josh.t.phelps@gmail.com'
+# #SERVER_EMAIL = 'josh.t.phelps@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'theticketportal@gmail.com'
+EMAIL_HOST_PASSWORD = 'Root1234'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# Email Sending to console
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+'''
+If using gmail, you will need to
+unlock Captcha to enable Django
+to send for you:
+https://accounts.google.com/displayunlockcaptcha
+'''
 
 # Application definition
 
@@ -41,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_tables2',
     'cart',
+    'celery',
 ]
 
 MIDDLEWARE = [
@@ -129,5 +152,4 @@ LOGIN_REDIRECT_URL = '/'
 
 # LOGIN_URL = '/accounts/'
 
-# Email Sending to console
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
