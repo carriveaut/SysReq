@@ -131,10 +131,7 @@ def checkout(request):
     if request.method == 'POST':
         pay = PaymentForm(request.POST)
         if pay.is_valid():
-            print("Here!")
-            pay.save()
-        else:
-            print(pay.errors)
+            return HttpResponseRedirect('/Tickets/success/')
     else:
         pay = PaymentForm()
 
