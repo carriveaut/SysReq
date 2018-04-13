@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -19,7 +20,7 @@ class Ticket(models.Model):
 class Checkout(models.Model):
     holder = models.CharField(max_length=50)
     number = models.CharField(max_length=16)
-    expiration = models.CharField(max_length=4, default=datetime.date.today)
+    expiration = models.CharField(max_length=4, default=timezone.now())
     ccv_number = models.CharField(max_length=5)
     # BAddress = models.CharField(max_length=250)
     # BCity = models.CharField(max_length=25)

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 
 
@@ -24,3 +24,9 @@ class CustomUserCreationForm(UserCreationForm):
             self.cleaned_data['password1']
         )
         return user
+
+
+class UserLoginForm(AuthenticationForm):
+    user_name = forms.CharField(widget=forms.TextInput)
+    password = forms.CharField(widget=forms.PasswordInput)
+

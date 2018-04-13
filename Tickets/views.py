@@ -126,27 +126,12 @@ def checkout(request):
     shipping = float(16.99)
     tax = float(.065)
 
-
-    # username = str(request.user.email)
-    # msg = 'Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')) + ":\n\n"
-    # count = 1
-    # total = float(0.0)
-    # for item in Cart(request):
-    #     # msg = '\n' + msg + " " + str(count) + ". " + item.product.event + " $" + str(item.product.price) + " " + str(item.quantity) + "qty  $" + str(item.total_price) + "\n"
-    #     msg2 = msg + '{0:3}{1:<60}{2:>10}{3:>10}{4:>10}\n'
-    #     msg = msg2.format(str(count)+".",item.product.event,"$"+str(item.product.price),str(item.quantity)+"qty. ","$"+str(item.total_price))
-    #     total = total + float(item.total_price)
-    #     count = count + 1
-    # total = total + (total * tax)
-    # msg = msg + '     Tax: ' + str(tax) + '\n' + '     Total: ' + str(total)
-    # send_mail('Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')), msg, 'theticketportal@gmail.com', [username], fail_silently=False, )
-
-
     initial = (sub_total*tax) + sub_total + shipping
     total = ('%.2f' % initial).rstrip('0').rstrip('.')
     if request.method == 'POST':
         pay = PaymentForm(request.POST)
         if pay.is_valid():
+            print("Here!")
             pay.save()
         else:
             print(pay.errors)
@@ -198,7 +183,6 @@ def add_to_table(request):
     c.ShipState = request.POST.get("ShipState", "")
     c.ShipZip = request.POST.get("ShipZip", "")
     c.save()
-
     return render(request, 'Tickets/success_summary.html', {'count': count})
 
 
