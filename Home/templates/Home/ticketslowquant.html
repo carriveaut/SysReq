@@ -1,0 +1,40 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'Home/account.css' %}" rel="stylesheet">
+</head>
+<body>
+{% include 'Home/navbar.html'%}
+
+<h2>Low Quantity Tickets</h2>
+<p>Currently searches for less than 60, all qtys are set to 50</p>
+
+
+<table class="table table-hover table-striped table-condensed">
+<thead>
+    <tr>
+        <th>Ticket ID</th>
+        <th>Ticket Name</th>
+        <th>Start Date</th>
+        <th>Time</th>
+        <th>Price</th>
+        <th>Qty</th>
+    </tr>
+</thead>
+
+<tbody>
+{% for ticket in lowtickets %}
+    <tr>
+        <td>{{ ticket.id }}</td>
+        <td>{{ ticket.event }}</td>
+        <td>{{ ticket.start_Date }}</td>
+        <td>{{ ticket.start_Time }}</td>
+        <td>{{ ticket.price }}</td>
+        <td>{{ ticket.qty }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>

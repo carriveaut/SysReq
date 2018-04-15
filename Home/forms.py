@@ -30,3 +30,8 @@ class UserLoginForm(AuthenticationForm):
     user_name = forms.CharField(widget=forms.TextInput)
     password = forms.CharField(widget=forms.PasswordInput)
 
+
+class PickTicketDates(forms.Form):
+    start_date = forms.DateField(widget=forms.SelectDateWidget)
+    end_date = forms.DateField(widget=forms.SelectDateWidget)
+

@@ -1,9 +1,11 @@
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, PickTicketDates
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from Tickets.views import count_items
+from Tickets.models import Ticket, Order, OrderDetail
+import datetime
 from django.contrib.auth.models import User
 
 # class SignUpView(generic.CreateView):
@@ -88,4 +90,65 @@ def deals(request):
     total = count_items(request)
     return render(request, 'Home/deals.html', {'count': total})
 
+
+def showticketsbydate(request):
+    ticketlist = []
+    today = datetime.datetime.now()
+
+    if request.method == 'POST':
+        startDateStr = request.POST['start_date_year'] + " " + request.POST['start_date_month'] + " "\
+                       + request.POST['start_date_day']
+
+        endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " "\
+                + request.POST['end_date_day']
+
+        pickedDateForms = PickTicketDates(request.POST)
+        pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
+        pickedDateForms.end_date = datetime.datetime.strptime(endDateStr, '%Y %m %d')
+
+    else:
+        pickedDateForms = PickTicketDates()
+        pickedDateForms.start_date = today
+        pickedDateForms.end_date = today + datetime.timedelta(days=14)
+
+    tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
+                                    start_Date__lte=pickedDateForms.end_date)
+
+    for ticket in tickets:
+        ticketlist.append(ticket)
+
+    startdate = datetime.datetime.date(pickedDateForms.start_date)
+    enddate = datetime.datetime.date(pickedDateForms.end_date)
+
+    return render(request, 'Home/ticketsbydate.html', {'ticketsbydate': ticketlist,\
+                                                        'form': pickedDateForms,\
+                                                       'startdate': startdate, 'enddate': enddate})
+
+
+def showticketslowquant(request):
+    ticketlist = []
+    tickets = Ticket.objects.filter(qty__lt=60)
+
+    for ticket in tickets:
+        ticketlist.append(ticket)
+
+    return render(request, 'Home/ticketslowquant.html', {'lowtickets': ticketlist})
+
+
+def pastpurchases(request):
+    user = request.user
+
+    userid = str(user.id)
+
+    if userid == 'None':
+        message = "You must be logged in to view past purchases"
+        return render(request, 'Home/account.html', {'message': message})
+
+    else:
+        message = "Past purchases for " + str(user)
+        purchaselist = []
+        orders = OrderDetail.objects.filter(id=userid).select_related()
+        for order in orders:
+            purchaselist.append(order)
+        return render(request, 'Home/account.html', {'message': message, 'purchaselist': purchaselist})
 

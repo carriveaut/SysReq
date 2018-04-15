@@ -1,0 +1,66 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'Home/account.css' %}" rel="stylesheet">
+</head>
+<body>
+{% include 'Home/navbar.html'%}
+
+<h2>Tickets By Date</h2>
+
+<form method="post" id="ticketbydateformid" action="#">
+    {% csrf_token %}
+    {% block content %}
+    <table>
+        <tr>
+            <th>Start Date</th>
+            <td>
+                {{ form.start_date }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>End Date</th>
+            <td>
+                {{ form.end_date }}
+            </td>
+        </tr>
+
+        <tr>
+            <td><input type="submit" value="Search" /></td>
+        </tr>
+    </table>
+
+</form>
+
+<h2>Tickets Between {{ startdate }} and {{ enddate }}</h2>
+
+<table class="table table-hover table-striped table-condensed">
+<thead>
+    <tr>
+        <th>Ticket ID</th>
+        <th>Ticket Name</th>
+        <th>Start Date</th>
+        <th>Time</th>
+        <th>Price</th>
+        <th>Qty</th>
+    </tr>
+</thead>
+
+<tbody>
+{% for ticket in ticketsbydate %}
+    <tr>
+        <td>{{ ticket.id }}</td>
+        <td>{{ ticket.event }}</td>
+        <td>{{ ticket.start_Date }}</td>
+        <td>{{ ticket.start_Time }}</td>
+        <td>{{ ticket.price }}</td>
+        <td>{{ ticket.qty }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
+</body>
