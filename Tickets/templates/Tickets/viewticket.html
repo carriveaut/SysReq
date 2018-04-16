@@ -8,6 +8,7 @@
 
 
 {% block content %}
+<button class="btn btn-secondary" role="button" onclick="goBack()" style="margin:10px;">Back</button>
 <div class="container" id="view_ticket_cont">
 
     <h3 id="event_name">{{ selected.event }}</h3>
@@ -25,7 +26,7 @@
     </div>
 <table class="event_add">
     <tr>
-       <td>Quantity:</td><td><input type="number" name="qty" id="qty" class="form-control text-center" value="0"></td>
+       <td>Quantity:</td><td><input type="number" name="qty" id="qty" class="form-control text-center" value="1"></td>
 
        <td><button id="add_cart" name="add_cart" class="btn btn-secondary">Add to Cart</button></td>
     </tr>
@@ -33,7 +34,7 @@
 </div>
 
 <script>
-var qty = 0
+var qty = "0";
 
 $(document).on('input', '#qty', function(){
     qty = $("#qty").val();
@@ -43,5 +44,8 @@ $( "#add_cart" ).click(function() {
   $(location).attr('href', qty);
 });
 
+function goBack() {
+    window.history.back();
+}
 </script>
 {% endblock %}

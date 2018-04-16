@@ -104,7 +104,14 @@ def remove_from_cart(request, ticket_id):
     return get_cart(request)
 
 
-def update_item(request, ticket_id, quantity, price):
+def update_item(request):
+    print("Here!")
+    ticket_id = request.POST.get("tick_id", 0)
+    quantity = request.POST.get("qty", '')
+    price = request.POST.get("price", 0.0)
+    print(ticket_id)
+    print(quantity)
+    print(price)
     ticket = Ticket.objects.get(id=ticket_id)
     cart = Cart(request)
     cart.update(ticket, quantity, price)

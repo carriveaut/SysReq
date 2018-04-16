@@ -169,21 +169,21 @@ def showticketslowquant(request):
                                                          'count': total})
 
 
-def pastpurchases(request):
-    user = request.user
-
-    userid = str(user.id)
-
-    if userid == 'None':
-        message = "You must be logged in to view past purchases"
-        return render(request, 'Home/account.html', {'message': message})
-
-    else:
-        message = "Past purchases for " + str(user)
-        purchaselist = []
-        orders = Order.objects.filter(user=userid)
-        for order in orders:
-            print(order)
-        return render(request, 'Home/account.html', {'message': message,
-                                                     'purchaselist': purchaselist})
+# def pastpurchases(request):
+#     user = request.user
+#
+#     userid = str(user.id)
+#
+#     if userid == 'None':
+#         message = "You must be logged in to view past purchases"
+#         return render(request, 'Home/account.html', {'message': message})
+#
+#     else:
+#         message = "Past purchases for " + str(user)
+#         purchaselist = []
+#         orders = Order.objects.filter(user=userid)
+#         for order in orders:
+#             print(order)
+#         return render(request, 'Home/account.html', {'message': message,
+#                                                      'purchaselist': purchaselist})
 

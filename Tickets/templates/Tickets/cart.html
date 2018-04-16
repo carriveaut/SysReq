@@ -31,18 +31,21 @@
                 </div>
             </td>
             <td data-th="Price">
-                <!--<input hidden="hidden" type="text" value="{{ item.product.price }}" id="price" name="price"/>-->
                 {{ item.product.price }}</td>
             <td data-th="Quantity" class="text-center">
-                {{ item.quantity }}
-                <!--<input name="qty" id="qty" type="number" class="form-control text-center" value="{{ item.quantity }}">-->
+                <form method="POST" action="{% url 'Tickets:update' %}">
+                    {% csrf_token %}
+                    <input hidden="hidden" type="text" value="{{ item.product.id }}" id="tick_id" name="tick_id"/>
+                    <input hidden="hidden" type="text" value="{{ item.product.price }}" id="price" name="price"/>
+                    <input name="qty" id="qty" type="number" class="form-control text-center" value="{{ item.quantity }}"/>
+                    <button name="update" id="update" class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>
+                </form>
             </td>
             <td data-th="Subtotal" class="text-center">{{ item.total_price }}</td>
             <td class="actions text-center" data-th="">
-                <!--<button name="update" id="update" class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>-->
-                <input hidden="hidden" type="text" value="{{ item.product.id }}" id="tick_id" name="tick_id"/>
                 <a href="{% url 'Tickets:remove' item.product.id %}" id="remove_item" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
             </td>
+
         </tr>
         {% endfor %}
     </tbody>
