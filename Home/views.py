@@ -65,10 +65,39 @@ def change_password(request):
             #print(success)
     else:
         form = PasswordChangeForm(request.user)
+
+    transactions = build_transaction_history(request)
+
     return render(request, 'Home/account.html', {
         'form': form,
-        'count': total
+        'count': total,
+        'transactions': transactions
     })
+
+
+def build_transaction_history(request):
+    transaction_list = []
+    event_name = ''
+    orders = Order.objects.filter(user=request.user)
+
+    for order in orders:
+        stuff = OrderDetail.objects.filter(order=order)
+        date = order.complete_date.date()
+        for this in stuff:
+            item = Ticket.objects.filter(id=this.ticket_id)
+            for name in item:
+                event_name = name.event
+            order_id = this.order_id
+            quantity = this.quantity
+            subtotal = (this.quantity * this.price)
+            pre_list = {'order_id': order_id,
+                        'event': event_name,
+                        'quantity': quantity,
+                        'subtotal': subtotal,
+                        'date': date}
+            transaction_list.append(pre_list)
+
+    return transaction_list
 
 
 def index(request):
@@ -120,9 +149,10 @@ def showticketsbydate(request):
     startdate = datetime.datetime.date(pickedDateForms.start_date)
     enddate = datetime.datetime.date(pickedDateForms.end_date)
 
-    return render(request, 'Home/ticketsbydate.html', {'ticketsbydate': ticketlist,\
-                                                        'form': pickedDateForms,\
-                                                       'startdate': startdate, 'enddate': enddate})
+    return render(request, 'Home/ticketsbydate.html', {'ticketsbydate': ticketlist,
+                                                        'form': pickedDateForms,
+                                                       'startdate': startdate,
+                                                       'enddate': enddate})
 
 
 def showticketslowquant(request):
@@ -147,8 +177,9 @@ def pastpurchases(request):
     else:
         message = "Past purchases for " + str(user)
         purchaselist = []
-        orders = OrderDetail.objects.filter(id=userid).select_related()
+        orders = Order.objects.filter(user=userid)
         for order in orders:
-            purchaselist.append(order)
-        return render(request, 'Home/account.html', {'message': message, 'purchaselist': purchaselist})
+            print(order)
+        return render(request, 'Home/account.html', {'message': message,
+                                                     'purchaselist': purchaselist})
 

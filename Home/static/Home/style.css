@@ -210,8 +210,12 @@ form#login-form p {
 
 .centerMe {
     padding-top: 20px;
-    width: 60%;
-    margin: auto;
+    margin: 0 auto;
+    text-align: center;
+}
+
+table#pass_reset {
+    margin: 0 auto;
 }
 
 .ticket {
@@ -337,4 +341,8 @@ td.start_Time {
 
 td.venue_Name {
     text-align: center;
+}
+
+table#past_history.table {
+    width: 60%!important;
 }

@@ -43,8 +43,12 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdow2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="oi oi-person"> </span> {{ request.user.username }}
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'Home:account' %}">Account</a>
+            {% if user.is_staff %}
+                <a class="dropdown-item" href="{% url 'Home:ticketsbydate' %}">Tickets by Date</a>
+                <a class="dropdown-item" href="{% url 'Home:ticketslowquant' %}">Tickets with Low Quantity</a>
+            {% endif %}
           <a class="dropdown-item" href="{% url 'logout' %}" >Logout</a>
         </div>
       </li>

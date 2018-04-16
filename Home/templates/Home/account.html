@@ -68,7 +68,26 @@
         </form>
   </div>
   <div class="tab-pane fade" id="nav-transhistory" role="tabpanel" aria-labelledby="nav-transhistory-tab">
-      <p>Eventually I will show past purchases made by the user.</p>
+      <table class="table" id="past_history">
+      <thead>
+            <tr>
+                <th>Date Purchased</th>
+                <th>Event</th>
+                <th>Quantity</th>
+                <th>Total for Tickets</th>
+            </tr>
+      </thead>
+          <tbody>
+          {% for trans in transactions %}
+            <tr>
+                <td>{{ trans.date }}</td>
+                <td>{{ trans.event }}</td>
+                <td>{{ trans.quantity }}</td>
+                <td style="text-align: right">{{ trans.subtotal }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+      </table>
   </div>
 </div>
 
