@@ -346,3 +346,7 @@ td.venue_Name {
 table#past_history.table {
     width: 60%!important;
 }
+
+input#qty{
+    width:50px;
+}

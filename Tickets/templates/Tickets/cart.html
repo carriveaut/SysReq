@@ -33,18 +33,19 @@
             <td data-th="Price">
                 {{ item.product.price }}</td>
             <td data-th="Quantity" class="text-center">
-                <input name="qty" id="qty" type="number" class="form-control text-center" value="{{ item.quantity }}"/>
+                <input name="qty" id="qty" type="number" class="form-control form-control-sm text-center" value="{{ item.quantity }}"/>
             </td>
             <td data-th="Subtotal" class="text-center">{{ item.total_price }}</td>
             <td class="actions text-center" data-th="">
              <form method="POST" action="{% url 'Tickets:update' %}">
-                    {% csrf_token %}
-                    <input hidden="hidden" type="text" value="{{ item.product.id }}" id="tick_id" name="tick_id"/>
-                    <input hidden="hidden" type="text" value="{{ item.product.price }}" id="price" name="price"/>
-                    <input hidden="hidden" type="text" value="{{ item.quantity }}" id="new_qty" name="new_qty"/>
-                    <button name="update" id="update" class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>
+                {% csrf_token %}
+                <input hidden="hidden" type="text" value="{{ item.product.id }}" id="tick_id" name="tick_id"/>
+                <input hidden="hidden" type="text" value="{{ item.product.price }}" id="price" name="price"/>
+                <input hidden="hidden" type="text" value="{{ item.quantity }}" id="new_qty" name="new_qty"/>
+                <button name="update" id="update" class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>
+                 <a href="{% url 'Tickets:remove' item.product.id %}" id="remove_item" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
             </form>
-                <a href="{% url 'Tickets:remove' item.product.id %}" id="remove_item" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
+
             </td>
 
         </tr>
