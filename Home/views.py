@@ -157,7 +157,7 @@ def showticketsbydate(request):
 
 def showticketslowquant(request):
     ticketlist = []
-    tickets = Ticket.objects.filter(qty__lt=60)
+    tickets = Ticket.objects.filter(qty__lt=10)
 
     for ticket in tickets:
         ticketlist.append(ticket)
