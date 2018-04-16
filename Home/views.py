@@ -121,6 +121,7 @@ def deals(request):
 
 
 def showticketsbydate(request):
+    total = count_items(request)
     ticketlist = []
     today = datetime.datetime.now()
 
@@ -150,19 +151,22 @@ def showticketsbydate(request):
     enddate = datetime.datetime.date(pickedDateForms.end_date)
 
     return render(request, 'Home/ticketsbydate.html', {'ticketsbydate': ticketlist,
-                                                        'form': pickedDateForms,
+                                                       'form': pickedDateForms,
                                                        'startdate': startdate,
-                                                       'enddate': enddate})
+                                                       'enddate': enddate,
+                                                       'count': total})
 
 
 def showticketslowquant(request):
+    total = count_items(request)
     ticketlist = []
     tickets = Ticket.objects.filter(qty__lt=10)
 
     for ticket in tickets:
         ticketlist.append(ticket)
 
-    return render(request, 'Home/ticketslowquant.html', {'lowtickets': ticketlist})
+    return render(request, 'Home/ticketslowquant.html', {'lowtickets': ticketlist,
+                                                         'count': total})
 
 
 def pastpurchases(request):
