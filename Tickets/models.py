@@ -20,7 +20,7 @@ class Ticket(models.Model):
 class Checkout(models.Model):
     holder = models.CharField(max_length=50)
     number = models.CharField(max_length=16)
-    expiration = models.CharField(max_length=4, default=timezone.now())
+    expiration = models.CharField(max_length=8)
     ccv_number = models.CharField(max_length=5)
     # BAddress = models.CharField(max_length=250)
     # BCity = models.CharField(max_length=25)

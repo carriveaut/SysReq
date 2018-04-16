@@ -145,22 +145,25 @@ def checkout(request):
 
 def add_to_table(request):
     # start send_mail()
-    username = str(request.user.email)
-    msg = 'Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')) + ":\n\n"
-    count = 1
-    total = float(0.0)
-    tax = float(.065)
-    for item in Cart(request):
-        # msg = '\n' + msg + " " + str(count) + ". " + item.product.event + " $" + str(item.product.price) + " " + str(item.quantity) + "qty  $" + str(item.total_price) + "\n"
-        msg2 = msg + '{0:3}{1:<60}{2:>10}{3:>10}{4:>10}\n'
-        msg = msg2.format(str(count) + ".", item.product.event, "$" + str(item.product.price),
-                          str(item.quantity) + "qty. ", "$" + str(item.total_price))
-        total = total + float(item.total_price)
-        count = count + 1
-    total = total + (total * tax)
-    msg = msg + '     Tax: ' + str(tax) + '\n' + '     Total: ' + str(total)
-    send_mail('Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')), msg,
-              'theticketportal@gmail.com', [username], fail_silently=False, )
+    if request.user.is_anonymous:
+        username = None
+    else:
+        username = str(request.user.email)
+        msg = 'Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')) + ":\n\n"
+        count = 1
+        total = float(0.0)
+        tax = float(.065)
+        for item in Cart(request):
+            # msg = '\n' + msg + " " + str(count) + ". " + item.product.event + " $" + str(item.product.price) + " " + str(item.quantity) + "qty  $" + str(item.total_price) + "\n"
+            msg2 = msg + '{0:3}{1:<60}{2:>10}{3:>10}{4:>10}\n'
+            msg = msg2.format(str(count) + ".", item.product.event, "$" + str(item.product.price),
+                              str(item.quantity) + "qty. ", "$" + str(item.total_price))
+            total = total + float(item.total_price)
+            count = count + 1
+        total = total + (total * tax)
+        msg = msg + '     Tax: ' + str(tax) + '\n' + '     Total: ' + str(total)
+        send_mail('Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')), msg,
+                  'theticketportal@gmail.com', [username], fail_silently=True, )
     # end send_mail()
     count = count_items(request)
     cart = Cart(request)
@@ -186,8 +189,12 @@ def add_to_table(request):
 def add_to_order(request):
     cart = Cart(request)
     user = request.user
-    order = Order(user=user)
-    order.save()
+    if request.user.is_anonymous:
+        order = Order(user=None)
+        order.save()
+    else:
+        order = Order(user=user)
+        order.save()
 
     item = Item.objects.filter(cart_id=cart.cart.pk)
 
