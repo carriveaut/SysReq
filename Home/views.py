@@ -138,6 +138,7 @@ def happeningsoon(request):
     for ticket in tickets:
         ticketlist.append(ticket)
 
+
     startdate = datetime.datetime.date(pickedDateForms.start_date)
     enddate = datetime.datetime.date(pickedDateForms.end_date)
 
