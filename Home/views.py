@@ -40,6 +40,7 @@ def register(request):
             messages.error(request, "Error")
             set_success(False)
             success = get_success()
+
             #print(success)
     else:
         f = CustomUserCreationForm()
@@ -112,7 +113,40 @@ def helps(request):
 
 def happeningsoon(request):
     total = count_items(request)
-    return render(request, 'Home/happeningsoon.html', {'count': total})
+    ticketlist = []
+    today = datetime.datetime.now()
+
+    if request.method == 'POST':
+        startDateStr = request.POST['start_date_year'] + " " + request.POST['start_date_month'] + " " \
+                       + request.POST['start_date_day']
+
+        endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
+                     + request.POST['end_date_day']
+
+        pickedDateForms = PickTicketDates(request.POST)
+        pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
+        pickedDateForms.end_date = datetime.datetime.strptime(endDateStr, '%Y %m %d')
+
+    else:
+        pickedDateForms = PickTicketDates()
+        pickedDateForms.start_date = today
+        pickedDateForms.end_date = today + datetime.timedelta(days=7)
+
+    tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
+                                    start_Date__lte=pickedDateForms.end_date)
+
+    for ticket in tickets:
+        ticketlist.append(ticket)
+
+    startdate = datetime.datetime.date(pickedDateForms.start_date)
+    enddate = datetime.datetime.date(pickedDateForms.end_date)
+
+    return render(request, 'Home/happeningsoon.html', {'ticketsbydate': ticketlist,
+                                                       'form': pickedDateForms,
+                                                       'startdate': startdate,
+                                                       'enddate': enddate,
+                                                       'count': total})
+    # return render(request, 'Home/happeningsoon.html', {'count': total})
 
 
 def deals(request):

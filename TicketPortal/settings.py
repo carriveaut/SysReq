@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_tables2',
     'cart',
-    'celery',
 ]
 
 MIDDLEWARE = [
