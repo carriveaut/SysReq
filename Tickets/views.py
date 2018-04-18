@@ -17,7 +17,7 @@ def sports(request):
     total = count_items(request)
 
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Sports", start_Date__gte=datetime.date.today())
+    tickets = Ticket.objects.filter(classification="Sports", start_Date__gte=datetime.date.today(), qty__gte=0)
     for ticket in tickets:
         concertlist.append(ticket)
 
@@ -30,7 +30,7 @@ def concerts(request):
     total = count_items(request)
 
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Music", start_Date__gte=datetime.date.today())
+    tickets = Ticket.objects.filter(classification="Music", start_Date__gte=datetime.date.today(), qty__gte=0)
     for ticket in tickets:
         concertlist.append(ticket)
 
@@ -42,7 +42,7 @@ def concerts(request):
 def arttheater(request):
     total = count_items(request)
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Arts & Theatre", start_Date__gte=datetime.date.today())
+    tickets = Ticket.objects.filter(classification="Arts & Theatre", start_Date__gte=datetime.date.today(), qty__gte=0)
     for ticket in tickets:
         concertlist.append(ticket)
 
