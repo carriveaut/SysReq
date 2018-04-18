@@ -106,7 +106,7 @@ def remove_from_cart(request, ticket_id):
 
 def update_item(request):
     ticket_id = request.POST.get("tick_id", 0)
-    quantity = request.POST.get("new_qty", '')
+    quantity = request.POST.get("qty", '')
     price = request.POST.get("price", 0.0)
     ticket = Ticket.objects.get(id=ticket_id)
     cart = Cart(request)
@@ -203,6 +203,11 @@ def add_to_order(request):
 
     for i in item:
         detail = OrderDetail(order=order, ticket=Ticket(i.object_id), quantity=i.quantity, price=i.unit_price)
+
+        tick = Ticket.objects.filter(id=i.object_id).values_list('qty', flat=True)
+        # print(tick)
+        change_qty = tick[0]-i.quantity
+        Ticket.objects.filter(id=i.object_id).update(qty=change_qty)
         detail.save()
 
 

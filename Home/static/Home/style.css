@@ -349,4 +349,11 @@ table#past_history.table {
 
 input#qty{
     width:50px;
+    display: block;
+    float: left;
+}
+
+button#update{
+    display: block;
+    float: right;
 }
