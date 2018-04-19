@@ -2,7 +2,7 @@ from .forms import CustomUserCreationForm, PickTicketDates
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from Tickets.views import count_items
 from Tickets.models import Ticket, Order, OrderDetail
 import datetime
@@ -204,6 +204,14 @@ def showticketslowquant(request):
                                                          'count': total})
 
 
+def saveaccount(request):
+    if request.method == 'POST':
+        first_name = request.POST.get("FirstName")
+        last_name = request.POST.get("LastName")
+        email = request.POST.get("Email")
+        print(first_name, last_name, email)
+        User.objects.filter(id=request.user.id).update(first_name=first_name, last_name=last_name, email=email)
+        return render(request, 'Home/account.html')
 # def pastpurchases(request):
 #     user = request.user
 #
