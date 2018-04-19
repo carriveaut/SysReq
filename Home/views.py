@@ -152,7 +152,39 @@ def happeningsoon(request):
 
 def deals(request):
     total = count_items(request)
-    return render(request, 'Home/deals.html', {'count': total})
+    ticketlist = []
+    today = datetime.datetime.now()
+
+    if request.method == 'POST':
+        startDateStr = request.POST['start_date_year'] + " " + request.POST['start_date_month'] + " " \
+                       + request.POST['start_date_day']
+
+        endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
+                     + request.POST['end_date_day']
+
+        pickedDateForms = PickTicketDates(request.POST)
+        pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
+        pickedDateForms.end_date = datetime.datetime.strptime(endDateStr, '%Y %m %d')
+
+    else:
+        pickedDateForms = PickTicketDates()
+        pickedDateForms.start_date = today
+        pickedDateForms.end_date = today + datetime.timedelta(days=3)
+
+    tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
+                                    start_Date__lte=pickedDateForms.end_date,
+                                    qty__gte=40)
+
+    for ticket in tickets:
+        ticketlist.append(ticket)
+
+    startdate = datetime.datetime.date(pickedDateForms.start_date)
+    enddate = datetime.datetime.date(pickedDateForms.end_date)
+    return render(request, 'Home/deals.html', {'ticketsbydate': ticketlist,
+                                                       'form': pickedDateForms,
+                                                       'startdate': startdate,
+                                                       'enddate': enddate,
+                                                       'count': total})
 
 
 def showticketsbydate(request):

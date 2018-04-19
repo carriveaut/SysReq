@@ -1,5 +1,38 @@
 {% extends 'Home/base.html' %}
-
 {% block content %}
-    <h1>Add Content Here</h1>
+<h2 class="text-center">Happening Soon!</h2>
+
+<br>
+    <br>
+    <br>
+    <div class="table-container">
+<table class="table table-hover table-striped table-condensed" id="ticket_date_table">
+<thead>
+    <tr>
+
+        <th>Ticket Name</th>
+        <th>Type</th>
+        <th>Start Date</th>
+        <th>Time</th>
+        <th>Price</th>
+{#        <th>Qty</th>#}
+
+    </tr>
+</thead>
+
+<tbody>
+{% for ticket in ticketsbydate %}
+    <tr>
+
+        <td>{{ ticket.event }}</td>
+        <td>{{ ticket.classification }}</td>
+        <td>{{ ticket.start_Date }}</td>
+        <td>{{ ticket.start_Time }}</td>
+        <td>{{ ticket.price }}</td>
+{#        <td>{{ ticket.qty }}</td>#}
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
 {% endblock %}
