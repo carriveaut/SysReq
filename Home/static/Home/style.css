@@ -343,10 +343,6 @@ td.venue_Name {
     text-align: center;
 }
 
-table#past_history.table {
-    width: 60%!important;
-}
-
 input#qty{
     width:50px;
     display: block;
