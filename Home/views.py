@@ -3,10 +3,11 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.shortcuts import render, redirect
-from Tickets.views import count_items
+from Tickets.views import *
 from Tickets.models import Ticket, Order, OrderDetail
 import datetime
 from django.contrib.auth.models import User
+from decimal import *
 
 # class SignUpView(generic.CreateView):
 #     form_class = UserCreationForm
@@ -174,8 +175,9 @@ def deals(request):
     tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
                                     start_Date__lte=pickedDateForms.end_date,
                                     qty__gte=40)
-
+    print(datetime.datetime.now() + datetime.timedelta(days=3))
     for ticket in tickets:
+        ticket.price = ticket.price * Decimal(.5)
         ticketlist.append(ticket)
 
     startdate = datetime.datetime.date(pickedDateForms.start_date)

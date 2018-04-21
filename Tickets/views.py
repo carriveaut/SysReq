@@ -56,6 +56,12 @@ def view_sport_ticket(request, ticket_id):
     tickets = Ticket.objects.filter(id=ticket_id)
     selected = object
     for ticket in tickets:
+        # if datetime.datetime.now() <= ticket.start_Date:
+        #     ticket.price = ticket.price * Decimal(.5)
+        #     selected = ticket
+        # else:
+        #     ticket.price = ticket.price * Decimal(.5)
+        #     selected = ticket
         selected = ticket
     return render(request, 'Tickets/viewticket.html', {'selected': selected, 'count': total})
 

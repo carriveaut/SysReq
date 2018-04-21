@@ -16,6 +16,7 @@
         <th>Time</th>
         <th>Price</th>
 {#        <th>Qty</th>#}
+        <th></th>
 
     </tr>
 </thead>
@@ -30,6 +31,7 @@
         <td>{{ ticket.start_Time }}</td>
         <td>{{ ticket.price }}</td>
 {#        <td>{{ ticket.qty }}</td>#}
+        <td><a href="{% url 'Tickets:viewsportticket' ticket.id %}" role="button" class="btn btn-secondary myButton" id="btn_ticket" name="btn_ticket">View Ticket</a></td>
     </tr>
 {% endfor %}
 </tbody>
