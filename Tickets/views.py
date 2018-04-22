@@ -11,6 +11,7 @@ from cart.cart import Cart
 from cart.models import Item
 from .forms import CheckoutForm, PaymentForm
 from django.contrib.auth.models import User
+from decimal import *
 
 
 def sports(request):
@@ -54,15 +55,21 @@ def arttheater(request):
 def view_sport_ticket(request, ticket_id):
     total = count_items(request)
     tickets = Ticket.objects.filter(id=ticket_id)
+    today = datetime.datetime.now().date()
+    end_date= today + datetime.timedelta(days=3)
     selected = object
     for ticket in tickets:
+        if  today <= ticket.start_Date:
+            ticket.price = ticket.price * Decimal(.5)
+            selected = ticket
         # if datetime.datetime.now() <= ticket.start_Date:
         #     ticket.price = ticket.price * Decimal(.5)
         #     selected = ticket
         # else:
         #     ticket.price = ticket.price * Decimal(.5)
         #     selected = ticket
-        selected = ticket
+        else:
+            selected = ticket
     return render(request, 'Tickets/viewticket.html', {'selected': selected, 'count': total})
 
 
@@ -99,7 +106,13 @@ def total_cart(request):
 def add_to_cart(request, ticket_id, quantity):
     ticket = Ticket.objects.get(id=ticket_id)
     cart = Cart(request)
-    cart.add(ticket, ticket.price, quantity)
+    today = datetime.datetime.now().date()
+    end_date = today + datetime.timedelta(days=3)
+    if today <= ticket.start_Date:
+        ticket.price = ticket.price * Decimal(.5)
+        cart.add(ticket, ticket.price, quantity)
+    else:
+        cart.add(ticket, ticket.price, quantity)
     return HttpResponseRedirect('/Tickets/cart/')
 
 
