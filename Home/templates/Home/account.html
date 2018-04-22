@@ -7,10 +7,6 @@
 <body>
 {% include 'Home/navbar.html'%}
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
     <a class="nav-item nav-link active" id="nav-account-tab" data-toggle="tab" href="#nav-account" role="tab" aria-controls="nav-account" aria-selected="true">Account</a>
@@ -20,7 +16,64 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
   <div class="tab-pane fade show active" id="nav-account" role="tabpanel" aria-labelledby="nav-account-tab">
-      <p>Eventually I will offer more things for the user to do with their account.</p>
+{#      <p>Your username is: {{ request.user.username }}</p>#}
+{#      <p>Your First Name is: {{ request.user.firstname }}</p>#}
+{#      <p>Your Last Name is: {{ request.user.lastname }}</p>#}
+      <br>
+      <form method="post" id="changepass" role="form" action="{% url 'Home:saveaccount' %}">
+          {% csrf_token %}
+          <h5>Account Information</h5>
+          <table>
+              <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width:150px;" id="1">Email</span>
+                            <input class="form-control" value="{{ request.user.email }}" aria-describedby="1" name="Email">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                             <div class="input-group-prepend">
+                                <span class="input-group-text" style="width:150px;" id="2">First Name</span>
+                                <input class="form-control" value="{{ request.user.first_name }}" aria-describedby="2" name="FirstName">
+                             </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                             <div class="input-group-prepend">
+                                <span class="input-group-text" style="width:150px;" id="3">Last Name</span>
+                                 <input class="form-control" value="{{ request.user.last_name }}" aria-describedby="3" name="LastName">
+                             </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="width:150px;" id="4">Username</span>
+                                <input class="form-control" name="username" aria-describedby="4" value="{{ request.user.username }}" readonly style="background: lightgrey">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><button id="SaveAccount" class="btn btn-secondary" type="submit">Save Changes</button></td>
+                </tr>
+              </tbody>
+          </table>
+      </form>
+{#      <p>Emails are being sent to: <b>{{ request.user.email }}</b></p>#}
+{#      <br>#}
+{#      <p>If you need to change to change your email, please contact ticketportal@gmail.com or 555-555-5555</p>#}
   </div>
   <div class="tab-pane fade" id="nav-chngpass" role="tabpanel" aria-labelledby="nav-chngpass-tab">
       <form method="post" id="changepass">
@@ -68,26 +121,29 @@
         </form>
   </div>
   <div class="tab-pane fade" id="nav-transhistory" role="tabpanel" aria-labelledby="nav-transhistory-tab">
-      <table class="table" id="past_history">
-      <thead>
-            <tr>
-                <th>Date Purchased</th>
-                <th>Event</th>
-                <th>Quantity</th>
-                <th>Total for Tickets</th>
-            </tr>
-      </thead>
-          <tbody>
-          {% for trans in transactions %}
-            <tr>
-                <td>{{ trans.date }}</td>
-                <td>{{ trans.event }}</td>
-                <td>{{ trans.quantity }}</td>
-                <td style="text-align: right">{{ trans.subtotal }}</td>
-            </tr>
-          {% endfor %}
-          </tbody>
-      </table>
+      <div class="trans_div">
+        <h5>Transaction History</h5>
+          <table class="table">
+          <thead>
+                <tr>
+                    <th>Date Purchased</th>
+                    <th>Event</th>
+                    <th>Quantity</th>
+                    <th>Total for Tickets</th>
+                </tr>
+          </thead>
+              <tbody>
+              {% for trans in transactions %}
+                <tr>
+                    <td>{{ trans.date }}</td>
+                    <td>{{ trans.event }}</td>
+                    <td>{{ trans.quantity }}</td>
+                    <td style="text-align: right">{{ trans.subtotal }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
   </div>
 </div>
 
@@ -95,20 +151,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-{% if form.errors %}
-<script>
-$(document).ready(function() {
-    $("#nav-chngpass-tab").tab('show');
-});
-</script>
-{% endif %}
-
-{% if success %}
-<script>
-$(document).ready(function() {
-    $("#nav-chngpass-tab").tab('show');
-});
-</script>
-{% endif %}
+{#{% if form.errors %}#}
+{#<script>#}
+{#$(document).ready(function() {#}
+{#    $("#nav-chngpass-tab").tab('show');#}
+{#) };#}
+{#</script>#}
+{#{% endif %}#}
+{##}
+{#{% if success %}#}
+{#<script>#}
+{#$(document).ready(function() {#}
+{#    $("#nav-chngpass-tab").tab('show');#}
+{#});#}
+{#</script>#}
+{#{% endif %}#}
 </body>
 
