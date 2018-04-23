@@ -16,6 +16,7 @@ class Ticket(models.Model):
     classification = models.CharField(max_length=100)
     image_Url = models.CharField(default="/static/Home/images/no-image.jpg", max_length=250)
     on_sale = models.IntegerField(default="0")
+    sale_price = models.DecimalField(default=0.0, max_digits=9, decimal_places=2)
 
 
 class Checkout(models.Model):

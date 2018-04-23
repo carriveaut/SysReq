@@ -30,8 +30,14 @@
                     </div>
                 </div>
             </td>
+
             <td data-th="Price">
-                {{ item.product.price }}</td>
+                {% if item.product.on_sale == 0 %}
+                    {{ item.product.price }}
+                {% else %}
+                    {{ item.product.sale_price }}
+                {% endif %}</td>
+
             <td data-th="Quantity" class="text-center">
                 <form method="POST" action="{% url 'Tickets:update' %}">
                 {% csrf_token %}

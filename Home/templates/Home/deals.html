@@ -5,20 +5,30 @@
     {% load django_tables2 %}
     {% render_table table %}
 </div>
+{#<script>#}
+{#var qty = "1";#}
+{#var tick_id = "0";#}
+{##}
+{#$( ".add_cart" ).click(function() {#}
+{#    $(this).on('input', '#qty', function(){#}
+{#        qty = $("#qty").val();#}
+{#        tick_id = $("#ticketID").val();#}
+{#    });#}
+{#    alert(qty + ' ' + tick_id);#}
+{#    //$(location).attr('href', ticket + '/' + qty);#}
+{#});#}
+{##}
+{#function goBack() {#}
+{#    window.history.back();#}
+{#}#}
+{#</script>#}
+
 <script>
-var qty = "1";
+    $('.add_cart').on('click', function(e) {
+        var qty = $(this).closest('tr').find('#qty').val();
+        var tick_id = $(this).closest('tr').find('#ticketID').val();
 
-$(document).on('input', '#qty', function(){
-    qty = $("#qty").val();
-});
-
-$( ".add_cart" ).click(function() {
-    var ticket = $('#ticketID').val();
-  $(location).attr('href', ticket + '/' + qty);
-});
-
-function goBack() {
-    window.history.back();
-}
+        $(location).attr('href', tick_id + '/' + qty);
+    });
 </script>
 {% endblock %}

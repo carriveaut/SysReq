@@ -56,6 +56,7 @@ class TicketTable(tables.Table):
     image_Url = tables.Column(visible=False)
     price = tables.Column(visible=False)
     on_sale = tables.Column(visible=False)
+    sale_price = tables.Column(visible=False)
 
     class Meta:
         model = Ticket
@@ -78,6 +79,7 @@ class HappeningSoonTable(tables.Table):
     image_Url = tables.Column(visible=False)
     price = tables.Column(visible=False)
     on_sale = tables.Column(visible=False)
+    sale_price = tables.Column(visible=False)
 
     class Meta:
         model = Ticket
@@ -99,12 +101,13 @@ class DealsTable(tables.Table):
     start_Time = tables.Column(" ", orderable=False)
     qty = tables.Column(visible=False)
     image_Url = tables.Column(visible=False)
-    price = tables.Column(" ", orderable=False)
+    price = tables.Column(visible=False)
     on_sale = tables.Column(visible=False)
+    sale_price = tables.Column(" ", orderable=False)
 
     class Meta:
         model = Ticket
-        sequence = ('date', 'classification', 'event', 'venue_Name', 'start_Time', 'price', 'add_qty', 'add')
+        sequence = ('date', 'classification', 'event', 'venue_Name', 'start_Time', 'sale_price', 'add_qty', 'add')
         attrs = {'class': 'ticket', 'id': 'deals'}
 
 
@@ -124,6 +127,7 @@ class SuggestionTable(tables.Table):
     image_Url = tables.Column(visible=False)
     price = tables.Column(" ", orderable=False)
     on_sale = tables.Column(visible=False)
+    sale_price = tables.Column(visible=False)
 
     class Meta:
         model = Ticket

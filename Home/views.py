@@ -166,6 +166,13 @@ def add_to_cart(request, ticket_id, quantity):
     return HttpResponseRedirect('/Tickets/cart/')
 
 
+def add_sale_to_cart(request, ticket_id, quantity):
+    ticket = Ticket.objects.get(id=ticket_id)
+    cart = Cart(request)
+    cart.add(ticket, ticket.sale_price, quantity)
+    return HttpResponseRedirect('/Tickets/cart/')
+
+
 def deals(request):
     total = count_items(request)
     ticketlist = []
@@ -190,9 +197,12 @@ def deals(request):
     tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
                                     start_Date__lte=pickedDateForms.end_date,
                                     qty__gte=40)
-    print(datetime.datetime.now() + datetime.timedelta(days=3))
+   # print(datetime.datetime.now() + datetime.timedelta(days=3))
+
     for ticket in tickets:
-        ticket.price = ticket.price * Decimal(.5)
+        # price = ticket.price * Decimal(.5)
+        # Ticket.objects.filter(id=ticket.id).update(on_sale=1, sale_price=price)
+        # print(ticket.sale_price)
         ticketlist.append(ticket)
 
     table = DealsTable(ticketlist)
