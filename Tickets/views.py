@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect,  render_to_response
-from .tables import TicketTable
+from .tables import *
 from django.core import mail
 from datetime import date, datetime
 from django.core.mail import send_mail
@@ -115,11 +115,58 @@ def update_item(request):
 
 
 def get_cart(request):
+    suggestion = []
+    suggested_type = ''
+    table = SuggestionTable({'event': 'Hi'})
+    sport = 0
+    art = 0
+    music = 0
     total = total_cart(request)
     count = count_items(request)
+    cart = Cart(request)
+
+    for item in cart:
+        ticket = Ticket.objects.filter(id=item.object_id)
+        for tick in ticket:
+            if tick.classification == 'Sports':
+                sport += item.quantity
+            elif tick.classification == 'Arts & Theatre':
+                art += item.quantity
+            elif tick.classification == 'Music':
+                music += item.quantity
+
+    if sport > art and sport > music:
+        sell = Ticket.objects.filter(classification='Sports',
+                                     start_Date__gte=datetime.date.today())[:1]
+        # print(sport)
+        for item in sell:
+            suggestion.append(item)
+        table = SuggestionTable(suggestion)
+        suggested_type = 'sports'
+
+    if art > music and art > sport:
+        sell = Ticket.objects.filter(classification='Arts & Theatre',
+                                     start_Date__gte=datetime.date.today())[:1]
+        # print(art)
+        for item in sell:
+            suggestion.append(item)
+        table = SuggestionTable(suggestion)
+        suggested_type = 'arts & theater'
+
+    if music > art and music > sport:
+        sell = Ticket.objects.filter(classification='Music',
+                                     start_Date__gte=datetime.date.today())[:1]
+        # print(music)
+        for item in sell:
+            suggestion.append(item)
+        table = SuggestionTable(suggestion)
+        suggested_type = 'music'
+
     return render(request, 'Tickets/cart.html', {'total': total,
-                                                 'cart': Cart(request),
-                                                 'count': count})
+                                                 'cart': cart,
+                                                 'count': count,
+                                                 'table': table,
+                                                 'suggestion': suggested_type})
 
 
 def checkout(request):

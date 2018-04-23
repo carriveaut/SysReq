@@ -35,6 +35,11 @@ ticket_date = ''' <div class="dateSquare">
 add_ticket = '''<input class="myHidden" id="ticketID" name="ticketID" type="hidden" value="{{ record.id }}"/>
                 <a href="{{ record.id }}" role="button" class="btn btn-secondary myButton" id="btn_ticket" name="btn_ticket">View Ticket</a>'''
 
+add_cart = '''<input class="myHidden" id="ticketID" name="ticketID" type="hidden" value="{{ record.id }}"/>
+              <button id="add_cart" name="add_cart" class="btn btn-secondary add_cart">Add to Cart</button>'''
+
+add_qty = '''<input type="number" name="qty" id="qty" class="form-control text-center" value="1">'''
+
 
 class TicketTable(tables.Table):
     date = tables.TemplateColumn(ticket_date, verbose_name=" ", orderable=False)
@@ -50,11 +55,80 @@ class TicketTable(tables.Table):
     qty = tables.Column(visible=False)
     image_Url = tables.Column(visible=False)
     price = tables.Column(visible=False)
+    on_sale = tables.Column(visible=False)
 
     class Meta:
         model = Ticket
         sequence = ('date', 'event', 'venue_Name', 'start_Time', 'add')
         attrs = {'class': 'ticket'}
+
+
+class HappeningSoonTable(tables.Table):
+    date = tables.TemplateColumn(ticket_date, verbose_name=" ", orderable=False)
+    add = tables.TemplateColumn(add_ticket, verbose_name=" ", orderable=False)
+    id = tables.Column(visible=False)
+    classification = tables.Column(" ", attrs={'td': {'width': '15%'}}, orderable=False)
+    start_Date = tables.Column(visible=False)
+    status = tables.Column(visible=False)
+    event = tables.Column(" ", attrs={'td': {'width': '25%'}}, orderable=False)
+    venue_Name = tables.Column(" ", orderable=False)
+    venue_Info = tables.Column(visible=False)
+    start_Time = tables.Column(" ", orderable=False)
+    qty = tables.Column(visible=False)
+    image_Url = tables.Column(visible=False)
+    price = tables.Column(visible=False)
+    on_sale = tables.Column(visible=False)
+
+    class Meta:
+        model = Ticket
+        sequence = ('date', 'classification', 'event', 'venue_Name', 'start_Time', 'add')
+        attrs = {'class': 'ticket'}
+
+
+class DealsTable(tables.Table):
+    date = tables.TemplateColumn(ticket_date, verbose_name=" ", orderable=False)
+    add = tables.TemplateColumn(add_cart, verbose_name=" ", orderable=False)
+    add_qty = tables.TemplateColumn(add_qty, verbose_name=" ", orderable=False)
+    id = tables.Column(visible=False)
+    classification = tables.Column(visible=False)
+    start_Date = tables.Column(visible=False)
+    status = tables.Column(visible=False)
+    event = tables.Column(" ", attrs={'td': {'width': '25%'}}, orderable=False)
+    venue_Name = tables.Column(" ", orderable=False)
+    venue_Info = tables.Column(visible=False)
+    start_Time = tables.Column(" ", orderable=False)
+    qty = tables.Column(visible=False)
+    image_Url = tables.Column(visible=False)
+    price = tables.Column(" ", orderable=False)
+    on_sale = tables.Column(visible=False)
+
+    class Meta:
+        model = Ticket
+        sequence = ('date', 'classification', 'event', 'venue_Name', 'start_Time', 'price', 'add_qty', 'add')
+        attrs = {'class': 'ticket', 'id': 'deals'}
+
+
+class SuggestionTable(tables.Table):
+    date = tables.TemplateColumn(ticket_date, verbose_name=" ", orderable=False)
+    add = tables.TemplateColumn(add_cart, verbose_name=" ", orderable=False)
+    add_qty = tables.TemplateColumn(add_qty, verbose_name=" ", orderable=False)
+    id = tables.Column(visible=False)
+    classification = tables.Column(visible=False)
+    start_Date = tables.Column(visible=False)
+    status = tables.Column(visible=False)
+    event = tables.Column(" ", attrs={'td': {'width': '30%'}}, orderable=False)
+    venue_Name = tables.Column(visible=False)
+    venue_Info = tables.Column(" ", orderable=False)
+    start_Time = tables.Column(" ", orderable=False)
+    qty = tables.Column(visible=False)
+    image_Url = tables.Column(visible=False)
+    price = tables.Column(" ", orderable=False)
+    on_sale = tables.Column(visible=False)
+
+    class Meta:
+        model = Ticket
+        sequence = ('date', 'classification', 'event', 'venue_Info', 'start_Time', 'price', 'add_qty', 'add')
+        attrs = {'class': 'ticket', 'id': 'deals'}
 
 
 class CheckoutTable(tables.Table):

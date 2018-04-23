@@ -6,12 +6,11 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from Tickets.views import count_items
 from Tickets.models import Ticket, Order, OrderDetail
 import datetime
+from cart.cart import Cart
 from django.contrib.auth.models import User
+from Tickets.tables import *
+from random import choice
 
-# class SignUpView(generic.CreateView):
-#     form_class = UserCreationForm
-#     success_url = reverse_lazy('index')
-#     template_name = 'Registration/signup.html'
 success = False
 badData = "False"
 
@@ -49,6 +48,7 @@ def register(request):
 
 def change_password(request):
     total = count_items(request)
+    transactions = build_transaction_history(request)
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -58,7 +58,9 @@ def change_password(request):
             set_success(True)
             success = get_success()
             #print(success)
-            return render(request, 'Home/account.html', {'success': success})
+            return render(request, 'Home/account.html', {'success': success,
+                                                         'transactions': transactions,
+                                                         'count': total})
         else:
             messages.error(request, 'Please correct the error below.')
             set_success(False)
@@ -66,8 +68,6 @@ def change_password(request):
             #print(success)
     else:
         form = PasswordChangeForm(request.user)
-
-    transactions = build_transaction_history(request)
 
     return render(request, 'Home/account.html', {
         'form': form,
@@ -111,6 +111,15 @@ def helps(request):
     return render(request, 'Home/help.html', {'count': total})
 
 
+def view_ticket(request, ticket_id):
+    total = count_items(request)
+    tickets = Ticket.objects.filter(id=ticket_id)
+    selected = object
+    for ticket in tickets:
+        selected = ticket
+    return render(request, 'Tickets/viewticket.html', {'selected': selected, 'count': total})
+
+
 def happeningsoon(request):
     total = count_items(request)
     ticketlist = []
@@ -121,7 +130,7 @@ def happeningsoon(request):
                        + request.POST['start_date_day']
 
         endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
-                     + request.POST['end_date_day']
+                   + request.POST['end_date_day']
 
         pickedDateForms = PickTicketDates(request.POST)
         pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
@@ -138,53 +147,72 @@ def happeningsoon(request):
     for ticket in tickets:
         ticketlist.append(ticket)
 
-
-    startdate = datetime.datetime.date(pickedDateForms.start_date)
-    enddate = datetime.datetime.date(pickedDateForms.end_date)
+    table = HappeningSoonTable(ticketlist, order_by="start_Date")
 
     return render(request, 'Home/happeningsoon.html', {'ticketsbydate': ticketlist,
-                                                       'form': pickedDateForms,
-                                                       'startdate': startdate,
-                                                       'enddate': enddate,
+                                                       'table': table,
                                                        'count': total})
     # return render(request, 'Home/happeningsoon.html', {'count': total})
 
 
+def add_to_cart(request, ticket_id, quantity):
+    ticket = Ticket.objects.get(id=ticket_id)
+    cart = Cart(request)
+    cart.add(ticket, ticket.price, quantity)
+    return HttpResponseRedirect('/Tickets/cart/')
+
+
 def deals(request):
     total = count_items(request)
-    ticketlist = []
-    today = datetime.datetime.now()
-
-    if request.method == 'POST':
-        startDateStr = request.POST['start_date_year'] + " " + request.POST['start_date_month'] + " " \
-                       + request.POST['start_date_day']
-
-        endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
-                     + request.POST['end_date_day']
-
-        pickedDateForms = PickTicketDates(request.POST)
-        pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
-        pickedDateForms.end_date = datetime.datetime.strptime(endDateStr, '%Y %m %d')
-
-    else:
-        pickedDateForms = PickTicketDates()
-        pickedDateForms.start_date = today
-        pickedDateForms.end_date = today + datetime.timedelta(days=3)
-
-    tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
-                                    start_Date__lte=pickedDateForms.end_date,
-                                    qty__gte=40)
+    concertlist = []
+    tickets = Ticket.objects.filter(on_sale=1)
 
     for ticket in tickets:
-        ticketlist.append(ticket)
+        # tick = Ticket.objects.filter(on_sale=1).values_list('price', flat=True)
+        # print(tick)
+        # new_price = tick[0]/2
+        # Ticket.objects.filter(id=ticket.id).update(price=new_price)
+        concertlist.append(ticket)
 
-    startdate = datetime.datetime.date(pickedDateForms.start_date)
-    enddate = datetime.datetime.date(pickedDateForms.end_date)
-    return render(request, 'Home/deals.html', {'ticketsbydate': ticketlist,
-                                                       'form': pickedDateForms,
-                                                       'startdate': startdate,
-                                                       'enddate': enddate,
-                                                       'count': total})
+    table = DealsTable(concertlist)
+
+    return render(request, 'Home/deals.html', {'table': table,
+                                               'count': total})
+# def deals(request):
+#     total = count_items(request)
+#     ticketlist = []
+#     today = datetime.datetime.now()
+#
+#     if request.method == 'POST':
+#         startDateStr = request.POST['start_date_year'] + " " + request.POST['start_date_month'] + " " \
+#                        + request.POST['start_date_day']
+#
+#         endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
+#                      + request.POST['end_date_day']
+#
+#         pickedDateForms = PickTicketDates(request.POST)
+#         pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
+#         pickedDateForms.end_date = datetime.datetime.strptime(endDateStr, '%Y %m %d')
+#
+#     else:
+#         pickedDateForms = PickTicketDates()
+#         pickedDateForms.start_date = today
+#         pickedDateForms.end_date = today + datetime.timedelta(days=3)
+#
+#     tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
+#                                     start_Date__lte=pickedDateForms.end_date,
+#                                     qty__gte=40)
+#
+#     for ticket in tickets:
+#         ticketlist.append(ticket)
+#
+#     startdate = datetime.datetime.date(pickedDateForms.start_date)
+#     enddate = datetime.datetime.date(pickedDateForms.end_date)
+#     return render(request, 'Home/deals.html', {'ticketsbydate': ticketlist,
+#                                                        'form': pickedDateForms,
+#                                                        'startdate': startdate,
+#                                                        'enddate': enddate,
+#                                                        'count': total})
 
 
 def showticketsbydate(request):
@@ -241,7 +269,7 @@ def saveaccount(request):
         first_name = request.POST.get("FirstName")
         last_name = request.POST.get("LastName")
         email = request.POST.get("Email")
-        print(first_name, last_name, email)
+        # print(first_name, last_name, email)
         User.objects.filter(id=request.user.id).update(first_name=first_name, last_name=last_name, email=email)
         return render(request, 'Home/account.html')
 # def pastpurchases(request):

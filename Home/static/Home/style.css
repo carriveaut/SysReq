@@ -1,3 +1,8 @@
+body {
+    padding-top: 75px;
+    padding-bottom: 50px;
+}
+
 .alert.alert-danger.alert-dismissible{
     font-size: 14px;
 }
@@ -66,9 +71,12 @@ input#id_new_password2.form-control{
 }
 
 .goldbar {
+    position: fixed;
+    margin-bottom: 30px;
     height: 10px;
     width: 100%;
     background-color: #C0974E;
+    z-index: 2;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link{
@@ -130,6 +138,10 @@ input#id_new_password2.form-control{
     padding: 0;
     vertical-align: top;
     border: 0;
+}
+
+.carousel {
+    padding-top: 10px;
 }
 
 .form-control {
@@ -315,17 +327,19 @@ select {
 }
 
 .table-container {
-    width: 75%;
     margin: auto;
 }
 
+div#happening_soon{
+    width: 85%;
+}
+
 div#list_ticket{
-    width: 75%;
+    width:65%;
 }
 
 h3#list_ticket_h3{
     margin: auto;
-    width: 75%;
 }
 
 td.event {
@@ -352,4 +366,16 @@ input#qty{
 button#update{
     display: block;
     float: right;
+}
+
+.frame_me {
+    margin-top: 100px;
+    border: 10px solid #C0974E;
+    border-radius: 5px;
+    padding: 50px;
+    box-shadow: 5px 10px 18px #888888;
+}
+
+div#content{
+    margin-top: 50px;
 }

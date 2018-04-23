@@ -1,39 +1,20 @@
 {% extends 'Home/base.html' %}
 {% block content %}
-<h2 class="text-center">Happening Soon!</h2>
-
-<br>
-    <br>
-    <br>
-    <div class="table-container">
-<table class="table table-hover table-striped table-condensed" id="ticket_date_table">
-<thead>
-    <tr>
-
-        <th>Ticket Name</th>
-        <th>Type</th>
-        <th>Start Date</th>
-        <th>Time</th>
-        <th>Price</th>
-{#        <th>Qty</th>#}
-    </tr>
-</thead>
-
-<tbody>
-{% for ticket in ticketsbydate %}
-    <tr>
-
-        <td>{{ ticket.event }}</td>
-        <td>{{ ticket.classification }}</td>
-        <td>{{ ticket.start_Date }}</td>
-        <td>{{ ticket.start_Time }}</td>
-        <td>{{ ticket.price }}</td>
-{#        <td>{{ ticket.qty }}</td>#}
-    </tr>
-{% endfor %}
-</tbody>
-</table>
-    <br>
-    <br>
+<div class="container" id="happening_soon">
+    <h3 id="list_ticket_h3">Upcoming Events</h3>
+    {% load django_tables2 %}
+    {% render_table table %}
 </div>
+<script>
+var qty = "1";
+
+$(document).on('input', '#qty', function(){
+    qty = $("#qty").val();
+});
+
+$( ".add_cart" ).click(function() {
+    var ticket = $('#ticketID').val();
+   $(location).attr('href', ticket + '/' + qty);
+});
+</script>
 {% endblock %}

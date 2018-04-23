@@ -1,3 +1,8 @@
+body{
+    padding-top: 75px;
+    padding-bottom: 50px;
+}
+
 .alert.alert-danger.alert-dismissible{
     font-size: 14px;
 }
@@ -66,9 +71,12 @@ input#id_new_password2.form-control{
 }
 
 .goldbar {
+    position: fixed;
+    margin-bottom: 30px;
     height: 10px;
     width: 100%;
     background-color: #C0974E;
+    z-index: 9999;
 }
 
 .nav-tabs a {
@@ -196,4 +204,8 @@ form#login-form p {
     padding-top: 70px;
     width: 70%;
     margin: auto;
+}
+
+div#content{
+    margin-top: 50px;
 }

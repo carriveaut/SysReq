@@ -2,12 +2,12 @@
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
-    <link rel="stylesheet" href="{% static 'ShoppingCart/style.css' %}"/>
     <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
 </head>
 {% include 'Home/navbar.html' %}
 
 <div class="container">
+<br>
 <h1>Shopping Cart</h1>
 <table id="cart" class="table table-hover table-condensed">
     <thead>
@@ -61,10 +61,36 @@
 </table>
 </div>
 
+{% if suggestion == '' %}
+{% else %}
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <div class="frame_me">
+            <h5> We seen you like {{ suggestion }}, take a look at this ticket. </h5>
+            {% load django_tables2 %}
+            {% render_table table %}
+        </div>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+{% endif %}
 <script>
 function goBack() {
     window.history.go(-2);
 }
+
+var qty = "1";
+
+$(document).on('input', '#qty', function(){
+    qty = $("#qty").val();
+});
+
+$( ".add_cart" ).click(function() {
+    var ticket = $('#ticketID').val();
+   $(location).attr('href', ticket + '/' + qty);
+});
+
 
 // $(document).ready(function(){
 //         $(function(){
