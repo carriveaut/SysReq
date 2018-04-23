@@ -2,15 +2,19 @@ from .forms import CustomUserCreationForm, PickTicketDates
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
-from django.shortcuts import render, redirect, HttpResponseRedirect
-from Tickets.views import count_items
+from django.shortcuts import render, redirect
+from Tickets.views import *
 from Tickets.models import Ticket, Order, OrderDetail
 import datetime
 from cart.cart import Cart
 from django.contrib.auth.models import User
+from decimal import *
 from Tickets.tables import *
-from random import choice
 
+# class SignUpView(generic.CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy('index')
+#     template_name = 'Registration/signup.html'
 success = False
 badData = "False"
 
@@ -130,7 +134,7 @@ def happeningsoon(request):
                        + request.POST['start_date_day']
 
         endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
-                   + request.POST['end_date_day']
+                     + request.POST['end_date_day']
 
         pickedDateForms = PickTicketDates(request.POST)
         pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
@@ -164,55 +168,40 @@ def add_to_cart(request, ticket_id, quantity):
 
 def deals(request):
     total = count_items(request)
-    concertlist = []
-    tickets = Ticket.objects.filter(on_sale=1)
+    ticketlist = []
+    today = datetime.datetime.now()
 
+    if request.method == 'POST':
+        startDateStr = request.POST['start_date_year'] + " " + request.POST['start_date_month'] + " " \
+                       + request.POST['start_date_day']
+
+        endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
+                     + request.POST['end_date_day']
+
+        pickedDateForms = PickTicketDates(request.POST)
+        pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
+        pickedDateForms.end_date = datetime.datetime.strptime(endDateStr, '%Y %m %d')
+
+    else:
+        pickedDateForms = PickTicketDates()
+        pickedDateForms.start_date = today
+        pickedDateForms.end_date = today + datetime.timedelta(days=3)
+
+    tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
+                                    start_Date__lte=pickedDateForms.end_date,
+                                    qty__gte=40)
+    print(datetime.datetime.now() + datetime.timedelta(days=3))
     for ticket in tickets:
-        # tick = Ticket.objects.filter(on_sale=1).values_list('price', flat=True)
-        # print(tick)
-        # new_price = tick[0]/2
-        # Ticket.objects.filter(id=ticket.id).update(price=new_price)
-        concertlist.append(ticket)
+        ticket.price = ticket.price * Decimal(.5)
+        ticketlist.append(ticket)
 
-    table = DealsTable(concertlist)
-
-    return render(request, 'Home/deals.html', {'table': table,
-                                               'count': total})
-# def deals(request):
-#     total = count_items(request)
-#     ticketlist = []
-#     today = datetime.datetime.now()
-#
-#     if request.method == 'POST':
-#         startDateStr = request.POST['start_date_year'] + " " + request.POST['start_date_month'] + " " \
-#                        + request.POST['start_date_day']
-#
-#         endDateStr = request.POST['end_date_year'] + " " + request.POST['end_date_month'] + " " \
-#                      + request.POST['end_date_day']
-#
-#         pickedDateForms = PickTicketDates(request.POST)
-#         pickedDateForms.start_date = datetime.datetime.strptime(startDateStr, '%Y %m %d')
-#         pickedDateForms.end_date = datetime.datetime.strptime(endDateStr, '%Y %m %d')
-#
-#     else:
-#         pickedDateForms = PickTicketDates()
-#         pickedDateForms.start_date = today
-#         pickedDateForms.end_date = today + datetime.timedelta(days=3)
-#
-#     tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
-#                                     start_Date__lte=pickedDateForms.end_date,
-#                                     qty__gte=40)
-#
-#     for ticket in tickets:
-#         ticketlist.append(ticket)
-#
-#     startdate = datetime.datetime.date(pickedDateForms.start_date)
-#     enddate = datetime.datetime.date(pickedDateForms.end_date)
-#     return render(request, 'Home/deals.html', {'ticketsbydate': ticketlist,
-#                                                        'form': pickedDateForms,
-#                                                        'startdate': startdate,
-#                                                        'enddate': enddate,
-#                                                        'count': total})
+    startdate = datetime.datetime.date(pickedDateForms.start_date)
+    enddate = datetime.datetime.date(pickedDateForms.end_date)
+    return render(request, 'Home/deals.html', {'ticketsbydate': ticketlist,
+                                                       'form': pickedDateForms,
+                                                       'startdate': startdate,
+                                                       'enddate': enddate,
+                                                       'count': total})
 
 
 def showticketsbydate(request):
