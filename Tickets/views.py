@@ -106,13 +106,7 @@ def total_cart(request):
 def add_to_cart(request, ticket_id, quantity):
     ticket = Ticket.objects.get(id=ticket_id)
     cart = Cart(request)
-    today = datetime.datetime.now().date()
-    end_date = today + datetime.timedelta(days=3)
-    if today <= ticket.start_Date:
-        ticket.price = ticket.price * Decimal(.5)
-        cart.add(ticket, ticket.price, quantity)
-    else:
-        cart.add(ticket, ticket.price, quantity)
+    cart.add(ticket, ticket.price, quantity)
     return HttpResponseRedirect('/Tickets/cart/')
 
 
@@ -120,7 +114,7 @@ def remove_from_cart(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     cart = Cart(request)
     cart.remove(ticket)
-    return get_cart(request)
+    return HttpResponseRedirect('/Tickets/cart/')
 
 
 def update_item(request):
@@ -156,7 +150,8 @@ def get_cart(request):
 
     if sport > art and sport > music:
         sell = Ticket.objects.filter(classification='Sports',
-                                     start_Date__gte=datetime.date.today())[:1]
+                                     start_Date__gte=(datetime.date.today() + datetime.timedelta(days=60)),
+                                     on_sale=0)[:1]
         # print(sport)
         for item in sell:
             suggestion.append(item)
@@ -165,7 +160,8 @@ def get_cart(request):
 
     if art > music and art > sport:
         sell = Ticket.objects.filter(classification='Arts & Theatre',
-                                     start_Date__gte=datetime.date.today())[:1]
+                                     start_Date__gte=(datetime.date.today() + datetime.timedelta(days=60)),
+                                     on_sale=0)[:1]
         # print(art)
         for item in sell:
             suggestion.append(item)
@@ -174,7 +170,8 @@ def get_cart(request):
 
     if music > art and music > sport:
         sell = Ticket.objects.filter(classification='Music',
-                                     start_Date__gte=datetime.date.today())[:1]
+                                     start_Date__gte=(datetime.date.today() + datetime.timedelta(days=60)),
+                                     on_sale=0)[:1]
         # print(music)
         for item in sell:
             suggestion.append(item)

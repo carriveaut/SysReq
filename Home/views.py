@@ -194,9 +194,7 @@ def deals(request):
         pickedDateForms.start_date = today
         pickedDateForms.end_date = today + datetime.timedelta(days=3)
 
-    tickets = Ticket.objects.filter(start_Date__gte=pickedDateForms.start_date,
-                                    start_Date__lte=pickedDateForms.end_date,
-                                    qty__gte=40)
+    tickets = Ticket.objects.filter(on_sale=1)
    # print(datetime.datetime.now() + datetime.timedelta(days=3))
 
     for ticket in tickets:

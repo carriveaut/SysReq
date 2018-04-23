@@ -103,11 +103,11 @@ class DealsTable(tables.Table):
     image_Url = tables.Column(visible=False)
     price = tables.Column(visible=False)
     on_sale = tables.Column(visible=False)
-    sale_price = tables.Column(" ", orderable=False)
+    sale_price = tables.Column(" ", attrs={'td': {'style': 'color: red; font-weight: bold;'}}, orderable=False)
 
     class Meta:
         model = Ticket
-        sequence = ('date', 'classification', 'event', 'venue_Name', 'start_Time', 'sale_price', 'add_qty', 'add')
+        sequence = ('date', 'classification', 'event', 'venue_Name', 'sale_price', 'start_Time', 'add_qty', 'add')
         attrs = {'class': 'ticket', 'id': 'deals'}
 
 
@@ -131,7 +131,7 @@ class SuggestionTable(tables.Table):
 
     class Meta:
         model = Ticket
-        sequence = ('date', 'classification', 'event', 'venue_Info', 'start_Time', 'price', 'add_qty', 'add')
+        sequence = ('date', 'classification', 'event', 'venue_Info', 'price', 'start_Time', 'add_qty', 'add')
         attrs = {'class': 'ticket', 'id': 'deals'}
 
 
