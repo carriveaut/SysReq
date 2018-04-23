@@ -195,13 +195,16 @@ def deals(request):
         ticket.price = ticket.price * Decimal(.5)
         ticketlist.append(ticket)
 
+    table = DealsTable(ticketlist)
+
     startdate = datetime.datetime.date(pickedDateForms.start_date)
     enddate = datetime.datetime.date(pickedDateForms.end_date)
     return render(request, 'Home/deals.html', {'ticketsbydate': ticketlist,
-                                                       'form': pickedDateForms,
-                                                       'startdate': startdate,
-                                                       'enddate': enddate,
-                                                       'count': total})
+                                               'form': pickedDateForms,
+                                               'startdate': startdate,
+                                               'enddate': enddate,
+                                               'count': total,
+                                               'table': table})
 
 
 def showticketsbydate(request):
