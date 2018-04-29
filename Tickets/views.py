@@ -18,7 +18,9 @@ def sports(request):
     total = count_items(request)
 
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Sports", start_Date__gte=datetime.date.today(), qty__gte=0)
+    tickets = Ticket.objects.filter(classification="Sports",
+                                    start_Date__gte=datetime.date.today(),
+                                    qty__gte=0)
     for ticket in tickets:
         concertlist.append(ticket)
 
@@ -31,7 +33,9 @@ def concerts(request):
     total = count_items(request)
 
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Music", start_Date__gte=datetime.date.today(), qty__gte=0)
+    tickets = Ticket.objects.filter(classification="Music",
+                                    start_Date__gte=datetime.date.today(),
+                                    qty__gte=0)
     for ticket in tickets:
         concertlist.append(ticket)
 
@@ -43,7 +47,9 @@ def concerts(request):
 def arttheater(request):
     total = count_items(request)
     concertlist = []
-    tickets = Ticket.objects.filter(classification="Arts & Theatre", start_Date__gte=datetime.date.today(), qty__gte=0)
+    tickets = Ticket.objects.filter(classification="Arts & Theatre",
+                                    start_Date__gte=datetime.date.today(),
+                                    qty__gte=0)
     for ticket in tickets:
         concertlist.append(ticket)
 
@@ -59,7 +65,7 @@ def view_sport_ticket(request, ticket_id):
     end_date= today + datetime.timedelta(days=3)
     selected = object
     for ticket in tickets:
-        if  today <= ticket.start_Date:
+        if today <= ticket.start_Date:
             ticket.price = ticket.price * Decimal(.5)
             selected = ticket
         # if datetime.datetime.now() <= ticket.start_Date:
@@ -128,16 +134,19 @@ def update_item(request):
 
 
 def get_cart(request):
-    suggestion = []
-    suggested_type = ''
-    table = SuggestionTable({'event': 'Hi'})
-    sport = 0
-    art = 0
-    music = 0
-    total = total_cart(request)
-    count = count_items(request)
-    cart = Cart(request)
+    suggested_type = ''                              # Hold suggested type.
+    table = SuggestionTable({'Default': 'Default'})  # Initialize the SuggestionTable
 
+    sport = 0           # Hold sports counts.
+    art = 0             # Hold art counts.
+    music = 0           # Hold music counts.
+
+    cart = Cart(request)            # Get the cart.
+    total = total_cart(request)     # Get the cart total.
+    count = count_items(request)    # Get the total count for cart items.
+
+    # Loop through the cart and accumulate the totals (by quantity)
+    # for each classification of ticket in the cart.
     for item in cart:
         ticket = Ticket.objects.filter(id=item.object_id)
         for tick in ticket:
@@ -148,34 +157,22 @@ def get_cart(request):
             elif tick.classification == 'Music':
                 music += item.quantity
 
+    # Check to see if Sport classification has more tickets
+    # in cart than Art and Music.
     if sport > art and sport > music:
-        sell = Ticket.objects.filter(classification='Sports',
-                                     start_Date__gte=(datetime.date.today() + datetime.timedelta(days=60)),
-                                     on_sale=0)[:1]
-        # print(sport)
-        for item in sell:
-            suggestion.append(item)
-        table = SuggestionTable(suggestion)
+        table = suggestion_analytics(request, 'Sports')
         suggested_type = 'sports'
 
+    # Check to see if Art classification has more tickets
+    # in cart than Sport and Music.
     if art > music and art > sport:
-        sell = Ticket.objects.filter(classification='Arts & Theatre',
-                                     start_Date__gte=(datetime.date.today() + datetime.timedelta(days=60)),
-                                     on_sale=0)[:1]
-        # print(art)
-        for item in sell:
-            suggestion.append(item)
-        table = SuggestionTable(suggestion)
+        table = suggestion_analytics(request, 'Arts & Theatre')
         suggested_type = 'arts & theater'
 
+    # Check to see if Music classification has more tickets
+    # in cart than Art and Sport.
     if music > art and music > sport:
-        sell = Ticket.objects.filter(classification='Music',
-                                     start_Date__gte=(datetime.date.today() + datetime.timedelta(days=60)),
-                                     on_sale=0)[:1]
-        # print(music)
-        for item in sell:
-            suggestion.append(item)
-        table = SuggestionTable(suggestion)
+        table = suggestion_analytics(request, 'Music')
         suggested_type = 'music'
 
     return render(request, 'Tickets/cart.html', {'total': total,
@@ -185,17 +182,40 @@ def get_cart(request):
                                                  'suggestion': suggested_type})
 
 
-def checkout(request):
-    c = Checkout()
-    count = count_items(request)
-    sub_total = float(total_cart(request))
-    shipping = float(16.99)
-    tax = float(.065)
+def suggestion_analytics(request, classification):
+    suggestion = []  # Hold suggestion data.
 
-    initial = (sub_total*tax) + sub_total + shipping
-    total = ('%.2f' % initial).rstrip('0').rstrip('.')
+    # Find a ticket that is 60 days out from today and is
+    # in the classification found most in the user's cart.
+    sell = Ticket.objects.filter(classification=classification,
+                                 start_Date__gte=(datetime.date.today()
+                                                  + datetime.timedelta(days=60)),
+                                 on_sale=0)[:1]
+
+    # Grab the first ticket and append it to the list.
+    for item in sell:
+        suggestion.append(item)
+
+    # Return the Table with the data.
+    return SuggestionTable(suggestion)
+
+
+def checkout(request):
+    count = count_items(request)            # Count the items in the Cart.
+    sub_total = float(total_cart(request))  # Get the total from the Cart.
+    shipping = float(16.99)                 # Default shipping cost.
+    tax = float(.065)                       # Default tax cost.
+
+    # Calculate the overall total and format.
+    total = '${:,.2f}'.format(((sub_total*tax) + sub_total + shipping))
+
     if request.method == 'POST':
+
+        # Request the information from the payment form.
         pay = PaymentForm(request.POST)
+
+        # If the form was valid, than send user to the
+        # success page. Otherwise stay on current page.
         if pay.is_valid():
             return HttpResponseRedirect('/Tickets/success/')
     else:
@@ -218,16 +238,28 @@ def add_to_table(request):
         msg = 'Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')) + ":\n\n"
         count = 1
         total = float(0.0)
+        shipping = float(16.99)
         tax = float(.065)
+        msg += "{:3} {: <60} {: >10} {: >10} {: >14}".format(" ", "Event", "Price", "Quantity", "Total Price")
         for item in Cart(request):
-            # msg = '\n' + msg + " " + str(count) + ". " + item.product.event + " $" + str(item.product.price) + " " + str(item.quantity) + "qty  $" + str(item.total_price) + "\n"
-            msg2 = msg + '{0:3}{1:<60}{2:>10}{3:>10}{4:>10}\n'
-            msg = msg2.format(str(count) + ".", item.product.event, "$" + str(item.product.price),
-                              str(item.quantity) + "qty. ", "$" + str(item.total_price))
+            # msg = '\n' + msg + " " + str(count) + ". " + item.product.event + " $" + str(item.product.price) + " "
+            # + str(item.quantity) + "qty  $" + str(item.total_price) + "\n"
+            # msg2 = msg + '{0:3}{1:<60}{2:>10}{3:>10}{4:>10}\n'
+            # msg = msg2.format(str(count) + ".", item.product.event, "$" + str(item.product.price),
+            #                   str(item.quantity) + "qty. ", "$" + str(item.total_price))
+            msg += "\n{:3} {: <60} {: >10} {: >10} {: >14}".format(str(count),
+                                                                   item.product.event,
+                                                                   '${:,.2f}'.format(item.product.price),
+                                                                   item.quantity,
+                                                                   '${:,.2f}'.format(item.total_price))
+
             total = total + float(item.total_price)
             count = count + 1
         total = total + (total * tax)
-        msg = msg + '     Tax: ' + str(tax) + '\n' + '     Total: ' + str(total)
+        msg += '\n\n{:<82}{:>10}:{:>8} '.format(" ", "Tax", str(tax))
+        msg += '\n{:<82}{:>10}:{:>8}'.format(" ", "Shipping", '${:,.2f}'.format(shipping))
+        msg += '\n{:<82}{:>10}:{:>8}'.format(" ", "Total", '${:,.2f}'.format(total))
+        msg += '\n\n' + request.POST.get("ShipName", "") + ', we at Ticket Portal appreciate your purchase! Thank you!'
         send_mail('Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')), msg,
                   'theticketportal@gmail.com', [username], fail_silently=True, )
     # end send_mail()
@@ -253,8 +285,14 @@ def add_to_table(request):
 
 
 def add_to_order(request):
+    # Retrieve the cart.
     cart = Cart(request)
+
+    # Retrieve the current user.
     user = request.user
+
+    # Check if this purchase was an anonymous
+    # user purchase and save order.
     if request.user.is_anonymous:
         order = Order(user=None)
         order.save()
@@ -262,14 +300,26 @@ def add_to_order(request):
         order = Order(user=user)
         order.save()
 
+    # Retrieve the items out of the cart.
     item = Item.objects.filter(cart_id=cart.cart.pk)
 
+    # Add the details of the item to the
+    # OrderDetails model.
     for i in item:
-        detail = OrderDetail(order=order, ticket=Ticket(i.object_id), quantity=i.quantity, price=i.unit_price)
+        detail = OrderDetail(order=order,
+                             ticket=Ticket(i.object_id),
+                             quantity=i.quantity,
+                             price=i.unit_price)
 
+        # Get the Ticket quantity from the Ticket object
+        # based on the ticket ID from the item.
         tick = Ticket.objects.filter(id=i.object_id).values_list('qty', flat=True)
-        # print(tick)
+
+        # Take the Ticket object quantity and subtract
+        # the purchased quantity.
         change_qty = tick[0]-i.quantity
+
+        # Update the Quantity that is left for the Ticket object.
         Ticket.objects.filter(id=i.object_id).update(qty=change_qty)
         detail.save()
 

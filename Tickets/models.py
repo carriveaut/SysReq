@@ -47,4 +47,10 @@ class OrderDetail(models.Model):
     price = models.DecimalField(default=1.99, max_digits=9, decimal_places=2)
 
 
+class Discount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=datetime.date.today)
+    used = models.CharField(default="N", max_length=1)
+
+
 

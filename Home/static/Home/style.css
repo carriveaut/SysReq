@@ -379,3 +379,23 @@ button#update{
 div#content{
     margin-top: 50px;
 }
+
+h5#make_me_smaller {
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+button.close {
+    margin: 10px 14px 10px 10px;
+}
+
+#footer {
+    height: 300px;
+    width: 100%;
+    background-color: #C0974E;
+    position: absolute;
+}
+
+.footer_img {
+    margin: 60px 100px;
+}

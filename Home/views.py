@@ -162,15 +162,18 @@ def happeningsoon(request):
 def add_to_cart(request, ticket_id, quantity):
     ticket = Ticket.objects.get(id=ticket_id)
     cart = Cart(request)
-    cart.add(ticket, ticket.price, quantity)
+    if ticket.on_sale is 0:
+        cart.add(ticket, ticket.price, quantity)
+    else:
+        cart.add(ticket, ticket.sale_price, quantity)
     return HttpResponseRedirect('/Tickets/cart/')
 
 
-def add_sale_to_cart(request, ticket_id, quantity):
-    ticket = Ticket.objects.get(id=ticket_id)
-    cart = Cart(request)
-    cart.add(ticket, ticket.sale_price, quantity)
-    return HttpResponseRedirect('/Tickets/cart/')
+# def add_sale_to_cart(request, ticket_id, quantity):
+#     ticket = Ticket.objects.get(id=ticket_id)
+#     cart = Cart(request)
+#     cart.add(ticket, ticket.sale_price, quantity)
+#     return HttpResponseRedirect('/Tickets/cart/')
 
 
 def deals(request):
@@ -194,7 +197,8 @@ def deals(request):
         pickedDateForms.start_date = today
         pickedDateForms.end_date = today + datetime.timedelta(days=3)
 
-    tickets = Ticket.objects.filter(on_sale=1)
+    tickets = Ticket.objects.filter(start_Date__gte=datetime.date.today(),
+                                    on_sale=1)
    # print(datetime.datetime.now() + datetime.timedelta(days=3))
 
     for ticket in tickets:
@@ -203,7 +207,7 @@ def deals(request):
         # print(ticket.sale_price)
         ticketlist.append(ticket)
 
-    table = DealsTable(ticketlist)
+    table = DealsTable(ticketlist, order_by="start_Date")
 
     startdate = datetime.datetime.date(pickedDateForms.start_date)
     enddate = datetime.datetime.date(pickedDateForms.end_date)
@@ -213,7 +217,6 @@ def deals(request):
                                                'enddate': enddate,
                                                'count': total,
                                                'table': table})
-
 
 def showticketsbydate(request):
     total = count_items(request)

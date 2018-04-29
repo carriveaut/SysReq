@@ -1,14 +1,7 @@
-{% load static %}
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
-    <link href="{% static 'Home/account.css' %}" rel="stylesheet">
-</head>
-<body>
-{% include 'Home/navbar.html'%}
-
+{% extends 'Home/base.html' %}
+{% block content %}
 <h2>Low Quantity Tickets</h2>
-<p>Currently searches for less than 60, all qtys are set to 50</p>
+<p>Tickets that have quantity less than 10.</p>
 
 
 <table class="table table-hover table-striped table-condensed">
@@ -37,4 +30,4 @@
 </tbody>
 </table>
 
-</body>
+{% endblock %}

@@ -92,7 +92,7 @@ class DealsTable(tables.Table):
     add = tables.TemplateColumn(add_cart, verbose_name=" ", orderable=False)
     add_qty = tables.TemplateColumn(add_qty, verbose_name=" ", orderable=False)
     id = tables.Column(visible=False)
-    classification = tables.Column(visible=False)
+    classification = tables.Column(" ", orderable=False)
     start_Date = tables.Column(visible=False)
     status = tables.Column(visible=False)
     event = tables.Column(" ", attrs={'td': {'width': '25%'}}, orderable=False)
@@ -122,10 +122,12 @@ class SuggestionTable(tables.Table):
     event = tables.Column(" ", attrs={'td': {'width': '30%'}}, orderable=False)
     venue_Name = tables.Column(visible=False)
     venue_Info = tables.Column(" ", orderable=False)
-    start_Time = tables.Column(" ", orderable=False)
+    start_Time = tables.Column(" ", orderable=False, attrs={'td': {'width': '10%',
+                                                                   'style': 'text-align: center;'}})
     qty = tables.Column(visible=False)
     image_Url = tables.Column(visible=False)
-    price = tables.Column(" ", orderable=False)
+    price = tables.Column(" ", orderable=False, attrs={'td': {'width': '10%',
+                                                              'style': 'text-align: center;'}})
     on_sale = tables.Column(visible=False)
     sale_price = tables.Column(visible=False)
 

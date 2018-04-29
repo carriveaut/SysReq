@@ -76,7 +76,7 @@ input#id_new_password2.form-control{
     height: 10px;
     width: 100%;
     background-color: #C0974E;
-    z-index: 9999;
+    z-index: 2;
 }
 
 .nav-tabs a {

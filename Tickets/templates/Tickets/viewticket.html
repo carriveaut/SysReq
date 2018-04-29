@@ -1,29 +1,43 @@
 {% extends 'Home/base.html' %}
 {% block content %}
-<button class="btn btn-secondary" role="button" onclick="goBack()" style="margin:10px;">Back</button>
-<div class="container" id="view_ticket_cont">
+<button class="btn btn-secondary" role="button" onclick="goBack()" style="margin-left:40px;">Back</button>
 
-    <h3 id="event_name">{{ selected.event }}</h3>
-    <hr/>
-    <div class="event_img" id="event_img">
-        <span class="helper"></span>
-        <img src="{{ selected.image_Url }}" alt="img">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <h3 id="event_name">{{ selected.event }}</h3>
+            <hr/>
+        </div>
+        <div class="col-lg-3"></div>
     </div>
-    <div class="event_info">
-        <p><b>Location:</b> {{ selected.venue_Info }} </p>
-        <p><b>Date:</b> {{ selected.start_Date }}</p>
-        <p><b>Time:</b> {{ selected.start_Time }}</p>
-        <p><b>Price:</b>  {{ selected.price }} </p>
-        <p><b>About Event: </b></p>
-    </div>
-<table class="event_add">
-    <tr>
-       <td>Quantity:</td><td><input type="number" name="qty" id="qty" class="form-control text-center" value="1" max="{{ selected.qty }}"></td>
 
-       <td><button id="add_cart" name="add_cart" class="btn btn-secondary">Add to Cart</button></td>
-    </tr>
-</table>
-</div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-3">
+             <img src="{{ selected.image_Url }}" alt="img" width="100%">
+        </div>
+        <div class="col-lg-3">
+            <p><b>Location:</b> {{ selected.venue_Info }} </p>
+            <p><b>Date:</b> {{ selected.start_Date }}</p>
+            <p><b>Time:</b> {{ selected.start_Time }}</p>
+            {% if selected.on_sale is 0 %}
+                <p><b>Price:</b>  {{ selected.price }} </p>
+            {% else %}
+                <p style="color: red;"><b> *On Sale* </b> Price: {{ selected.sale_price }} </p>
+            {% endif %}
+            <p><b>About Event: </b></p>
+            <table class="event_add">
+                <tr>
+                   <td>Quantity:</td><td><input type="number" name="qty" id="qty" class="form-control text-center" value="1" max="{{ selected.qty }}"></td>
+
+                   <td><button id="add_cart" name="add_cart" class="btn btn-secondary">Add to Cart</button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+
+
 
 <script>
 var qty = "1";

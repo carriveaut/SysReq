@@ -1,11 +1,5 @@
-<head>
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'Home/style.css' %}"/>
-    <link href="{% static 'Home/open-iconic-master/font/css/open-iconic-bootstrap.css' %}" rel="stylesheet">
-</head>
-{% include 'Home/navbar.html' %}
-
+{% extends 'Home/base.html' %}
+{% block content %}
 <div class="container">
 <br>
 <h1>Shopping Cart</h1>
@@ -69,15 +63,20 @@
 <div class="row">
     <div class="col-lg-2"></div>
     <div class="col-lg-8">
-        <div class="frame_me">
-            <h5> We seen you like {{ suggestion }}, take a look at this ticket. </h5>
+        <div class="alert alert-dismissible fade show frame_me">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h5> We see you like {{ suggestion }}, take a look at this ticket. </h5>
             {% load django_tables2 %}
             {% render_table table %}
+
         </div>
     </div>
     <div class="col-lg-2"></div>
 </div>
 {% endif %}
+{% endblock %}
 <script>
 function goBack() {
     window.history.go(-2);
@@ -94,50 +93,5 @@ $( ".add_cart" ).click(function() {
    $(location).attr('href', ticket + '/' + qty);
 });
 
-
-// $(document).ready(function(){
-//         $(function(){
-//         $('#delete_item').click(function(e){
-//                 e.preventDefault();
-//                 var form = $(this);
-//                 var post_url = form.attr('action');
-//                 var post_data = form.serialize();
-//                 $('#loader3', form).html('<img src="../../images/ajax-loader.gif" />       Please wait...');
-//                 $.ajax({
-//                     type: 'POST',
-//                     url: post_url,
-//                     data: post_data,
-//                     success: function(msg) {
-//                         $(form).fadeOut(800, function(){
-//                             form.html(msg).fadeIn().delay(2000);
-//
-//                         });
-//                     }
-//                 });
-//             });
-//         });
-//          });
-
-// $("tbody > tr").each(function() {
-//         var qty = $(this).find("input#qty").val(),
-//             tick_id = $(this).find("input#tick_id").val(),
-//             price = $(this).find("input#price").val();
-//
-//       alert(tick_id + qty + price);
-// });
-
-// $('#cart > tbody  > tr').each(function() {
-//     var price = document.getElementById("price").innerText;
-//     var id = $('input#tick_id').val();
-//     var qty = 0;
-//     alert(id);
-//     $(document).on('input', '#qty', function(){
-//         qty = $("#qty").val();
-//     });
-//
-//     $( '#update' ).click(function() {
-//       $(location).attr('href', id + '/' + qty + '/' + price);
-//     });
-// });
 
 </script>
