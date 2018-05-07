@@ -32,11 +32,11 @@
                 </div>
             </td>
             <td data-th="Price">
-                {{ item.unit_price }}</td>
+                ${{ item.unit_price }}</td>
             <td data-th="Quantity" class="text-center">
                 {{ item.quantity }}
             </td>
-            <td data-th="Subtotal" class="text-right">{{ item.total_price }}</td>
+            <td data-th="Subtotal" class="text-right">${{ item.total_price }}</td>
         </tr>
 
         {% endfor %}

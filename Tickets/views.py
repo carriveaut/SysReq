@@ -251,7 +251,7 @@ def add_to_table(request):
         send_mail('Your receipt for your purchase ' + str(date.today().strftime('%b. %d %Y')), msg,
                   'theticketportal@gmail.com', [username], fail_silently=True, )
     # end send_mail()
-    count = count_items(request)
+    count = 0
     cart = Cart(request)
     add_to_order(request)
     cart.clear()

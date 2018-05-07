@@ -27,7 +27,7 @@
             </td>
 
             <td data-th="Price">
-                    {{ item.unit_price }}</td>
+                    ${{ item.unit_price }}</td>
 
             <td data-th="Quantity" class="text-center">
                 <form method="POST" action="{% url 'Tickets:update' %}">
@@ -39,7 +39,7 @@
                     <button name="update" id="update" class="btn btn-danger btn-sm"><span class="oi oi-reload"></span></button>
                 </form>
             </td>
-            <td data-th="Subtotal" class="text-center">{{ item.total_price }}</td>
+            <td data-th="Subtotal" class="text-center">${{ item.total_price }}</td>
             <td class="actions text-center" data-th="">
                 <a href="{% url 'Tickets:remove' item.product.id %}" id="remove_item" class="btn btn-info btn-sm"><span class="oi oi-trash"></span></a>
             </td>

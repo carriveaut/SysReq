@@ -21,9 +21,9 @@
             <p><b>Date:</b> {{ selected.start_Date }}</p>
             <p><b>Time:</b> {{ selected.start_Time }}</p>
             {% if selected.on_sale is 0 %}
-                <p><b>Price:</b>  {{ selected.price }} </p>
+                <p><b>Price:</b>  ${{ selected.price }} </p>
             {% else %}
-                <p style="color: red;"><b> *On Sale* </b> Price: {{ selected.sale_price }} </p>
+                <p style="color: red;"><b> *On Sale* </b> Price: ${{ selected.sale_price }} </p>
             {% endif %}
             <p><b>About Event: </b></p>
             <table class="event_add">

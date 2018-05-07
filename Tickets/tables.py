@@ -58,6 +58,9 @@ class TicketTable(tables.Table):
     on_sale = tables.Column(visible=False)
     sale_price = tables.Column(visible=False)
 
+    def render_price(self, value):
+        return '${:0.2f}'.format(value)
+
     class Meta:
         model = Ticket
         sequence = ('date', 'event', 'venue_Name', 'start_Time', 'add')
@@ -80,6 +83,9 @@ class HappeningSoonTable(tables.Table):
     price = tables.Column(visible=False)
     on_sale = tables.Column(visible=False)
     sale_price = tables.Column(visible=False)
+
+    def render_price(self, value):
+        return '${:0.2f}'.format(value)
 
     class Meta:
         model = Ticket
@@ -104,6 +110,9 @@ class DealsTable(tables.Table):
     price = tables.Column(visible=False)
     on_sale = tables.Column(visible=False)
     sale_price = tables.Column(" ", attrs={'td': {'style': 'color: red; font-weight: bold;'}}, orderable=False)
+
+    def render_sale_price(self, value):
+        return '${:0.2f}'.format(value)
 
     class Meta:
         model = Ticket
@@ -130,6 +139,12 @@ class SuggestionTable(tables.Table):
                                                               'style': 'text-align: center;'}})
     on_sale = tables.Column(visible=False)
     sale_price = tables.Column(visible=False)
+
+    def render_sale_price(self, value):
+        return '${:0.2f}'.format(value)
+
+    def render_price(self, value):
+        return '${:0.2f}'.format(value)
 
     class Meta:
         model = Ticket
